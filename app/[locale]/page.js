@@ -10,11 +10,11 @@ import { navState } from "@/atoms";
 import { useTranslations } from "next-intl";
 
 
-export  function generateMetadata({params}) {
-  return {
-    title: "product title",
-  }
-}
+// export  function generateMetadata({params}) {
+//   return {
+//     title: "product title",
+//   }
+// }
 
 export default  function Home({params: {locale}}) {
   const [allCourses, setAllCourses] = useState([])
