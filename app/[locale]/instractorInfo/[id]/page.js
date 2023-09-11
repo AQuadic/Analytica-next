@@ -4,9 +4,9 @@ import { getInstractor } from "@/components/useAPI/GetUser";
 import React, { useEffect, useState } from "react";
 
 
-export const metadata = {
-  title: 'analytica | INSTRUCTOR',
-}
+// export const metadata = {
+//   title: 'analytica | INSTRUCTOR',
+// }
 function InstractorInfo({ params }) {
 
 

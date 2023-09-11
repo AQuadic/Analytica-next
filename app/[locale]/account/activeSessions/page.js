@@ -9,9 +9,9 @@ import React from "react";
 import { useRecoilState } from "recoil";
 
 
-export const metadata = {
-  title: 'analytica | Account',
-}
+// export const metadata = {
+//   title: 'analytica | Account',
+// }
 
 function page() {
   const t = useTranslations('Account');

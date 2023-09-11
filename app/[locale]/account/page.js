@@ -10,9 +10,9 @@ import PhoneInput from "react-phone-number-input";
 import { useRecoilState } from "recoil";
 
 
-export const metadata = {
-  title: 'analytica | Account',
-}
+// export const metadata = {
+//   title: 'analytica | Account',
+// }
 
 function page() {
   const [IsUser, setIsUser] = useRecoilState(navState);

@@ -3,9 +3,9 @@ import { getOneCourse } from "@/components/useAPI/CorsesApi/GetCourses";
 import Link from "next/link";
 import React, { useEffect, useState } from "react";
 
-export const metadata = {
-  title: 'analytica | Course_Details',
-}
+// export const metadata = {
+//   title: 'analytica | Course_Details',
+// }
 
 function CourseDetails({ params }) {
   const [allCourses, setAllCourses] = useState();

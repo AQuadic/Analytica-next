@@ -1,8 +1,8 @@
 import CVerify from '@/components/compPage/CVerify'
 import React from 'react'
-export const metadata = {
-  title: 'analytica | Verify',
-}
+// export const metadata = {
+//   title: 'analytica | Verify',
+// }
 function page() {
   return (
     <>

@@ -1,9 +1,9 @@
 "use client";
 import React, { useState } from "react";
 
-export const metadata = {
-  title: 'analytica | QUIZ',
-}
+// export const metadata = {
+//   title: 'analytica | QUIZ',
+// }
 
 function page() {
   const [openClose, setOpenClose] = useState(false);

@@ -1,9 +1,9 @@
 import React from "react";
 import Link from "next/link";
 import { useTranslations } from "next-intl";
-export const metadata = {
-  title: 'analytica | INSTRUCTOR',
-}
+// export const metadata = {
+//   title: 'analytica | INSTRUCTOR',
+// }
 function Instructor() {
   const t = useTranslations('Teach');
   return (
