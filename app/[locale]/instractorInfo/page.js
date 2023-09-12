@@ -2,9 +2,9 @@ import ItemCourse from "@/components/ItemCourse";
 import React from "react";
 
 
-// export const metadata = {
-//   title: 'analytica | INSTRUCTOR',
-// }
+export const metadata = {
+  title: 'analytica | INSTRUCTOR',
+}
 function InstractorInfo() {
   return (
     <>

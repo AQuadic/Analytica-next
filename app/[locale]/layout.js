@@ -12,14 +12,14 @@ import Head from 'next/head';
 
 
 
-// export const metadata = {
-//   title: 'analytica',
-//   description: 'analytica is a...',
-//   openGraph: {
-//     title: 'analytica',
-//     description: 'analytica is a...',
-//   },
-// }
+export const metadata = {
+  title: 'analytica',
+  description: 'analytica is a...',
+  openGraph: {
+    title: 'analytica',
+    description: 'analytica is a...',
+  },
+}
 
 export default async function RootLayout({ children , params}) {
   const locale = useLocale();

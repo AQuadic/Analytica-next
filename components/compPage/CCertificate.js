@@ -1,9 +1,9 @@
 import { useTranslations } from "next-intl";
 import React from "react";
 
-// export const metadata = {
-//   title: 'analytica | Certificate',
-// }
+export const metadata = {
+  title: 'analytica | Certificate',
+}
 
 function CCertificate() {
   const t = useTranslations("MyCourses");

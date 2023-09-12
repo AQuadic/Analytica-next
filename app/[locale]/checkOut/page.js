@@ -1,8 +1,8 @@
 import CCheckOut from '@/components/compPage/CCheckOut'
 import React from 'react'
-// export const metadata = {
-//   title: 'analytica | CheckOut',
-// }
+export const metadata = {
+  title: 'analytica | CheckOut',
+}
 function page() {
  
   
