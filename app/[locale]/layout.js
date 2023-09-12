@@ -10,9 +10,7 @@ import {NextIntlClientProvider, useLocale} from 'next-intl';
 import {notFound} from 'next/navigation';
 import Head from 'next/head';
 
-export function generateStaticParams() {
-  return [{locale: 'en'}, {locale: 'ar'}];
-}
+
 
 // export const metadata = {
 //   title: 'analytica',
