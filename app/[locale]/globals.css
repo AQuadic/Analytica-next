@@ -2667,7 +2667,7 @@ html[dir="rtl"] .Profile .btn_page {
   margin: 38px auto 0px;
 }
 .passcode-wrapper input {
-  width: 90px !important;
+  width: 100% !important;
   height: 56px;
   padding: 0;
   margin-right: 5px;

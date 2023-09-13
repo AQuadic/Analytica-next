@@ -1,12 +1,14 @@
 "use client";
+import axios from "axios";
+import Cookies from "js-cookie";
 import { useTranslations } from "next-intl";
+import { useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
 import OTPInput from "react-otp-input";
 
-
-
 function CVerify() {
-  const t = useTranslations('Sign');
+  const router = useRouter()
+  const t = useTranslations("Sign");
   const [otp, setOtp] = useState("");
   const clearOtp = () => {
     setOtp("");
@@ -42,21 +44,48 @@ function CVerify() {
   useEffect(() => {
     handelOTP();
   }, []);
+
+  const handelVerify = () => {
+    const po = axios
+      .post(
+        "https://education.aquadic.com/api/v1/users/auth/verify",
+        {
+          email: Cookies.get("email"),
+
+          code: otp,
+          type: "reset",
+        },
+        {
+          headers: {
+            "Content-Type": "application/json",
+            Accept: "application/json",
+            
+          },
+        }
+      )
+      .then((res) => {
+        console.log(res);
+       Cookies.set('reset_token',res.data.reset_token);
+       router.push('/setPassword')
+      })
+      .catch((res) => {
+        console.log(res);
+      });
+  };
+
   return (
     <>
       <script src="../js/otp.js" />
       <section className="sign container">
         <div className="box_sign">
-          <h2 className="title_sign">{t('verifyEmail')}</h2>
-          <p className="p_sign">
-          {t('verifyTitle')}
-          </p>
+          <h2 className="title_sign">{t("verifyEmail")}</h2>
+          <p className="p_sign">{t("verifyTitle")}</p>
           <form action="">
             <div className="passcode-wrapper">
               <OTPInput
                 value={otp}
                 onChange={setOtp}
-                numInputs={4}
+                numInputs={6}
                 renderInput={(props) => <input {...props} width="90px" />}
               />
             </div>
@@ -75,7 +104,8 @@ function CVerify() {
               id="ss"
               disabled={otp.length < 4}
               className="btn_page"
-              value= {t('verify')}
+              value={t("verify")}
+              onClick={(e)=>{e.preventDefault();handelVerify()}}
             />
           </form>
           {/* <button  type="button" disabled={otp.trim() === ''} onClick={clearOtp}>
