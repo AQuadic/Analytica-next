@@ -17,12 +17,15 @@ function CSignIn(props) {
   const [password, setpassword] = useState("");
   const [Erroremail, setErroremail] = useState("");
   const [Errorpassword, setErrorpassword] = useState("");
+  const [ErrorMessage, setErrorMessage] = useState("");
   const [IsUser, setIsUser] = useRecoilState(navState);
   const t = useTranslations('Sign');
-console.log(t('title'));
+
   console.log(props);
   const handellogin = () => {
-    
+    setErroremail("")
+setErrorpassword("")
+setErrorMessage("")
     const po = axios
       .post(
         "https://education.aquadic.com/api/v1/users/auth/login",
@@ -44,16 +47,16 @@ console.log(t('title'));
        router.push('/')
       })
       .catch((res) => {
-      /*  setLoading(false);
-        res.response.data.email
-          ? setErroremail(res.response.data.email[0])
+      /*  setLoading(false);*/
+        res.response.data.errors?.email
+          ? setErroremail(res.response.data.errors.email[0])
           : setErroremail("");
-        res.response.data.password
-          ? setErrorpassword(res.response.data.password[0])
+        res.response.data.errors?.password
+          ? setErrorpassword(res.response.data.errors.password[0])
           : setErrorpassword("");
-        res.response.data.error
-          ? setError(res.response.data.error)
-          : setError("");*/
+          res.response.data.message
+          ? setErrorMessage(res.response.data.message)
+          : setErrorMessage("");
           console.log(res);
       });
   };
@@ -85,6 +88,7 @@ console.log(t('title'));
       label={t('email')}
       type="email"
       onChange={(e)=>setemail(e.target.value)}
+      error={Erroremail}
     />
 
             <div className="col-md-12">
@@ -93,6 +97,8 @@ console.log(t('title'));
       placeholder={t('enterPassword')}
       label={t('password')}
       onChange={(e)=>setpassword(e.target.value)}
+      error={Errorpassword}
+
     />
               
             
@@ -102,6 +108,7 @@ console.log(t('title'));
             </div>
 
             <input type="submit" onClick={(e)=>{e.preventDefault(); handellogin()}} value="Sign In" className="btn_page" />
+            {ErrorMessage&&<p style={{color:"red",textAlign:"center",fontSize:"12px",marginTop:"4px"}}>{ErrorMessage}</p>}
           </form>
           <div className="haveAccount">
             <p>

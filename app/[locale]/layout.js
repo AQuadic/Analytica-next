@@ -12,6 +12,9 @@ import Head from 'next/head';
 
 
 
+
+ 
+
 export const metadata = {
   title: 'analytica',
   description: 'analytica is a...',
@@ -23,7 +26,13 @@ export const metadata = {
 
 export default async function RootLayout({ children , params}) {
   const locale = useLocale();
-  
+
+if(locale==='en'){
+  import('./en.css');
+} 
+if(locale==='ar'){
+  import('./ar.css');
+}
   let messages;
   try {
     messages = (await import(`../../messages/${locale}.json`)).default;

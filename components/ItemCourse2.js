@@ -1,16 +1,29 @@
 import React from 'react'
 import Link from 'next/link'
 
-function ItemCourse2({title,star,dec,oldsalary,newsalary,image,info}) {
+function ItemCourse2({title,star,dec,oldsalary,newsalary,image,info,imageCourse,}) {
   return (
     <div className="item">
         
     <Link href="/coursesDetails" className="imageLink">
-      <img
-         src={`./images/service/service${image}.webp`}
-        className="imgService"
-        alt="service"
-      />
+    {
+          imageCourse? 
+          <>
+            <img
+          src={imageCourse}
+          className="imgService"
+          alt="service"
+        />
+          </>
+          :
+          <>
+           <img
+          src={`/images/service/service${image}.webp`}
+          className="imgService"
+          alt="service"
+        />
+          </>
+        }
     </Link>
     <div className="aboutservice">
       <Link href="/coursesDetails" className="aboutservice">

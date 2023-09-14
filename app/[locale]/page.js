@@ -51,12 +51,8 @@ if (!AllData) console.log(AllData?.message)
 setHomeData(AllData.home_sections)
 console.log(AllData);
 }
-//GET Devices
-/*const FetchDataOFDevices= async () => {
-  const Devices = await getDevices();
-if (!Devices) console.log(Devices?.message)
- console.log(Devices);
-}*/
+
+
 
 console.log(homeData);
 

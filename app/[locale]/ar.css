@@ -1,0 +1,18 @@
+@font-face {
+    font-family: "DM Sans";
+    src: url("../../app/[locale]/fonts/Cairo-Black-BF643384eef038f.ttf");
+    font-weight: 700;
+    font-style: normal;
+  }
+  @font-face {
+    font-family: "DM Sans2";
+    src: url("../../app/[locale]/fonts/Cairo-Medium-BF643384ef5d193.ttf");
+    font-weight: 500;
+    font-style: normal;
+  }
+  @font-face {
+    font-family: "DM Sans3";
+    src: url("../../app/[locale]/fonts/Cairo-Regular-BF643384ef31630.ttf");
+    font-weight: 200;
+    font-style: normal;
+  }

@@ -40,6 +40,7 @@ function NavBar({lang}) {
       console.log("done");
       setIsUser(false);
       Cookies.remove('token')
+      router.push('/signIn')
     }
   };
 

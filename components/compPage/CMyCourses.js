@@ -8,6 +8,7 @@ import { useEffect } from "react";
 
 function CMyCourses() {
   const [active, setActive] = useState("progress");
+  const [myCourses, setMyCourses] = useState([]);
   const ActiveBtn = (e) => [setActive(e)];
 const t = useTranslations("MyCourses");
   useEffect(() => {
@@ -18,9 +19,9 @@ const t = useTranslations("MyCourses");
 
     const MyCourses = await getMyCourses();
     if (!MyCourses) console.log(MyCourses?.message)
-console.log(MyCourses);
+    setMyCourses(MyCourses)
   }
-
+console.log(myCourses);
 
 
   return (
@@ -47,6 +48,19 @@ console.log(MyCourses);
         </div>
         <div className="services container m60">
           <div className="allServices">
+            {
+              myCourses?.map((course)=>{
+                return(
+                  <ItemCourse
+              title={course.name.ar}
+              dec={course.instructor.name}
+              imageCourse={course.image.url}
+              Myprogress={true}
+              numProgress="42%"
+            />
+                )
+              })
+            }
             <ItemCourse
               title="Learn python: The Complete Python Programming Course"
               dec="Avinash jain, The Codex"
@@ -54,13 +68,7 @@ console.log(MyCourses);
               Myprogress={true}
               numProgress="42%"
             />
-            <ItemCourse
-              title="Learn python: The Complete Python Programming Course"
-              dec="Edwin Diaz, Coding Faculty Solutions"
-              image="2"
-              Myprogress={true}
-              numProgress="50%"
-            />
+           
             <ItemCourse
               title="Learn python: The Complete Python Programming Course"
               dec="Avinash jain, The Codex"

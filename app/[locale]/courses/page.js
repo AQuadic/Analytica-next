@@ -368,6 +368,22 @@ function Courses() {
         <div className="part2">
           <h2>User Experience Design Courses</h2>
           <div className="fillter_Courses">
+            {
+              allCourses?.map((course)=>{
+                return(
+<ItemCourse2
+ key={course.id}
+ id={course.id}
+ title={course.name.en}
+ imageCourse={course.image.url}
+ star="4.8"
+ dec={course.instructor.name}
+ newsalary={course.price?"EG "+course.price:"free"}
+            />
+                )
+              })
+            }
+             
             <ItemCourse2
               title="Learn python: The Complete Python Programming Course"
               image="1"
@@ -378,35 +394,7 @@ function Courses() {
               oldsalary="E£679.99"
               newsalary="E£1,599.99"
             />
-            <ItemCourse2
-              title="Learn python: The Complete Python Programming Course"
-              image="2"
-              star="4.8"
-              info="Use XD to get a job in UI Design, User Interface, User
-                  Experience design, UX design & Web Design"
-              dec="Avinash jain, The Codex"
-              newsalary="E£1,599.99"
-            />
-            <ItemCourse2
-              title="Learn python: The Complete Python Programming Course"
-              image="3"
-              star="4.8"
-              info="Use XD to get a job in UI Design, User Interface, User
-                  Experience design, UX design & Web Design"
-              dec="Avinash jain, The Codex"
-              oldsalary="E£679.99"
-              newsalary="E£1,599.99"
-            />
-            <ItemCourse2
-              title="Learn python: The Complete Python Programming Course"
-              image="1"
-              star="4.8"
-              info="Use XD to get a job in UI Design, User Interface, User
-                  Experience design, UX design & Web Design"
-              dec="Avinash jain, The Codex"
-              oldsalary="E£679.99"
-              newsalary="E£1,599.99"
-            />
+           
           </div>
         </div>
       </div>

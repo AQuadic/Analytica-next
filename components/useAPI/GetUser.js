@@ -85,5 +85,24 @@ let headersToken = {
     } catch (error) {
         console.log('Error in Add New Category (service) =>', error);
     }
+    
   }
   
+  export const getRevokeDevices = async (id) => {
+    try {
+        const res = await fetch(`https://education.aquadic.com/api/v1/users/devices/${id}`, {
+            method: 'DELETE',
+            headers:{
+              Authorization: `Bearer ${Cookies.get('token')} `,
+                 "Content-Type": "application/json",
+                 Accept: "application/json",
+                 
+               },
+        },);
+        const data = await res.json();
+        return data;
+    } catch (error) {
+        console.log('Error in Add New Category (service) =>', error);
+    }
+    
+  }
