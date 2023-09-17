@@ -63,14 +63,25 @@ function CSignup() {
    
     const po = axios
       .post("https://education.aquadic.com/api/v1/users/auth/signup", {
-        name: name,
-        email: email,
-        password: password,
-        headers: {
+        "name": name,
+          "email": email,
+          "password": password,
+          "password_confirmation": password,
+          "phone": phone,
+          "phone_country": phone_country,
+          "parent_phone": phone2,
+          "parent_phone_country":phone_country2,
+          "country_id": country_id,
+           "age":age,
+           "gender":gender,
+           "profession":profession
+  },
+       { headers: {
           "Content-Type": "application/json",
           Accept: "application/json",
         },
-      })
+      }
+      )
       .then((res) => {
         console.log(res);
         Cookies.set("token", res.data.token);

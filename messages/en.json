@@ -13,7 +13,7 @@
   "Sign": {
     "in": "Log in and start learning",
     "up": "Sign up and start learning",
-    "first": "First Name ",
+    "first": "Full Name ",
     "full":"Full Name",
     "last": "Last Name ",
     "email": "Email Address ",
@@ -52,7 +52,14 @@
     "selectProfession": "Select Your Profession",
     "enterNew": "Enter New Password",
     "enterAgain": "Enter New Password Again",
-    "currentPassword":"Enter your current password"
+    "currentPassword":"Enter your current password",
+    "languageCourse":"Language of The Course",
+    "categoryCourse":"Category of The Course",
+    "titleCourse":"Title of The Course",
+    "subscription":"Subscription Method",
+    "selectLanguage":"Select The Language",
+    "selectCategory":"Select The Category",
+    "EnterTitle":"Enter The Title of the course"
     
   },
   "Footer":{

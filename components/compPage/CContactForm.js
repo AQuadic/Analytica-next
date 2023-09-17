@@ -1,11 +1,31 @@
 "use client";
+import { Select, TextInput } from "@mantine/core";
 import { useTranslations } from "next-intl";
 import React, { useState } from "react";
 import PhoneInput from "react-phone-number-input";
 
 function CContactForm() {
-  const t = useTranslations('Teach');
-  const t2 = useTranslations('Sign');
+  const t = useTranslations("Teach");
+  const t2 = useTranslations("Sign");
+
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [phone, setPhone] = useState();
+  const [phone_country, setPhone_country] = useState("EG");
+  const [language, setLanguage] = useState("");
+  const [category, setCategory] = useState("");
+  const [titleCourse, setTitleCourse] = useState("");
+  const [subscription, setSubscription] = useState("");
+  //Error
+  const [ErrorName, setErrorName] = useState("");
+  const [Erroremail, setErroremail] = useState("");
+  const [ErrorPhone, setErrorPhone] = useState("");
+  const [ErrorLanguage, setErrorLanguage] = useState("");
+  const [ErrorCategory, setErrorCategory] = useState("");
+  const [ErrorTitleCourse, setErrorTitleCourse] = useState("");
+  const [ErrorSubscription, setErrorSubscription] = useState("");
+  const [ErrorMessage, setErrorMessage] = useState("");
+
   const [value, setValue] = useState();
   const [value2, setValue2] = useState();
   const [selectedCheckbox, setSelectedCheckbox] = useState(null);
@@ -16,45 +36,40 @@ function CContactForm() {
       setSelectedCheckbox(checkboxValue);
     }
   };
+
   return (
     <>
       <script src="../phone.js" />
       <section className="bookingForm">
         <div className="container">
           <div className="content">
-            <h3 className="f-s">
-              {t('hurry')}
-            </h3>
+            <h3 className="f-s">{t("hurry")}</h3>
             <form className="row g-4 form_page">
               <div className="col-md-12">
-                <label htmlFor="inputFirstName" className="form-label">
-                {t2('full')}
-                </label>
-                <input
+                <TextInput
+                  placeholder={t2("enterLast")}
+                  label={t2("full")}
                   type="text"
-                  className="form-control"
-                  id="inputFirstName"
-                  placeholder="Enter Your First Name"
+                  onChange={(e) => setName(e.target.value)}
+                  error={ErrorName}
                 />
               </div>
               <div className="col-md-12">
-                <label htmlFor="inputEmail" className="form-label">
-                {t2('email')}
-                </label>
-                <input
-                  type="email"
-                  className="form-control"
-                  id="inputEmail"
-                  placeholder={t2('enterEmail')}
-                />
+              <TextInput
+                placeholder={t2("enterEmail")}
+                label= {t2("email")}
+                type="email"
+                onChange={(e) => setEmail(e.target.value)}
+                error={Erroremail}
+              />
               </div>
               <div className="col-md-12">
                 <label htmlFor="inputPhone " className="form-label">
-                {t2('mobile')}
+                  {t2("mobile")}
                 </label>
                 <PhoneInput
                   defaultCountry="EG"
-                  placeholder= {t2('enterNumber')}
+                  placeholder={t2("enterNumber")}
                   className="form-control"
                   value={value}
                   onChange={setValue}
@@ -62,46 +77,48 @@ function CContactForm() {
               </div>
               <div className="col-md-12">
                 <label htmlFor="inputPhone " className="form-label">
-                {t2('whatsApp')}
+                  {t2("whatsApp")}
                 </label>
                 <PhoneInput
                   defaultCountry="EG"
-                  placeholder= {t2('enterNumber')}
+                  placeholder={t2("enterNumber")}
                   className="form-control"
                   value={value2}
                   onChange={setValue2}
                 />
               </div>
               <div className="col-md-12">
-                <label htmlFor="inputLanguage" className="form-label">
-                {t('language')}
-                </label>
-                <select id="inputLanguage" className="form-select">
-                  <option>Select The Language</option>
-                  <option>EN</option>
-                  <option>AR</option>
-                </select>
+              <Select
+                label= {t("language")}
+                placeholder={t2("selectLanguage")}
+                onChange={setLanguage}
+                error={ErrorLanguage}
+                data={[
+                  { value: "en", label: "EN" },
+                  { value: "ar", label: "AR" },
+                ]}
+              />
               </div>
               <div className="col-md-12">
-                <label htmlFor="inputCategory" className="form-label">
-                {t('category')}
-                </label>
-                <select id="inputCategory" className="form-select">
-                  <option>Select The Category</option>
-                  <option>Category1</option>
-                  <option>Category2</option>
-                </select>
+              <Select
+                label=  {t("category")}
+                placeholder={t2("selectCategory")}
+                onChange={setCategory}
+                error={ErrorCategory}
+                data={[
+                  { value: "Category1", label: "Category1" },
+                  { value: "Category2", label: "Category2" },
+                ]}
+              />
               </div>
               <div className="col-md-12">
-                <label htmlFor="inputTitle" className="form-label">
-                {t('titleCourse')}
-                </label>
-                <input
-                  type="text"
-                  className="form-control"
-                  id="inputTitle"
-                  placeholder="Enter The Title of the course"
-                />
+              <TextInput
+                placeholder={t2("EnterTitle")}
+                label=  {t("titleCourse")}
+                type="text"
+                onChange={(e) => setTitleCourse(e.target.value)}
+                error={ErrorTitleCourse}
+              />
               </div>
               <div className="col-md-12">
                 <label
@@ -109,7 +126,7 @@ function CContactForm() {
                   className="form-label"
                   style={{ margin: "0" }}
                 >
-                  {t('subscription')}
+                  {t("subscription")}
                 </label>
                 <div className="checkgroub">
                   <div className="form-check">
@@ -123,22 +140,22 @@ function CContactForm() {
                     />
                     <label className="form-check-label" htmlFor="gridCheck1">
                       <div className="method active">
-                        <h4> {t('basic')}</h4>
+                        <h4> {t("basic")}</h4>
                         <h5>
                           25 <span>EGP</span>
                         </h5>
                         <ul className="active">
                           <li>
                             <img src="/images/details/true.svg" alt="true" />
-                            <h6>12 {t('sessions')}</h6>
+                            <h6>12 {t("sessions")}</h6>
                           </li>
                           <li>
                             <img src="/images/details/true.svg" alt="true" />
-                            <h6>12 {t('sessions')}</h6>
+                            <h6>12 {t("sessions")}</h6>
                           </li>
                           <li>
                             <img src="/images/details/true.svg" alt="true" />
-                            <h6>3 {t('ads')}</h6>
+                            <h6>3 {t("ads")}</h6>
                           </li>
                         </ul>
                       </div>
@@ -155,7 +172,7 @@ function CContactForm() {
                     />
                     <label className="form-check-label" htmlFor="gridCheck1">
                       <div className="method">
-                        <h4>{t('professional')}</h4>
+                        <h4>{t("professional")}</h4>
                         <h5>
                           250 <span>EGP</span>
                         </h5>
@@ -166,15 +183,15 @@ function CContactForm() {
                         <ul className="active">
                           <li>
                             <img src="/images/details/true.svg" alt="true" />
-                            <h6>12 {t('sessions')}</h6>
+                            <h6>12 {t("sessions")}</h6>
                           </li>
                           <li>
                             <img src="/images/details/true.svg" alt="true" />
-                            <h6>12 {t('sessions')}</h6>
+                            <h6>12 {t("sessions")}</h6>
                           </li>
                           <li>
                             <img src="/images/details/true.svg" alt="true" />
-                            <h6>5 {t('ads')}</h6>
+                            <h6>5 {t("ads")}</h6>
                           </li>
                         </ul>
                       </div>
@@ -191,22 +208,22 @@ function CContactForm() {
                     />
                     <label className="form-check-label" htmlFor="gridCheck1">
                       <div className="method active">
-                        <h4> {t('basic')}</h4>
+                        <h4> {t("basic")}</h4>
                         <h5>
                           25 <span>EGP</span>
                         </h5>
                         <ul className="active">
                           <li>
                             <img src="/images/details/true.svg" alt="true" />
-                            <h6>12 {t('sessions')}</h6>
+                            <h6>12 {t("sessions")}</h6>
                           </li>
                           <li>
                             <img src="/images/details/true.svg" alt="true" />
-                            <h6>12 {t('sessions')}</h6>
+                            <h6>12 {t("sessions")}</h6>
                           </li>
                           <li>
                             <img src="/images/details/true.svg" alt="true" />
-                            <h6>15 {t('ads')}</h6>
+                            <h6>15 {t("ads")}</h6>
                           </li>
                         </ul>
                       </div>
@@ -226,7 +243,7 @@ function CContactForm() {
                     htmlFor="gridCheck"
                     style={{ color: "#313131", fontFamily: "DM Sans3" }}
                   >
-                   {t('agreement')}
+                    {t("agreement")}
                   </label>
                 </div>
               </div>
