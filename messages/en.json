@@ -129,5 +129,18 @@
     "agreement":"This is your agreement that you bear the responsibility for the video that will be downloaded on your platform",
     "Successfully":"You Apply Successfully",
     "contact":"We Will Contact With You As Soon As Possible"
+  },
+  "CheckOut":{
+    "title":"Check Out",
+    "paymentMethod":"Payment Method",
+    "billing":"Billing address",
+    "discountCode":"Discount Code",
+    "enterCode":"Enter The Code",
+    "apply":"Apply",
+    "summary":"Summary",
+    "fundamentals":"Product Management Fundamentals",
+    "originalPrice":"Original Price:",
+    "total":"Total",
+    "discount":"Discount"
   }
 }

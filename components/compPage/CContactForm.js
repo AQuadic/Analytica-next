@@ -1,40 +1,106 @@
 "use client";
-import { Select, TextInput } from "@mantine/core";
+import { PasswordInput, Select, TextInput } from "@mantine/core";
 import { useTranslations } from "next-intl";
 import React, { useState } from "react";
+import { useEffect } from "react";
 import PhoneInput from "react-phone-number-input";
+import { getHomePage } from "../useAPI/GetUser";
+import axios from "axios";
+import { useRouter } from "next/navigation";
 
 function CContactForm() {
   const t = useTranslations("Teach");
   const t2 = useTranslations("Sign");
-
+const router = useRouter()
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
+  const [password, setpassword] = useState("");
+  const [passwordConfirmation, setPasswordConfirmation] = useState("");
   const [phone, setPhone] = useState();
   const [phone_country, setPhone_country] = useState("EG");
+  const [whatsapp, setWhatsapp] = useState();
+  const [whatsapp_country, setWhatsapp_country] = useState("EG");
   const [language, setLanguage] = useState("");
   const [category, setCategory] = useState("");
-  const [titleCourse, setTitleCourse] = useState("");
   const [subscription, setSubscription] = useState("");
   //Error
   const [ErrorName, setErrorName] = useState("");
   const [Erroremail, setErroremail] = useState("");
+  const [Errorpassword, setErrorpassword] = useState("");
   const [ErrorPhone, setErrorPhone] = useState("");
+  const [ErrorWhatsapp, setErrorWhatsapp] = useState("");
   const [ErrorLanguage, setErrorLanguage] = useState("");
   const [ErrorCategory, setErrorCategory] = useState("");
-  const [ErrorTitleCourse, setErrorTitleCourse] = useState("");
   const [ErrorSubscription, setErrorSubscription] = useState("");
   const [ErrorMessage, setErrorMessage] = useState("");
 
-  const [value, setValue] = useState();
-  const [value2, setValue2] = useState();
+
   const [selectedCheckbox, setSelectedCheckbox] = useState(null);
+  const [categories, setCategories] = useState([]);
+
   const handleCheckboxChange = (checkboxValue) => {
     if (checkboxValue === selectedCheckbox) {
       setSelectedCheckbox(null);
     } else {
       setSelectedCheckbox(checkboxValue);
     }
+  };
+  useEffect(() => {
+    FetchDataOFHomePage();
+  }, []);
+  const FetchDataOFHomePage = async () => {
+    const AllData = await getHomePage();
+    if (!AllData) console.log(AllData?.message);
+   AllData.categories.map((itemCategories) => {
+    const item = { value: itemCategories.id, label: itemCategories.name.en };
+    setCategories((current) => [...current, item]);
+  });
+  
+  };
+ 
+
+  const handelInstructor= () => {
+    setErrorName("");
+    setErroremail("");
+    setErrorPhone("");
+    setErrorpassword("");
+    setErrorLanguage("");
+    setErrorCategory("");
+    setErrorSubscription("");
+    setErrorWhatsapp("");
+    setErrorMessage("");
+
+    const po = axios
+      .post(
+        "https://education.aquadic.com/api/v1/instructors/auth/signup",
+        {
+          name: name,
+          email: email,
+          password: password,
+          password_confirmation: passwordConfirmation,
+          phone: phone,
+          phone_country: phone_country,
+          whatsapp: whatsapp,
+          whatsapp_country:whatsapp_country,
+          language: language,
+          category_id:category,
+        },
+        {
+          headers: {
+            "Content-Type": "application/json",
+            Accept: "application/json",
+          },
+        }
+      )
+      .then((res) => {
+        console.log(res);
+     router.push('/successfull')
+      })
+      .catch((res) => {
+        /*  setLoading(false);*/
+       
+        console.log(res);
+      });
   };
 
   return (
@@ -55,14 +121,34 @@ function CContactForm() {
                 />
               </div>
               <div className="col-md-12">
-              <TextInput
-                placeholder={t2("enterEmail")}
-                label= {t2("email")}
-                type="email"
-                onChange={(e) => setEmail(e.target.value)}
-                error={Erroremail}
-              />
+                <TextInput
+                  placeholder={t2("enterEmail")}
+                  label={t2("email")}
+                  type="email"
+                  onChange={(e) => setEmail(e.target.value)}
+                  error={Erroremail}
+                />
               </div>
+
+              <div className="col-md-12">
+                <PasswordInput
+                  variant="unstyled"
+                  placeholder={t2("enterPassword")}
+                  label={t2("password")}
+                  onChange={(e) => setpassword(e.target.value)}
+                  error={Errorpassword}
+                />
+              </div>
+              <div className="col-md-12">
+                <PasswordInput
+                  variant="unstyled"
+                  placeholder={t2("enterAgain")}
+                  label={t2("confirmNew")}
+                  onChange={(e) => setPasswordConfirmation(e.target.value)}
+                  
+                />
+              </div>
+
               <div className="col-md-12">
                 <label htmlFor="inputPhone " className="form-label">
                   {t2("mobile")}
@@ -71,9 +157,21 @@ function CContactForm() {
                   defaultCountry="EG"
                   placeholder={t2("enterNumber")}
                   className="form-control"
-                  value={value}
-                  onChange={setValue}
+                  value={phone}
+                  onChange={setPhone}
                 />
+                {ErrorPhone && (
+              <p
+                style={{
+                  color: "red",
+                  textAlign: "center",
+                  fontSize: "12px",
+                  marginTop: "4px",
+                }}
+              >
+                {ErrorPhone}
+              </p>
+            )}
               </div>
               <div className="col-md-12">
                 <label htmlFor="inputPhone " className="form-label">
@@ -83,43 +181,44 @@ function CContactForm() {
                   defaultCountry="EG"
                   placeholder={t2("enterNumber")}
                   className="form-control"
-                  value={value2}
-                  onChange={setValue2}
+                  value={whatsapp}
+                  onChange={setWhatsapp}
+                />
+                 {ErrorWhatsapp && (
+              <p
+                style={{
+                  color: "red",
+                  textAlign: "center",
+                  fontSize: "12px",
+                  marginTop: "4px",
+                }}
+              >
+                {ErrorWhatsapp}
+              </p>
+            )}
+              </div>
+              <div className="col-md-12">
+                <Select
+                  label={t("language")}
+                  placeholder={t2("selectLanguage")}
+                  onChange={setLanguage}
+                  error={ErrorLanguage}
+                  data={[
+                    { value: "en", label: "EN" },
+                    { value: "ar", label: "AR" },
+                  ]}
                 />
               </div>
               <div className="col-md-12">
-              <Select
-                label= {t("language")}
-                placeholder={t2("selectLanguage")}
-                onChange={setLanguage}
-                error={ErrorLanguage}
-                data={[
-                  { value: "en", label: "EN" },
-                  { value: "ar", label: "AR" },
-                ]}
-              />
+                <Select
+                  label={t("category")}
+                  placeholder={t2("selectCategory")}
+                  onChange={setCategory}
+                  error={ErrorCategory}
+                  data={categories}
+                />
               </div>
-              <div className="col-md-12">
-              <Select
-                label=  {t("category")}
-                placeholder={t2("selectCategory")}
-                onChange={setCategory}
-                error={ErrorCategory}
-                data={[
-                  { value: "Category1", label: "Category1" },
-                  { value: "Category2", label: "Category2" },
-                ]}
-              />
-              </div>
-              <div className="col-md-12">
-              <TextInput
-                placeholder={t2("EnterTitle")}
-                label=  {t("titleCourse")}
-                type="text"
-                onChange={(e) => setTitleCourse(e.target.value)}
-                error={ErrorTitleCourse}
-              />
-              </div>
+
               <div className="col-md-12">
                 <label
                   htmlFor="inputLocation"
@@ -165,12 +264,12 @@ function CContactForm() {
                     <input
                       className="form-check-input dates2"
                       type="checkbox"
-                      id="gridCheck1"
+                      id="gridCheck2"
                       value="checkbox2"
                       checked={selectedCheckbox === "checkbox2"}
                       onChange={() => handleCheckboxChange("checkbox2")}
                     />
-                    <label className="form-check-label" htmlFor="gridCheck1">
+                    <label className="form-check-label" htmlFor="gridCheck2">
                       <div className="method">
                         <h4>{t("professional")}</h4>
                         <h5>
@@ -201,12 +300,12 @@ function CContactForm() {
                     <input
                       className="form-check-input dates2"
                       type="checkbox"
-                      id="gridCheck1"
+                      id="gridCheck3"
                       value="checkbox3"
                       checked={selectedCheckbox === "checkbox3"}
                       onChange={() => handleCheckboxChange("checkbox3")}
                     />
-                    <label className="form-check-label" htmlFor="gridCheck1">
+                    <label className="form-check-label" htmlFor="gridCheck3">
                       <div className="method active">
                         <h4> {t("basic")}</h4>
                         <h5>
@@ -247,7 +346,19 @@ function CContactForm() {
                   </label>
                 </div>
               </div>
-              <input type="submit" value="Apply" className="btn_page" />
+              <input type="submit" value="Apply" className="btn_page" onClick={(e)=>{e.preventDefault();handelInstructor()}} />
+              {ErrorMessage && (
+              <p
+                style={{
+                  color: "red",
+                  textAlign: "center",
+                  fontSize: "12px",
+                  marginTop: "4px",
+                }}
+              >
+                {ErrorMessage}
+              </p>
+            )}
             </form>
           </div>
         </div>

@@ -1,91 +1,111 @@
-import React from "react";
+"use client";
+import { useTranslations } from "next-intl";
+import React, { useEffect, useState } from "react";
+import { getHomePage } from "../useAPI/GetUser";
+import { Select } from "@mantine/core";
 
 
 function CCheckOut() {
+  const t = useTranslations("CheckOut");
+  const t2 = useTranslations("Sign");
+  const [data, setData] = useState([]);
+  const [country_id, setCountry_id] = useState();
+  //error
+  const [ErrorCountry, setErrorCountry] = useState("");
+  useEffect(() => {
+    FetchDataOFHomePage();
+  }, []);
+  const FetchDataOFHomePage = async () => {
+    const AllData = await getHomePage();
+    if (!AllData) console.log(AllData?.message);
+    AllData.countries.map((itemCountry) => {
+      const item = { value: itemCountry.id, label: itemCountry.name.en };
+      setData((current) => [...current, item]);
+    });
+  };
+
   return (
     <>
-      <div class="checkOut container">
-        <div class="part1">
-          <h2>Check Out</h2>
+      <div className="checkOut container">
+        <div className="part1">
+          <h2>{t('title')}</h2>
           <form action="">
-            <h3>Billing address</h3>
-            <div class="part">
-              <label for="exampleDataList" class="form-label">
-                Country
-              </label>
-              <input
-                class="form-control"
-                list="datalistOptions"
-                id="exampleDataList"
-                placeholder="Type to search..."
+            <h3>{t('billing')}</h3>
+            <div className="part">
+            <Select
+                label={t2("country")}
+                placeholder={t2("selectCountry")}
+                searchable
+                clearable
+                onChange={setCountry_id}
+                error={ErrorCountry}
+                value={country_id}
+                nothingFound="No options"
+                transitionProps={{
+                  transition: "pop-top-left",
+                  duration: 80,
+                  timingFunction: "ease",
+                }}
+                data={data}
               />
-
-              <datalist id="datalistOptions">
-                <option value="San Francisco" />
-                <option value="New York" />
-                <option value="Seattle" />
-                <option value="Los Angeles" />
-                <option value="Chicago" />
-              </datalist>
             </div>
-            <h3>Payment Method</h3>
-            <div class="part">
-              <div class="form-check">
+            <h3>{t('paymentMethod')}</h3>
+            <div className="part">
+              <div className="form-check">
                 <input
-                  class="form-check-input"
+                  className="form-check-input"
                   type="radio"
                   name="exampleRadios"
                   id="exampleRadios1"
                   value="option1"
                   checked
                 />
-                <label class="form-check-label" for="exampleRadios1">
+                <label className="form-check-label" for="exampleRadios1">
                   Credit / Debit Card
                 </label>
               </div>
-              <div class="form-check">
+              <div className="form-check">
                 <input
-                  class="form-check-input"
+                  className="form-check-input"
                   type="radio"
                   name="exampleRadios"
                   id="exampleRadios2"
                   value="option2"
                 />
-                <label class="form-check-label" for="exampleRadios2">
+                <label className="form-check-label" for="exampleRadios2">
                   PayPal
                 </label>
               </div>
             </div>
-            <h3>Discount Code</h3>
-            <div class="part apply">
+            <h3>{t('discountCode')}</h3>
+            <div className="part apply">
               <input
                 type="text"
-                placeholder="Enter The Code
-            "
+                placeholder={t('enterCode')}
               />
-              <input type="submit" class="btn_page2" value="Apply" />
+              <input type="submit" className="btn_page2" value={t('apply')} />
             </div>
           </form>
         </div>
-        <div class="part2">
-          <h3>Summary</h3>
-          <h4>Product Management Fundamentals</h4>
+        <div className="part2">
+          <h3>{t('summary')}</h3>
+          <h4>{t('fundamentals')}</h4>
           <ul>
             <li>
-              <h5>Original Price:</h5>
+              <h5>{t('originalPrice')}</h5>
               <p>E£719.99</p>
             </li>
             <li>
-              <h5>Discount</h5>
-              <p class="green">-E£540.00</p>
+              <h5>{t('discount')}</h5>
+              <p className="green">-E£540.00</p>
             </li>
             <li>
-              <h5>Total</h5>
+              <h5>{t('total')}</h5>
               <p>E£719.99</p>
             </li>
           </ul>
-          <a href="signUp.html" class="btn_page">
-            Check Out
+          <a href="signUp.html" className="btn_page">
+          {t('title')}
           </a>
         </div>
       </div>

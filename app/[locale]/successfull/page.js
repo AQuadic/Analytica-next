@@ -8,8 +8,8 @@ function Successfull() {
     <>
       <Thanks
         title={t('Successfully')}
-        dec={t('contact ')}
-        link="/courses"
+        dec={t('contact')}
+       dash={'Dashboard'}
       />
     </>
   );
