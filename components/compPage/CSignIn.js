@@ -11,7 +11,7 @@ import { useTranslations } from "next-intl";
 
 
 
-function CSignIn(props) {
+function CSignIn() {
   const router = useRouter()
   const [email, setemail] = useState("");
   const [password, setpassword] = useState("");
@@ -21,7 +21,6 @@ function CSignIn(props) {
   const [IsUser, setIsUser] = useRecoilState(navState);
   const t = useTranslations('Sign');
 
-  console.log(props);
   const handellogin = () => {
     setErroremail("")
 setErrorpassword("")

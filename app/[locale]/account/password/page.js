@@ -1,6 +1,7 @@
 "use client";
 import { navState } from "@/atoms";
 import { LogOut } from "@/components/useAPI/Auth";
+import { PasswordInput } from "@mantine/core";
 import axios from "axios";
 import Cookies from "js-cookie";
 import { useTranslations } from "next-intl";
@@ -22,6 +23,11 @@ function page() {
   const [password, setpassword] = useState("");
   const [newpassword, setNewpassword] = useState("");
   const [passwordConfirmation, setPasswordConfirmation] = useState("");
+//Error
+const [ErrorPassword, setErrorPassword] = useState("");
+const [ErrorNewPassword, setErrorNewPassword] = useState("");
+const [ErrorPasswordConfirmation, setErrorPasswordConfirmation] = useState("");
+const [ErrorMessage, setErrorMessage] = useState("");
 
   const HandelLogOut = async () => {
     const UserLogOut = await LogOut(Cookies.get("token"));
@@ -54,16 +60,16 @@ function page() {
         console.log(res);
       })
       .catch((res) => {
-        /*  setLoading(false);
-        res.response.data.email
-          ? setErroremail(res.response.data.email[0])
-          : setErroremail("");
-        res.response.data.password
-          ? setErrorpassword(res.response.data.password[0])
-          : setErrorpassword("");
-        res.response.data.error
-          ? setError(res.response.data.error)
-          : setError("");*/
+        /*  setLoading(false);*/
+        res.response.data.errors?.current_password
+        ? setErrorPassword(res.response.data.errors.current_password[0])
+        : setErrorPassword("");
+        res.response.data.errors?.password
+        ? setErrorNewPassword(res.response.data.errors.password[0])
+        : setErrorNewPassword("");
+          res.response.data.message
+          ? setErrorMessage(res.response.data.message)
+          : setErrorMessage("");
         console.log(res);
       });
   };
@@ -100,42 +106,36 @@ function page() {
           <div className="Profile">
             <h2 className="cart_title2"> {t("password")}</h2>
             <form className="row g-3 form_page">
-              <div className="col-md-12">
-                <label htmlFor="inputpass1 " className="form-label">
-                  {t("current")}
-                </label>
-                <input
-                  type="password"
-                  className="form-control"
-                  id="inputpass1"
-                  placeholder="Enter your current password"
-                  onChange={(e) => setpassword(e.target.value)}
-                />
-              </div>
-              <div className="col-md-12">
-                <label htmlFor="inputpass2 " className="form-label">
-                  {t2("newPassword")}
-                </label>
 
-                <input
-                  type="password"
-                  className="form-control"
-                  id="inputpass2"
-                  placeholder={t2("enterNew")}
-                  onChange={(e) => setNewpassword(e.target.value)}
-                />
+
+              
+              <div className="col-md-12">
+              <PasswordInput
+                variant="unstyled"
+                placeholder={t2("currentPassword")}
+                label= {t("current")}
+                onChange={(e) => setpassword(e.target.value)}
+                error={ErrorPassword}
+              />
+               
               </div>
               <div className="col-md-12">
-                <label htmlFor="inputpass3 " className="form-label">
-                  {t2("confirmNew")}
-                </label>
-                <input
-                  type="password"
-                  className="form-control"
-                  id="inputpass3"
-                  placeholder={t2("enterAgain")}
-                  onChange={(e) => setPasswordConfirmation(e.target.value)}
-                />
+              <PasswordInput
+                variant="unstyled"
+                placeholder={t2("enterNew")}
+                label={t2("newPassword")}
+                onChange={(e) => setNewpassword(e.target.value)}
+                error={ErrorNewPassword}
+              />
+              </div>
+              <div className="col-md-12">
+              <PasswordInput
+                variant="unstyled"
+                placeholder={t2("enterAgain")}
+                label= {t2("confirmNew")}
+                onChange={(e) => setPasswordConfirmation(e.target.value)}
+                error={ErrorPasswordConfirmation}
+              />
               </div>
 
               <button
@@ -149,6 +149,18 @@ function page() {
               >
                 {t("change")}
               </button>
+              {ErrorMessage && (
+              <p
+                style={{
+                  color: "red",
+                 
+                  fontSize: "12px",
+                  marginTop: "4px",
+                }}
+              >
+                {ErrorMessage}
+              </p>
+            )}
             </form>
           </div>
         </div>

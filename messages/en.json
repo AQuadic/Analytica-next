@@ -51,7 +51,9 @@
     "selectGender": "Select  Your Gender",
     "selectProfession": "Select Your Profession",
     "enterNew": "Enter New Password",
-    "enterAgain": "Enter New Password Again"
+    "enterAgain": "Enter New Password Again",
+    "currentPassword":"Enter your current password"
+    
   },
   "Footer":{
     "footerTitle":" We change lives, businesses, and nations through digital upskilling, developing the edge you need to conquer what’s next.",

@@ -52,8 +52,10 @@ if(locale==='ar'){
         <Layout lang={locale}>
       
 
-        
+        <main >
         {children}
+        </main>
+       
         
         </Layout>
         </NextIntlClientProvider>

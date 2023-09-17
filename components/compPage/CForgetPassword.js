@@ -1,4 +1,5 @@
 "use client";
+import { TextInput } from "@mantine/core";
 import axios from "axios";
 import Cookies from "js-cookie";
 import { useTranslations } from "next-intl";
@@ -11,9 +12,12 @@ function CForgetPassword() {
   const router = useRouter()
   const t = useTranslations('Sign');
   const [email, setemail] = useState("");
+  const [Erroremail, setErroremail] = useState("");
+  const [ErrorMessage, setErrorMessage] = useState("");
 console.log(email);
   const handelForgetPass = () => {
-    
+    setErroremail("")
+ setErrorMessage("")
     const po = axios
       .post(
         "https://education.aquadic.com/api/v1/users/auth/forgot",
@@ -33,16 +37,13 @@ console.log(email);
        router.push('/verify');
       })
       .catch((res) => {
-      /*  setLoading(false);
-        res.response.data.email
-          ? setErroremail(res.response.data.email[0])
-          : setErroremail("");
-        res.response.data.password
-          ? setErrorpassword(res.response.data.password[0])
-          : setErrorpassword("");
-        res.response.data.error
-          ? setError(res.response.data.error)
-          : setError("");*/
+      /*  setLoading(false);*/
+      res.response.data.errors?.email
+      ? setErroremail(res.response.data.errors.email[0])
+      : setErroremail("");
+      res.response.data.message
+      ? setErrorMessage(res.response.data.message)
+      : setErrorMessage("");
           console.log(res);
       });
   };
@@ -56,20 +57,21 @@ console.log(email);
           </p>
           <form className="row g-4 form_page">
             <div className="col-md-12">
-              <label htmlFor="inputEmail" className="form-label">
-              {t('email')}
-              </label>
-              <input
-                type="email"
-                className="form-control"
-                id="inputEmail"
-                placeholder= {t('enterEmail')}
-                value={email}
-                onChange={(e)=>setemail(e.target.value)}
-              />
+
+
+            <TextInput
+      placeholder={t('enterEmail')}
+      label={t('email')}
+      type="email"
+      onChange={(e)=>setemail(e.target.value)}
+      error={Erroremail}
+    />
+
+             
             </div>
 
             <input type="submit" value={t('sendMail')} className="btn_page" onClick={(e)=>{e.preventDefault();handelForgetPass()}} />
+            {ErrorMessage&&<p style={{color:"red",textAlign:"center",fontSize:"12px",marginTop:"4px"}}>{ErrorMessage}</p>}
           </form>
         </div>
       </section>

@@ -2,6 +2,7 @@
 import { navState } from "@/atoms";
 import { LogOut } from "@/components/useAPI/Auth";
 import { getUser } from "@/components/useAPI/GetUser";
+import { TextInput } from "@mantine/core";
 import axios from "axios";
 import Cookies from "js-cookie";
 import { useTranslations } from "next-intl";
@@ -28,8 +29,18 @@ function page() {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [phone, setPhone] = useState();
-  const [phone_country, setPhone_country] = useState("EG");
+  const [phone_country, setPhone_country] = useState("");
+
+  
+
   const [selectedFile, setSelectedFile] = useState(null);
+  //Error
+  const [ErrorName, setErrorName] = useState("");
+  const [Erroremail, setErroremail] = useState("");
+const [ErrorPhone, setErrorPhone] = useState("");
+const [ErrorImage, setErrorImage] = useState("");
+const [ErrorMessage, setErrorMessage] = useState("");
+
   const [IsImage, setIsImage] = useState('');
   const [changeImage, setChangeImage] = useState(false);
   const handleHeaderInputChange = (e) => {
@@ -64,6 +75,11 @@ console.log(userData);
 
 
 const handelProfile = () => {
+  setErrorName("")
+ setErroremail("")
+setErrorPhone("")
+setErrorImage("")
+setErrorMessage("")
   const body = new FormData();
   body.append('name', name);
   body.append('email', email);
@@ -87,6 +103,22 @@ const handelProfile = () => {
      
     })
     .catch((res) => {
+      res.response.data.errors?.name
+      ? setErrorName(res.response.data.errors.name[0])
+      : setErrorName("");
+    res.response.data.errors?.email
+      ? setErroremail(res.response.data.errors.email[0])
+      : setErroremail("");
+res.response.data.errors?.phone
+      ? setErrorPhone(res.response.data.errors.phone[0])
+      : setErrorPhone("");
+      res.response.data.errors?.image
+      ? setErrorImage(res.response.data.errors.image[0])
+      : setErrorImage("");
+      
+res.response.data.message
+      ? setErrorMessage(res.response.data.message)
+      : setErrorMessage("");
         console.log(res);
     });
 };
@@ -132,21 +164,30 @@ const handelProfile = () => {
             <input type="file" onChange={handleHeaderInputChange} />
               <img src="/images/icons/Camera.svg" alt="Camera" />
             </div>
+           
           </div>
-
+          {ErrorImage && (
+              <p
+                style={{
+                  color: "red",
+                 
+                  fontSize: "12px",
+                  marginTop: "4px",
+                }}
+              >
+                {ErrorImage}
+              </p>
+            )}
             <form className="row g-3 form_page">
               <div className="col-md-12">
-                <label htmlFor="inputname1 " className="form-label">
-                 {t2('first')}
-                </label>
-                <input
-                  type="text"
-                  className="form-control"
-                  id="inputname1"
-                  placeholder= {t2('enterFirst')}
-                  value={name}
-                  onChange={(e)=>setName(e.target.value)}
-                />
+              <TextInput
+                placeholder={t2('enterFirst')}
+                label={t2('first')}
+                type="text"
+                onChange={(e) => setName(e.target.value)}
+                error={ErrorName}
+                value={name}
+              />
               </div>
              
               <div className="col-md-12">
@@ -154,7 +195,7 @@ const handelProfile = () => {
                  {t2('mobile')}
                 </label>
                 <PhoneInput
-                  defaultCountry="EG"
+                  defaultCountry={phone_country}
                   placeholder={t2('enterNumber')}
                   className="form-control"
                   onCountryChange={(e) => setPhone_country(e)}
@@ -162,18 +203,30 @@ const handelProfile = () => {
                   onChange={setPhone}
                 />
               </div>
+              {ErrorPhone && (
+              <p
+                style={{
+                  color: "red",
+                 
+                  fontSize: "12px",
+                  marginTop: "4px",
+                }}
+              >
+                {ErrorPhone}
+              </p>
+            )}
               <div className="col-md-12">
-                <label htmlFor="inputemail " className="form-label">
-                   {t2('email')}
-                </label>
-                <input
-                  type="email"
-                  className="form-control"
-                  id="inputemail"
-                  placeholder= {t2('enterEmail')}
-                  value={email}
-                  onChange={(e)=>setEmail(e.target.value)}
-                />
+
+              <TextInput
+                placeholder={t2('enterEmail')}
+                label= {t2('email')}
+                type="email"
+               value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                error={Erroremail}
+              />
+
+                
               </div>
               <button type="submit" href="" className="next btn_page" onClick={(e)=>{e.preventDefault();handelProfile()}}>
                {t('save')}
