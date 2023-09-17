@@ -2155,7 +2155,7 @@ html[dir="rtl"] .become2 .img_become {
   background-color: #1f2265;
   border-color: #1f2265;
 }
-.form_page .form-select {
+.form_page .form-select ,.mantine-Select-input{
   font-size: 14px;
   line-height: 25px;
   color: #383838;
@@ -2163,8 +2163,9 @@ html[dir="rtl"] .become2 .img_become {
   border: 1px solid #dbdbdb;
   border-radius: 10px;
   background-color: transparent;
+  min-height: 46px;
 }
-.form-select {
+.form-select ,.mantine-Select-input {
   padding: 8px 16px;
   background-position: right 0.75rem center;
 }

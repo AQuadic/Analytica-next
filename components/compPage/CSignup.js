@@ -8,12 +8,13 @@ import { getHomePage } from "../useAPI/GetUser";
 import { useEffect } from "react";
 import Cookies from "js-cookie";
 import { useRouter } from "next/navigation";
+import { PasswordInput, Select, TextInput } from "@mantine/core";
 
 function CSignup() {
-  const router = useRouter()
+  const router = useRouter();
   const t = useTranslations("Sign");
   const [allCountries, setallCountries] = useState([]);
-
+  const [data, setData] = useState([]);
   const [name, setName] = useState("");
   const [email, setemail] = useState("");
   const [password, setpassword] = useState("");
@@ -25,66 +26,85 @@ function CSignup() {
   const [gender, setGender] = useState();
   const [profession, setProfession] = useState();
   const [country_id, setCountry_id] = useState();
-
-  const [selectedOption, setSelectedOption] = useState("option1");
+  //error
+  const [ErrorName, setErrorName] = useState("");
   const [Erroremail, setErroremail] = useState("");
   const [Errorpassword, setErrorpassword] = useState("");
-  const handleOptionChange = (event) => {
-    setSelectedOption(event.target.value);
-  };
+  const [ErrorPhone, setErrorPhone] = useState("");
+  const [ErrorAge, setErrorAge] = useState("");
+  const [ErrorCountry, setErrorCountry] = useState("");
+  const [ErrorGender, setErrorGender] = useState("");
+  const [ErrorProfession, setErrorProfession] = useState("");
+  const [ErrorMessage, setErrorMessage] = useState("");
 
   useEffect(() => {
-    FetchDataOFHomePage()
-}, [])
-  const FetchDataOFHomePage= async () => {
+    FetchDataOFHomePage();
+  }, []);
+  const FetchDataOFHomePage = async () => {
     const AllData = await getHomePage();
-  if (!AllData) console.log(AllData?.message)
-  setallCountries(AllData.countries)
-  }
-
+    if (!AllData) console.log(AllData?.message);
+    setallCountries(AllData.countries);
+    AllData.countries.map((itemCountry) => {
+      const item = { value: itemCountry.id, label: itemCountry.name.en };
+      setData((current) => [...current, item]);
+    });
+  };
 
   const handelSignUP = () => {
+    setErrorName("")
+    setErroremail("")
+    setErrorpassword("")
+    setErrorPhone("")
+    setErrorAge("")
+    setErrorCountry("")
+    setErrorGender("")
+    setErrorProfession("")
+    setErrorMessage("")
+   
     const po = axios
-      .post(
-        "https://education.aquadic.com/api/v1/users/auth/signup",
-        {
-          "name": name,
-          "email": email,
-          "password": password,
-          "password_confirmation": password,
-          "phone": phone,
-          "phone_country": phone_country,
-          "parent_phone": phone2,
-          "parent_phone_country":phone_country2,
-          "country_id": country_id,
-           "age":age,
-           "gender":gender,
-           "profession":profession
-
+      .post("https://education.aquadic.com/api/v1/users/auth/signup", {
+        name: name,
+        email: email,
+        password: password,
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json",
         },
-        {
-          headers: {
-            "Content-Type": "application/json",
-            Accept: "application/json",
-          },
-        }
-      )
+      })
       .then((res) => {
         console.log(res);
-        Cookies.set("token",res.data.token);
-        router.push('/')
+        Cookies.set("token", res.data.token);
+        router.push("/");
       })
       .catch((res) => {
-        /*  setLoading(false);
-        res.response.data.email
-          ? setErroremail(res.response.data.email[0])
+        /*  setLoading(false);*/
+        res.response.data.errors?.name
+          ? setErrorName(res.response.data.errors.name[0])
+          : setErrorName("");
+        res.response.data.errors?.email
+          ? setErroremail(res.response.data.errors.email[0])
           : setErroremail("");
-        res.response.data.password
-          ? setErrorpassword(res.response.data.password[0])
+        res.response.data.errors?.password
+          ? setErrorpassword(res.response.data.errors.password[0])
           : setErrorpassword("");
-        res.response.data.error
-          ? setError(res.response.data.error)
-          : setError("");*/
+        res.response.data.errors?.phone
+          ? setErrorPhone(res.response.data.errors.phone[0])
+          : setErrorPhone("");
+          res.response.data.errors?.age
+          ? setErrorAge(res.response.data.errors.age[0])
+          : setErrorAge("");
+          res.response.data.errors?.country_id
+          ? setErrorCountry(res.response.data.errors.country_id[0])
+          : setErrorCountry("");
+          res.response.data.errors?.gender
+          ? setErrorGender(res.response.data.errors.gender[0])
+          : setErrorGender("");
+          res.response.data.errors?.profession
+          ? setErrorProfession(res.response.data.errors.profession[0])
+          : setErrorProfession("");
+        res.response.data.message
+          ? setErrorMessage(res.response.data.message)
+          : setErrorMessage("");
         console.log(res);
       });
   };
@@ -112,41 +132,33 @@ function CSignup() {
           </div>
           <form className="row g-4 form_page">
             <div className="col-md-12">
-              <label htmlFor="inputFirstName" className="form-label">
-                {t("first")}
-              </label>
-              <input
-                type="text"
-                className="form-control"
-                id="inputFirstName"
+              <TextInput
                 placeholder={t("enterFirst")}
+                label={t("first")}
+                type="text"
                 onChange={(e) => setName(e.target.value)}
+                error={ErrorName}
               />
             </div>
-           
+
             <div className="col-md-12">
-              <label htmlFor="inputEmail" className="form-label">
-                {t("email")}
-              </label>
-              <input
-                type="email"
-                className="form-control"
-                id="inputEmail"
+              <TextInput
                 placeholder={t("enterEmail")}
+                label={t("email")}
+                type="email"
                 onChange={(e) => setemail(e.target.value)}
+                error={Erroremail}
               />
             </div>
             <div className="col-md-12">
-              <label htmlFor="inputpassword" className="form-label">
-                {t("password")}
-              </label>
-              <input
-                type="password"
-                className="form-control"
-                id="inputpassword"
+              <PasswordInput
+                variant="unstyled"
                 placeholder={t("enterPassword")}
+                label={t("password")}
                 onChange={(e) => setpassword(e.target.value)}
+                error={Errorpassword}
               />
+              
             </div>
 
             <div className="col-md-12">
@@ -161,6 +173,18 @@ function CSignup() {
                 onCountryChange={(e) => setPhone_country(e)}
                 onChange={setPhone}
               />
+               {ErrorPhone && (
+              <p
+                style={{
+                  color: "red",
+                 
+                  fontSize: "12px",
+                  marginTop: "4px",
+                }}
+              >
+                {ErrorPhone}
+              </p>
+            )}
             </div>
             <div className="col-md-12">
               <label htmlFor="inputPhone " className="form-label">
@@ -174,58 +198,73 @@ function CSignup() {
                 onChange={setPhone2}
                 onCountryChange={(e) => setPhone_country2(e)}
               />
+               {ErrorPhone && (
+              <p
+                style={{
+                  color: "red",
+                 
+                  fontSize: "12px",
+                  marginTop: "4px",
+                }}
+              >
+                {ErrorPhone}
+              </p>
+            )}
             </div>
             {/*value={selectedOption} onChange={handleOptionChange}*/}
             <div className="col-md-12">
-              <label htmlFor="inputCountry" className="form-label">
-                {t("country")}
-              </label>
-              <select id="inputCountry" className="form-select" onChange={(e)=>{setCountry_id(e.target.value)}}>
-                <option value="option" hidden>{t("selectCountry")}</option>
-                {
-                  allCountries&&allCountries.map((item)=>{
-                    return(
-                      <option value={item.id}>{item.name.en}</option>
-                    )
-                  })
-                }
-                
-              </select>
-            </div>
-            <div className="col-md-12">
-              <label htmlFor="inputAge" className="form-label">
-                {t("age")}
-              </label>
-              <input
-                type="number"
-                className="form-control"
-                id="inputAge"
-                placeholder={t("enterAge")}
-                onChange={(e)=>{setAge(e.target.value)}}
+              <Select
+                label={t("country")}
+                placeholder={t("selectCountry")}
+                searchable
+                clearable
+                onChange={setCountry_id}
+                error={ErrorCountry}
+                value={country_id}
+                nothingFound="No options"
+                transitionProps={{
+                  transition: "pop-top-left",
+                  duration: 80,
+                  timingFunction: "ease",
+                }}
+                data={data}
               />
             </div>
             <div className="col-md-12">
-              <label htmlFor="inputGender" className="form-label">
-                {t("gender")}
-              </label>
-              <select id="inputGender" className="form-select" onChange={(e)=>{setGender(e.target.value)}}>
-                <option value="option" hidden>{t("selectGender")}</option>
-                <option value="male">male</option>
-                <option value="female">female</option>
-              </select>
+              <TextInput
+                placeholder={t("enterAge")}
+                label={t("age")}
+                type="number"
+                onChange={(e) => setAge(e.target.value)}
+                error={ErrorAge}
+              />
             </div>
             <div className="col-md-12">
-              <label htmlFor="inputProfession" className="form-label">
-                {t("profession")}
-              </label>
-              <select id="inputProfession" className="form-select" onChange={(e)=>{setProfession(e.target.value)}}>
-                <option value="option" hidden>{t("selectProfession")}</option>
-                <option value="Profession1">Profession1</option>
-                <option value="Profession2">Profession2</option>
-              </select>
+              <Select
+                label={t("gender")}
+                placeholder={t("selectGender")}
+                onChange={setGender}
+                error={ErrorGender}
+                data={[
+                  { value: "male", label: "Male" },
+                  { value: "female", label: "Female" },
+                ]}
+              />
+            </div>
+
+            <div className="col-md-12">
+              <Select
+                label={t("profession")}
+                placeholder={t("selectProfession")}
+                onChange={setProfession}
+                error={ErrorProfession}
+                data={[
+                  { value: "Profession1", label: "Profession1" },
+                  { value: "Profession2", label: "Profession2" },
+                ]}
+              />
             </div>
            
-
             <input
               type="submit"
               value="Sign Up"
@@ -235,6 +274,18 @@ function CSignup() {
               }}
               className="btn_page"
             />
+             {ErrorMessage && (
+              <p
+                style={{
+                  color: "red",
+                  textAlign: "center",
+                  fontSize: "12px",
+                  marginTop: "4px",
+                }}
+              >
+                {ErrorMessage}
+              </p>
+            )}
           </form>
           <div className="haveAccount">
             <p>
