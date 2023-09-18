@@ -80,7 +80,7 @@ function ItemCourse({
           </>
         )}
 {
-  !Myprogress && <Link href="/checkOut" className="btn_page2">
+  !Myprogress && <Link href={`/checkOut?id=${id}`} className="btn_page2">
   Enroll Now
 </Link>
 }

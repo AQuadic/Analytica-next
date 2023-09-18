@@ -1,58 +1,118 @@
 "use client";
 import { useTranslations } from "next-intl";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
+import { Group, Radio } from "@mantine/core";
+import { useRouter, useSearchParams } from "next/navigation";
+import { useEffect } from "react";
+import { getOneCourse } from "../useAPI/CorsesApi/GetCourses";
 import { getHomePage } from "../useAPI/GetUser";
-import { Group, Radio, Select } from "@mantine/core";
+import axios from "axios";
+import Cookies from "js-cookie";
 
 
 function CCheckOut() {
   const t = useTranslations("CheckOut");
-  const t2 = useTranslations("Sign");
-  const [data, setData] = useState([]);
-  const [country_id, setCountry_id] = useState();
-  const [payment, setPayment] = useState('credit');
-  console.log('====================================');
-  console.log(payment);
-  console.log('====================================');
-  //error
-  const [ErrorCountry, setErrorCountry] = useState("");
-  useEffect(() => {
-    FetchDataOFHomePage();
-  }, []);
-  const FetchDataOFHomePage = async () => {
-    const AllData = await getHomePage();
-    if (!AllData) console.log(AllData?.message);
-    AllData.countries.map((itemCountry) => {
-      const item = { value: itemCountry.id, label: itemCountry.name.en };
-      setData((current) => [...current, item]);
+  const [paymentValue, setPayment] = useState("1");
+  const [payment_methods, setPayment_methods] = useState([]);
+  const [course, setCourse] = useState();
+  const [code, setCode] = useState("");
+  const [discount, setDiscount] = useState(0);
+  const [discountID, setDiscountID] = useState();
+  const [Price, setPrice] = useState();
+  const [ErrorMessage, setErrorMessage] = useState("");
+  const SearchParams = useSearchParams()
+  const router = useRouter()
+const CoursesID = SearchParams.get("id");
+
+useEffect(() => {
+  FetchDataOFHomePage()
+  FetchDataOFOneCourse();
+}, []);
+const FetchDataOFOneCourse = async () => {
+  const Courses = await getOneCourse(CoursesID);
+  if (!Courses) console.log(Courses?.message);
+  setCourse(Courses);
+  setPrice(Courses.price)
+ 
+};
+const FetchDataOFHomePage= async () => {
+  const AllData = await getHomePage();
+if (!AllData) console.log(AllData?.message)
+setPayment_methods(AllData.payment_methods)
+}
+
+const handelCoupons = () => {
+ 
+  const po = axios
+    .post(
+      "https://education.aquadic.com/api/v1/users/coupons/check",
+      {
+        "code": code,
+        "course_id": CoursesID
+      },
+      {
+        headers: {
+          Authorization: `Bearer ${Cookies.get('token')} `,
+          "Content-Type": "application/json",
+          Accept: "application/json",
+        },
+      }
+    )
+    .then((res) => {
+     console.log(res);
+     setDiscountID(res.data.coupon.id)
+     setDiscount(res.data.coupon.value)
+    })
+    .catch((res) => {
+    /*  setLoading(false);*/
+    res.response.data.message
+    ? setErrorMessage(res.response.data.message)
+    : setErrorMessage("");
+        console.log(res);
     });
-  };
+};
+
+
+const handelCheckOut = () => {
+ 
+  const po = axios
+    .post(
+      "https://education.aquadic.com/api/v1/users/purchase/purchase",
+      {
+        "course_id": CoursesID,
+        "payment_method_id": paymentValue,
+        "coupon_id": discountID?discountID:null
+      },
+      {
+        headers: {
+          Authorization: `Bearer ${Cookies.get('token')} `,
+          "Content-Type": "application/json",
+          Accept: "application/json",
+        },
+      }
+    )
+    .then((res) => {
+     console.log(res);
+router.push(res.data.payment_link)
+     
+    })
+    .catch((res) => {
+    /*  setLoading(false);*/
+   
+        console.log(res);
+    });
+};
 
   return (
+  
     <>
-      <div className="checkOut container">
+    {
+      course? <>
+       <div className="checkOut container">
         <div className="part1">
           <h2>{t('title')}</h2>
           <form action="">
-            <h3>{t('billing')}</h3>
-            <div className="part">
-            <Select
-                label={t2("country")}
-                placeholder={t2("selectCountry")}
-                searchable
-                clearable
-                onChange={setCountry_id}
-                error={ErrorCountry}
-                value={country_id}
-                nothingFound="No options"
-                transitionProps={{
-                  transition: "pop-top-left",
-                  duration: 80,
-                  timingFunction: "ease",
-                }}
-                data={data}
-              />
-            </div>
+           
             <h3>{t('paymentMethod')}</h3>
             <div className="part">
            
@@ -60,11 +120,18 @@ function CCheckOut() {
       name="favoriteFramework"
       withAsterisk
       onChange={setPayment}
-      value={payment}
+      value={paymentValue}
     >
       <Group mt="xs">
-        <Radio value="credit" label="Credit / Debit Card" />
-        <Radio value="payPal" label="PayPal" />
+        {
+          payment_methods.map((payment)=>{
+           
+            return(
+              <Radio key={payment.id} value={(payment.id).toString()} label={payment.name.en} />
+            )
+          })
+        }
+       
        
       </Group>
     </Radio.Group>
@@ -77,9 +144,12 @@ function CCheckOut() {
               <input
                 type="text"
                 placeholder={t('enterCode')}
+onChange={(e)=>setCode(e.target.value)}
               />
-              <input type="submit" className="btn_page2" value={t('apply')} />
+              <input type="submit" className="btn_page2" onClick={(e)=>{e.preventDefault();handelCoupons()}} value={t('apply')} />
+              
             </div>
+            {ErrorMessage&&<p style={{color:"red",fontSize:"12px",marginTop:"-30px"}}>{ErrorMessage}</p>}
           </form>
         </div>
         <div className="part2">
@@ -88,22 +158,28 @@ function CCheckOut() {
           <ul>
             <li>
               <h5>{t('originalPrice')}</h5>
-              <p>E£719.99</p>
+              <p>EG{course.price}</p>
             </li>
-            <li>
+            {
+              discount?<li>
               <h5>{t('discount')}</h5>
-              <p className="green">-E£540.00</p>
-            </li>
+              <p className="green">-EG{discount}</p>
+            </li>:<></>
+            }
+           
             <li>
               <h5>{t('total')}</h5>
-              <p>E£719.99</p>
+              <p>EG{(Price-discount)<0?0:Price-discount}</p>
             </li>
           </ul>
-          <a href="signUp.html" className="btn_page">
+          <button type="submit" onClick={(e)=>{e.preventDefault();handelCheckOut()}} className="btn_page">
           {t('title')}
-          </a>
+          </button>
         </div>
       </div>
+      </> :<></>
+    }
+     
     </>
   );
 }
