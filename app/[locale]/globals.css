@@ -213,7 +213,27 @@ html[dir="rtl"] .headtitle::before {
 }
 
 /*start style*/
+/*=========================== start pageAbout ======================*/
+.pageAbout {
+  margin-top: 16px;
+}
+.pageAbout h2{
+  font-size: 28px;
+  font-family: "DM Sans";
+  margin-bottom: 20px;
+}
 
+.rtl .pageAbout p {
+  text-align: start;
+}
+@media(max-width:768px){
+  .pageAbout h2{
+    font-size: 22px;
+    margin-bottom: 12px;
+  }
+
+}
+/*=========================== end pageAbout ======================*/
 /*start about*/
 .about {
   background: #f6f6f6;

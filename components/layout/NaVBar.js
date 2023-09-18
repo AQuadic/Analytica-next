@@ -879,7 +879,7 @@ function NavBar({lang}) {
             </>
           )}
 
-          <div className="lang"  onClick={()=>{router.replace(`${pathname}`, {locale: lang==='en'?'ar':'en'});}}>
+          <div className="lang"  onClick={()=>{router.replace(`${pathname+window.location.search}`, {locale: lang==='en'?'ar':'en'});}}>
             <img src="/images/lang.webp" className="lang" alt="lang" />
             <p>{lang==='en'?'Ar':'En'}</p>
           </div>

@@ -3,11 +3,27 @@ import React from 'react'
 import Link from 'next/link'
 import { usePathname, useRouter } from 'next-intl/client';
 import { useTranslations } from 'next-intl';
+import { getHomePage } from '../useAPI/GetUser';
+import { useState } from 'react';
+import { useEffect } from 'react';
 
 function Footer({lang}) {
   const router = useRouter();
   const pathname = usePathname();
   const t = useTranslations('Footer');
+const [pages ,setPage]= useState([])
+  useEffect(() => {
+    FetchDataOFHomePage();
+  }, []);
+  const FetchDataOFHomePage= async () => {
+    const AllData = await getHomePage();
+  if (!AllData) console.log(AllData?.message)
+  setPage(AllData.pages)
+  
+  }
+  console.log('====================================');
+  console.log(pages);
+  console.log('====================================');
   return (
     <footer>
     <div className="container">
@@ -23,10 +39,16 @@ function Footer({lang}) {
         <div className="part">
           <h2> {t('main')}</h2>
           <div className="links">
+            {
+              pages.map((page)=>{
+                return(
+                  <Link key={page.id} href={`/about?id=${page.id}`}>{page.title.en}</Link>
+                )
+              })
+            }
             <Link href="/">  {t('home')}</Link>
             <Link href="/myCourses">{t('myCourses')}</Link>
-            <a href="">{t('privacy')}</a>
-            <a href="">{t('terms')}</a>
+           
             <Link href="/instructorScreen">instructorScreen 1</Link>
             <Link href="/instructorScreen/oneCourse">instructorScreen 2</Link>
           </div>
@@ -65,7 +87,7 @@ function Footer({lang}) {
           </div>
         </div>
         <div className="part">
-          <div className="langFooter"  onClick={()=>{router.replace(`${pathname}`, {locale: lang==='en'?'ar':'en'});}}>
+          <div className="langFooter"  onClick={()=>{router.replace(`${pathname+window.location.search}`, {locale: lang==='en'?'ar':'en'});}}>
             <img src="/images/media/lang.svg" alt="lang" />
             <p>{lang==='en'?'Arabic':'English'}</p>
           </div>

@@ -38,7 +38,7 @@ function CourseDetails({ params }) {
               <div className="contantCart">
                 <h3>Get started today</h3>
                 <h4>Start your application or request more information.</h4>
-                <Link href="/checkOut" className="btn_page">
+                <Link href={`/checkOut?id=${params.id}`} className="btn_page">
                   Apply Now
                 </Link>
                 <ul>
