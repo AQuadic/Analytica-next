@@ -1,11 +1,11 @@
 import React from 'react'
 import Link from 'next/link'
 
-function ItemCourse2({title,star,dec,oldsalary,newsalary,image,info,imageCourse,}) {
+function ItemCourse2({title,star,dec,oldsalary,newsalary,image,info,imageCourse,id}) {
   return (
     <div className="item">
         
-    <Link href="/coursesDetails" className="imageLink">
+    <Link href={`/courses/${id}`} className="imageLink">
     {
           imageCourse? 
           <>
@@ -26,7 +26,7 @@ function ItemCourse2({title,star,dec,oldsalary,newsalary,image,info,imageCourse,
         }
     </Link>
     <div className="aboutservice">
-      <Link href="/coursesDetails" className="aboutservice">
+      <Link href={`/courses/${id}`} className="aboutservice">
         <div className="head">
         <h3>{title}</h3>
           <div className="Star">
@@ -49,7 +49,7 @@ function ItemCourse2({title,star,dec,oldsalary,newsalary,image,info,imageCourse,
         </div>
       </Link>
 
-      <Link href="/checkOut" className="btn_page2">
+      <Link href={`/checkOut?id=${id}`} className="btn_page2">
           Enroll Now
         </Link>
     </div>

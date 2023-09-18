@@ -982,6 +982,10 @@ footer .part .langFooter p {
   min-width: 270px;
   max-width: 300px;
 }
+.courses .part1 .btn_page{
+  width: 60%;
+  margin: 10px auto;
+}
 .courses .part1 .optionStar {
   display: flex;
   align-items: center;
@@ -1042,6 +1046,23 @@ html[dir="rtl"] .form-check .form-check-input {
 }
 .courses .part1 .form-check {
   margin-bottom: 6px;
+}
+.courses .part1 .mantine-CheckboxGroup-root .mantine-Group-root {
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-start;
+  gap: 6px;
+}
+.courses .part1 .mantine-CheckboxGroup-root  ,.courses .part1  .mantine-Slider-root{
+  padding-bottom: 20px;
+}
+.courses .part1 .mantine-Checkbox-input:checked{
+  background-color: #212367;
+  border-color: #212367;
+}
+.courses .part1 .mantine-Checkbox-input{
+ width: 18px;
+ height: 18px;
 }
 .courses .part2 {
   flex: 1;

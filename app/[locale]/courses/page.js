@@ -1,6 +1,8 @@
-'use client'
+"use client";
 import ItemCourse2 from "@/components/ItemCourse2";
 import { getAllCourses } from "@/components/useAPI/CorsesApi/GetCourses";
+import { getHomePage } from "@/components/useAPI/GetUser";
+import { Checkbox, Group, Slider } from "@mantine/core";
 import React, { useEffect, useState } from "react";
 
 // export const metadata = {
@@ -8,24 +10,57 @@ import React, { useEffect, useState } from "react";
 // }
 
 function Courses() {
+  const [allCourses, setAllCourses] = useState([]);
+  const [Rating, setRating] = useState(5);
+  const [Duration, setDuration] = useState();
+  const [Level_id, setLevel_id] = useState();
+  const [Topic, setTopic] = useState();
+  const [Language, setLanguage] = useState();
+  const [Price, setPrice] = useState();
+  const [AllTopic, setAllTopic] = useState();
 
 
-  const [allCourses, setAllCourses] = useState([])
-  
-  
   useEffect(() => {
-    FetchDataOFAllCourses()
-    console.log(allCourses);
-  }, [])
+    handelFilterCourses();
+    FetchDataOFHomePage();
+  }, []); 
 
-  
-  const FetchDataOFAllCourses= async () => {
-    const AllCourses = await getAllCourses();
-    if (!AllCourses) console.log(AllCourses?.message)
-    await setAllCourses(AllCourses.data)
+  const handelFilterCourses = async () => {
+    try {
+      const url = new URL(`https://education.aquadic.com/api/v1/users/courses`);
 
+      const params = {
+        rating:Rating,
+        duration: Duration,
+        level_id: Level_id,
+        topic: Topic,
+        language: Language,
+        price: Price,
+      };
+      Object.keys(params).forEach((key) =>
+        url.searchParams.append(key, params[key])
+      );
+      const res = await fetch(url, {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json",
+        },
+      });
+      const data = await res.json();
+      setAllCourses(data.data);
+    } catch (error) {
+      console.log("Error in Add New Category (service) =>", error);
+    }
+  };
+
+
+  const FetchDataOFHomePage= async () => {
+    const AllData = await getHomePage();
+  if (!AllData) console.log(AllData?.message)
+  setAllTopic(AllData.levels)
+  console.log(AllData);
   }
-  console.log(allCourses);
   return (
     <>
       <div className="courses container">
@@ -60,7 +95,7 @@ function Courses() {
                     />
                     <label
                       className="form-check-label optionStar"
-                      for="exampleRadios1"
+                      htmlFor="exampleRadios1"
                     >
                       <img src="./images/star.svg" alt="star" />
                       <p>4.5</p>
@@ -76,7 +111,7 @@ function Courses() {
                     />
                     <label
                       className="form-check-label optionStar"
-                      for="exampleRadios2"
+                      htmlFor="exampleRadios2"
                     >
                       <img src="./images/star.svg" alt="star" />
                       <p>4</p>
@@ -92,7 +127,7 @@ function Courses() {
                     />
                     <label
                       className="form-check-label optionStar"
-                      for="exampleRadios3"
+                      htmlFor="exampleRadios3"
                     >
                       <img src="./images/star.svg" alt="star" />
                       <p>3.5</p>
@@ -108,7 +143,7 @@ function Courses() {
                     />
                     <label
                       className="form-check-label optionStar"
-                      for="exampleRadios4"
+                      htmlFor="exampleRadios4"
                     >
                       <img src="./images/star.svg" alt="star" />
                       <p>3.5</p>
@@ -136,51 +171,19 @@ function Courses() {
                 data-bs-parent="#accordionFlushExample"
               >
                 <div className="accordion-body">
-                  <div className="form-check">
-                    <input
-                      className="form-check-input"
-                      type="checkbox"
-                      value=""
-                      id="flexCheckDefault"
-                    />
-                    <label className="form-check-label" for="flexCheckDefault">
-                      0-1 Hour
-                    </label>
-                  </div>
-                  <div className="form-check">
-                    <input
-                      className="form-check-input"
-                      type="checkbox"
-                      value=""
-                      id="flexCheckChecked"
-                      checked
-                    />
-                    <label className="form-check-label" for="flexCheckChecked">
-                      1-3 Hour
-                    </label>
-                  </div>
-                  <div className="form-check">
-                    <input
-                      className="form-check-input"
-                      type="checkbox"
-                      value=""
-                      id="flexCheckChecked2"
-                    />
-                    <label className="form-check-label" for="flexCheckChecked2">
-                      3-6 Hour
-                    </label>
-                  </div>
-                  <div className="form-check">
-                    <input
-                      className="form-check-input"
-                      type="checkbox"
-                      value=""
-                      id="flexCheckChecked3"
-                    />
-                    <label className="form-check-label" for="flexCheckChecked3">
-                      6-17 Hour
-                    </label>
-                  </div>
+                  <Checkbox.Group
+                    color="red"
+                    style={{ display: "flex", flexDirection: "column" }}
+                    onChange={setDuration}
+                  >
+                    <Group mt="xs">
+                      <Checkbox value="0-1" color="indigo" label="0-1 Hour" />
+                      <Checkbox value="2-4" color="indigo" label="2-4 Hour" />
+                      <Checkbox value="4-7" color="indigo" label="4-7 Hour" />
+                      <Checkbox value="7-17" color="indigo" label="7-17 Hour" />
+                    </Group>
+                  </Checkbox.Group>
+                  
                 </div>
               </div>
             </div>
@@ -203,51 +206,19 @@ function Courses() {
                 data-bs-parent="#accordionFlushExample"
               >
                 <div className="accordion-body">
-                  <div className="form-check">
-                    <input
-                      className="form-check-input"
-                      type="checkbox"
-                      value=""
-                      id="flexCheckDefault"
-                    />
-                    <label className="form-check-label" for="flexCheckDefault">
-                      0-1 Hour
-                    </label>
-                  </div>
-                  <div className="form-check">
-                    <input
-                      className="form-check-input"
-                      type="checkbox"
-                      value=""
-                      id="flexCheckChecked"
-                      checked
-                    />
-                    <label className="form-check-label" for="flexCheckChecked">
-                      1-3 Hour
-                    </label>
-                  </div>
-                  <div className="form-check">
-                    <input
-                      className="form-check-input"
-                      type="checkbox"
-                      value=""
-                      id="flexCheckChecked2"
-                    />
-                    <label className="form-check-label" for="flexCheckChecked2">
-                      3-6 Hour
-                    </label>
-                  </div>
-                  <div className="form-check">
-                    <input
-                      className="form-check-input"
-                      type="checkbox"
-                      value=""
-                      id="flexCheckChecked3"
-                    />
-                    <label className="form-check-label" for="flexCheckChecked3">
-                      6-17 Hour
-                    </label>
-                  </div>
+                <Checkbox.Group
+                    color="red"
+                    style={{ display: "flex", flexDirection: "column" }}
+                    onChange={setTopic}
+                  >
+                    <Group mt="xs">
+                      <Checkbox value="Web Design" color="indigo" label="Web Design" />
+                      <Checkbox value="Photoshop" color="indigo" label="Photoshop" />
+                      <Checkbox value="Mobile App Design" color="indigo" label="Mobile App Design" />
+                      <Checkbox value="Figma" color="indigo" label="Figma" />
+                      <Checkbox value="Sketch" color="indigo" label="Sketch" />
+                    </Group>
+                  </Checkbox.Group>
                 </div>
               </div>
             </div>
@@ -270,51 +241,23 @@ function Courses() {
                 data-bs-parent="#accordionFlushExample"
               >
                 <div className="accordion-body">
-                  <div className="form-check">
-                    <input
-                      className="form-check-input"
-                      type="checkbox"
-                      value=""
-                      id="flexCheckDefault"
-                    />
-                    <label className="form-check-label" for="flexCheckDefault">
-                      Level 1
-                    </label>
-                  </div>
-                  <div className="form-check">
-                    <input
-                      className="form-check-input"
-                      type="checkbox"
-                      value=""
-                      id="flexCheckChecked"
-                      checked
-                    />
-                    <label className="form-check-label" for="flexCheckChecked">
-                      Level 2
-                    </label>
-                  </div>
-                  <div className="form-check">
-                    <input
-                      className="form-check-input"
-                      type="checkbox"
-                      value=""
-                      id="flexCheckChecked2"
-                    />
-                    <label className="form-check-label" for="flexCheckChecked2">
-                      Level 3
-                    </label>
-                  </div>
-                  <div className="form-check">
-                    <input
-                      className="form-check-input"
-                      type="checkbox"
-                      value=""
-                      id="flexCheckChecked3"
-                    />
-                    <label className="form-check-label" for="flexCheckChecked3">
-                      Level 4
-                    </label>
-                  </div>
+                <Checkbox.Group
+                    color="red"
+                    style={{ display: "flex", flexDirection: "column" }}
+                    onChange={setLevel_id}
+                    
+                  >
+                    <Group mt="xs">
+                      {
+                        AllTopic.map((item)=>{
+                          return(
+                            <Checkbox key={item.id} value={`${item.id}`} color="indigo" label={item.name.en} />
+                          )
+                        })
+                      }
+                     
+                    </Group>
+                  </Checkbox.Group>
                 </div>
               </div>
             </div>
@@ -337,53 +280,78 @@ function Courses() {
                 data-bs-parent="#accordionFlushExample"
               >
                 <div className="accordion-body">
-                  <div className="form-check">
-                    <input
-                      className="form-check-input"
-                      type="checkbox"
-                      value=""
-                      id="flexCheckDefault"
-                    />
-                    <label className="form-check-label" for="flexCheckDefault">
-                      AR
-                    </label>
-                  </div>
-                  <div className="form-check">
-                    <input
-                      className="form-check-input"
-                      type="checkbox"
-                      value=""
-                      id="flexCheckChecked"
-                      checked
-                    />
-                    <label className="form-check-label" for="flexCheckChecked">
-                      EN
-                    </label>
-                  </div>
+                <Checkbox.Group
+                    color="red"
+                    style={{ display: "flex", flexDirection: "column" }}
+                    onChange={setLanguage}
+                  >
+                    <Group mt="xs">
+                      <Checkbox value="en" color="indigo" label="EN" />
+                      <Checkbox value="ar" color="indigo" label="AR" />
+                      
+                    </Group>
+                  </Checkbox.Group>
+                </div>
+              </div>
+            </div>
+            <div className="accordion-item">
+              <h2 className="accordion-header">
+                <button
+                  className="accordion-button collapsed"
+                  type="button"
+                  data-bs-toggle="collapse"
+                  data-bs-target="#flush-collapsesix"
+                  aria-expanded="false"
+                  aria-controls="flush-collapsesix"
+                >
+                  Price
+                </button>
+              </h2>
+              <div
+                id="flush-collapsesix"
+                className="accordion-collapse collapse"
+                data-bs-parent="#accordionFlushExample"
+              >
+                <div className="accordion-body">
+                  <Slider
+                    min={0}
+                    color="indigo"
+                    onChange={setPrice}
+                    thumbSize={22}
+                    max={1000}
+                    labelAlwaysOn
+                  />
                 </div>
               </div>
             </div>
           </div>
+          <button
+            className="btn_page"
+            onClick={(e) => {
+              e.preventDefault();
+              handelFilterCourses();
+            }}
+          >
+            Apply
+          </button>
         </div>
         <div className="part2">
           <h2>User Experience Design Courses</h2>
           <div className="fillter_Courses">
-            {
-              allCourses?.map((course)=>{
-                return(
-<ItemCourse2
- key={course.id}
- id={course.id}
- title={course.name.en}
- imageCourse={course.image.url}
- star="4.8"
- dec={course.instructor.name}
- newsalary={course.price?"EG "+course.price:"free"}
-            />
-                )
-              })
-            }
-             
+            {allCourses?.map((course) => {
+              return (
+                <ItemCourse2
+                  key={course.id}
+                  id={course.id}
+                  title={course.name.en}
+                  imageCourse={course.image.url}
+                  star="4.8"
+                  dec={course.instructor.name}
+                  newsalary={course.price ? "EG " + course.price : "free"}
+                />
+              );
+            })}
+
             <ItemCourse2
               title="Learn python: The Complete Python Programming Course"
               image="1"
@@ -394,7 +362,6 @@ function Courses() {
               oldsalary="E£679.99"
               newsalary="E£1,599.99"
             />
-           
           </div>
         </div>
       </div>

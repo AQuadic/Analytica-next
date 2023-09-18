@@ -90,39 +90,4 @@ export const getOneCourse = async (e) => {
 };
 
 
-export const getFilterCourses = async (rating,duration,level_id,language) => {
-  try {
-    const url = new URL(
-      `https://education.aquadic.com/api/v1/users/courses`
-  );
-  
-  const params = {
-    "rating":5,
-    "duration":900,
-    "level_id":12 ,
-    "language": "en"
-  };
-  Object.keys(params)
-      .forEach(key => url.searchParams.append(key, params[key]));
 
-
-
-
-
-    const res = await fetch(
-     url,
-      {
-        method: "GET",
-        headers: {
-         
-          "Content-Type": "application/json",
-          Accept: "application/json",
-        },
-      }
-    );
-    const data = await res.json();
-    return data;
-  } catch (error) {
-    console.log("Error in Add New Category (service) =>", error);
-  }
-};
