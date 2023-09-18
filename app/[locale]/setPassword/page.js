@@ -8,7 +8,7 @@ function page() {
    <>
    <CSetPassword/>
    </>
-  )
+  ) 
 }
 
 export default page

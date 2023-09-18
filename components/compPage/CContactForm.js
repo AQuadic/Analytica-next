@@ -98,6 +98,26 @@ const router = useRouter()
       })
       .catch((res) => {
         /*  setLoading(false);*/
+        res.response.data.errors?.name
+          ? setErrorName(res.response.data.errors.name[0])
+          : setErrorName("");
+        res.response.data.errors?.email
+          ? setErroremail(res.response.data.errors.email[0])
+          : setErroremail("");
+        res.response.data.errors?.password
+          ? setErrorpassword(res.response.data.errors.password[0])
+          : setErrorpassword("");
+        res.response.data.errors?.phone
+          ? setErrorPhone(res.response.data.errors.phone[0])
+          : setErrorPhone("");
+          res.response.data.errors?.category_id
+          ? setErrorCategory(res.response.data.errors.category_id[0])
+          : setErrorCategory("");
+          res.response.data.errors?.language
+          ? setErrorLanguage(res.response.data.errors.language[0])
+          : setErrorLanguage("");
+        
+        
        
         console.log(res);
       });
@@ -159,12 +179,12 @@ const router = useRouter()
                   className="form-control"
                   value={phone}
                   onChange={setPhone}
+                  
                 />
                 {ErrorPhone && (
               <p
                 style={{
                   color: "red",
-                  textAlign: "center",
                   fontSize: "12px",
                   marginTop: "4px",
                 }}
@@ -203,6 +223,7 @@ const router = useRouter()
                   placeholder={t2("selectLanguage")}
                   onChange={setLanguage}
                   error={ErrorLanguage}
+                  value={language}
                   data={[
                     { value: "en", label: "EN" },
                     { value: "ar", label: "AR" },
@@ -214,6 +235,7 @@ const router = useRouter()
                   label={t("category")}
                   placeholder={t2("selectCategory")}
                   onChange={setCategory}
+                  value={category}
                   error={ErrorCategory}
                   data={categories}
                 />

@@ -2,7 +2,7 @@
 import { useTranslations } from "next-intl";
 import React, { useEffect, useState } from "react";
 import { getHomePage } from "../useAPI/GetUser";
-import { Select } from "@mantine/core";
+import { Group, Radio, Select } from "@mantine/core";
 
 
 function CCheckOut() {
@@ -10,6 +10,10 @@ function CCheckOut() {
   const t2 = useTranslations("Sign");
   const [data, setData] = useState([]);
   const [country_id, setCountry_id] = useState();
+  const [payment, setPayment] = useState('credit');
+  console.log('====================================');
+  console.log(payment);
+  console.log('====================================');
   //error
   const [ErrorCountry, setErrorCountry] = useState("");
   useEffect(() => {
@@ -51,31 +55,22 @@ function CCheckOut() {
             </div>
             <h3>{t('paymentMethod')}</h3>
             <div className="part">
-              <div className="form-check">
-                <input
-                  className="form-check-input"
-                  type="radio"
-                  name="exampleRadios"
-                  id="exampleRadios1"
-                  value="option1"
-                  checked
-                />
-                <label className="form-check-label" for="exampleRadios1">
-                  Credit / Debit Card
-                </label>
-              </div>
-              <div className="form-check">
-                <input
-                  className="form-check-input"
-                  type="radio"
-                  name="exampleRadios"
-                  id="exampleRadios2"
-                  value="option2"
-                />
-                <label className="form-check-label" for="exampleRadios2">
-                  PayPal
-                </label>
-              </div>
+           
+            <Radio.Group
+      name="favoriteFramework"
+      withAsterisk
+      onChange={setPayment}
+      value={payment}
+    >
+      <Group mt="xs">
+        <Radio value="credit" label="Credit / Debit Card" />
+        <Radio value="payPal" label="PayPal" />
+       
+      </Group>
+    </Radio.Group>
+           
+           
+             
             </div>
             <h3>{t('discountCode')}</h3>
             <div className="part apply">

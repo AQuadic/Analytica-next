@@ -83,7 +83,7 @@ setErrorMessage("")
   const body = new FormData();
   body.append('name', name);
   body.append('email', email);
-  body.append('image', selectedFile);
+  changeImage?body.append('image', selectedFile):null;
   body.append('phone', phone);
   body.append('phone_country', phone_country);
   const po = axios

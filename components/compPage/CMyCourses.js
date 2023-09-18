@@ -57,6 +57,8 @@ console.log(myCourses);
               imageCourse={course.image.url}
               Myprogress={true}
               numProgress="42%"
+              key={course.id}
+              id={course.id}
             />
                 )
               })

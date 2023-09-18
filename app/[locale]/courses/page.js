@@ -257,15 +257,15 @@ function Courses() {
                   className="accordion-button collapsed"
                   type="button"
                   data-bs-toggle="collapse"
-                  data-bs-target="#flush-collapsethree"
+                  data-bs-target="#flush-collapsefour"
                   aria-expanded="false"
-                  aria-controls="flush-collapsethree"
+                  aria-controls="flush-collapsefour"
                 >
                   Level
                 </button>
               </h2>
               <div
-                id="flush-collapsethree"
+                id="flush-collapsefour"
                 className="accordion-collapse collapse"
                 data-bs-parent="#accordionFlushExample"
               >
@@ -324,15 +324,15 @@ function Courses() {
                   className="accordion-button collapsed"
                   type="button"
                   data-bs-toggle="collapse"
-                  data-bs-target="#flush-collapsethree"
+                  data-bs-target="#flush-collapsefive"
                   aria-expanded="false"
-                  aria-controls="flush-collapsethree"
+                  aria-controls="flush-collapsefive"
                 >
                   Language
                 </button>
               </h2>
               <div
-                id="flush-collapsethree"
+                id="flush-collapsefive"
                 className="accordion-collapse collapse"
                 data-bs-parent="#accordionFlushExample"
               >

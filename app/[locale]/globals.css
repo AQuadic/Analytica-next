@@ -1,4 +1,3 @@
-
 * {
   box-sizing: border-box;
   padding: 0;
@@ -10,8 +9,8 @@ body {
   max-width: 100vw;
   overflow-x: hidden;
 }
-main{
-  min-height:430px ;
+main {
+  min-height: 430px;
 }
 a {
   color: inherit;
@@ -24,7 +23,7 @@ a {
   box-sizing: border-box;
   font-family: "DM Sans2";
 }
- 
+
 input::placeholder {
   font-family: "DM Sans3";
 }
@@ -1015,7 +1014,7 @@ html[dir="rtl"] .accordion-button::after {
 }
 html[dir="rtl"] .form-check .form-check-input {
   float: right;
-  
+
   margin-right: -1.5em;
 }
 .accordion-button:not(.collapsed)::after {
@@ -1530,8 +1529,34 @@ html[dir="rtl"] .coursesDetails .part3 .img_box {
   line-height: 21px;
   margin-bottom: 8px;
 }
+.rtl .checkOut .part1 form label {
+  padding-left: 0rem;
+  padding-right: 0.75rem;
+}
 .checkOut .part1 form .part {
   margin-bottom: 36px;
+}
+.checkOut .part1 form .part .mantine-Group-root {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-start;
+  gap: 6px;
+}
+.checkOut .part1 form .part .mantine-Radio-radio {
+  width: 16px;
+  height: 16px;
+}
+.mantine-Radio-icon {
+  width: 0.44rem;
+  height: 0.44rem;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) !important;
+}
+.mantine-Radio-radio:checked {
+  background-color: #1f2265;
+  border-color: #1f2265;
 }
 .checkOut .part1 form .form-check-label {
   font-size: 16px;
@@ -2157,7 +2182,8 @@ html[dir="rtl"] .become2 .img_become {
   background-color: #1f2265;
   border-color: #1f2265;
 }
-.form_page .form-select ,.mantine-Select-input{
+.form_page .form-select,
+.mantine-Select-input {
   font-size: 14px;
   line-height: 25px;
   color: #383838;
@@ -2167,7 +2193,8 @@ html[dir="rtl"] .become2 .img_become {
   background-color: transparent;
   min-height: 46px;
 }
-.form-select ,.mantine-Select-input {
+.form-select,
+.mantine-Select-input {
   padding: 8px 16px;
   background-position: right 0.75rem center;
 }
@@ -2370,7 +2397,8 @@ html[dir="rtl"] .form-check {
   padding: 0;
 }
 
-.account_info .part1 ul li a ,.account_info .part1 ul li button {
+.account_info .part1 ul li a,
+.account_info .part1 ul li button {
   font-size: 16px;
   line-height: 21px;
   font-family: "DM Sans3";
@@ -2484,18 +2512,18 @@ html[dir="rtl"] .Profile .btn_page {
   cursor: pointer;
 }
 
-.Profile .img_persone .inputfile input{
+.Profile .img_persone .inputfile input {
   position: absolute;
   z-index: 55;
   opacity: 0;
   cursor: pointer;
 }
-.Profile .img_persone .inputfile img{
+.Profile .img_persone .inputfile img {
   position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    cursor: pointer;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  cursor: pointer;
 }
 .Profile .sessions {
 }

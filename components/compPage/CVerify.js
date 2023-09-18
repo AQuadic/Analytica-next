@@ -10,6 +10,7 @@ function CVerify() {
   const router = useRouter()
   const t = useTranslations("Sign");
   const [otp, setOtp] = useState("");
+  const [ErrorMessage, setErrorMessage] = useState("");
   const clearOtp = () => {
     setOtp("");
   };
@@ -70,6 +71,9 @@ function CVerify() {
       })
       .catch((res) => {
         console.log(res);
+        res.response.data?.message
+        ? setErrorMessage(res.response.data.message)
+        : setErrorMessage("");
       });
   };
 
@@ -107,10 +111,20 @@ function CVerify() {
               value={t("verify")}
               onClick={(e)=>{e.preventDefault();handelVerify()}}
             />
+             {ErrorMessage && (
+              <p
+                style={{
+                  color: "red",
+                  textAlign: "center",
+                  fontSize: "12px",
+                  marginTop: "4px",
+                }}
+              >
+                {ErrorMessage}
+              </p>
+            )}
           </form>
-          {/* <button  type="button" disabled={otp.trim() === ''} onClick={clearOtp}>
-                Clear
-  </button>*/}
+         
         </div>
       </section>
     </>

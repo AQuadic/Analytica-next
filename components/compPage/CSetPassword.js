@@ -1,25 +1,44 @@
 "use client";
+import { PasswordInput } from "@mantine/core";
 import axios from "axios";
 import Cookies from "js-cookie";
 import { useTranslations } from "next-intl";
+import { useRouter } from "next/navigation";
 import React, { useState } from "react";
 
 function CSetPassword() {
   const t = useTranslations('Sign');
   const [password, setpassword] = useState("");
   const [passwordConfirmation, setPasswordConfirmation] = useState("");
+  const [Erroremail, setErroremail] = useState("");
+  const [Errorpassword, setErrorpassword] = useState("");
+  const [ErrorpasswordConfirmation, setErrorpasswordConfirmation] = useState("");
+  const [ErrorMessage, setErrorMessage] = useState("");
 
-
+  const router = useRouter();
+if(!Cookies.get("reset_token")){
+  router.push('/forgetPassword')
+}
 
   const handelForgetPass = () => {
-    
+    setErroremail("")
+setErrorpassword("")
+ setErrorMessage("")
+ setErrorpasswordConfirmation("")
+   
+    if(password!==passwordConfirmation||!password){
+      setErrorpasswordConfirmation("The password confirmation does not match.")
+    }else{
+      setErrorpasswordConfirmation("")
+    }
     const po = axios
       .post(
         "https://education.aquadic.com/api/v1/users/auth/change_password",
         {
           "reset_token": Cookies.get("reset_token"),
-          "current_password": password,
-    "password_confirmation": passwordConfirmation
+          "password": password,
+    "password_confirmation": passwordConfirmation,
+    "email":Cookies.get("email")
         },
         {
           headers: {
@@ -31,19 +50,20 @@ function CSetPassword() {
       .then((res) => {
        console.log(res);
        router.push('/signIn');
-
+       Cookies.remove("reset_token")
+       Cookies.remove("email")
       })
       .catch((res) => {
-      /*  setLoading(false);
-        res.response.data.email
-          ? setErroremail(res.response.data.email[0])
+      /*  setLoading(false);*/
+        res.response.data.errors?.email
+          ? setErroremail(res.response.data.errors.email[0])
           : setErroremail("");
-        res.response.data.password
-          ? setErrorpassword(res.response.data.password[0])
+        res.response.data.errors?.password
+          ? setErrorpassword(res.response.data.errors.password[0])
           : setErrorpassword("");
-        res.response.data.error
-          ? setError(res.response.data.error)
-          : setError("");*/
+          res.response.data?.message
+          ? setErrorMessage(res.response.data.message)
+          : setErrorMessage("");
           console.log(res);
       });
   };
@@ -62,31 +82,40 @@ function CSetPassword() {
 
           <form className="row g-4 form_page">
             <div className="col-md-12">
-              <label htmlFor="inputPassword" className="form-label">
-              {t('newPassword')}
-              </label>
-              <input
-                type="password"
-                className="form-control"
-                id="inputPassword"
-                placeholder= {t('enterNew')}
-                onChange={(e)=>setpassword(e.target.value)}
-              />
+
+            <PasswordInput
+                  variant="unstyled"
+                  placeholder= {t('enterNew')}
+                  label={t('newPassword')}
+                  error={Errorpassword}
+                  onChange={(e) => setpassword(e.target.value)}
+                  
+                />
             </div>
             <div className="col-md-12">
-              <label htmlFor="inputPassword2" className="form-label">
-              {t('confirmNew')}
-              </label>
-              <input
-                type="password"
-                className="form-control"
-                id="inputPassword2"
-                placeholder= {t('enterAgain')}
-                onChange={(e)=>setPasswordConfirmation(e.target.value)}
-              />
+            <PasswordInput
+                  variant="unstyled"
+                  placeholder= {t('enterAgain')}
+                  label={t('confirmNew')}
+                  onChange={(e) => setPasswordConfirmation(e.target.value)}
+                  error={ErrorpasswordConfirmation}
+                />
+             
             </div>
 
-            <input type="submit" value={t('confirm')} className="btn_page" />
+            <input type="submit" value={t('confirm')} onClick={(e)=>{e.preventDefault();handelForgetPass()}} className="btn_page" />
+            {ErrorMessage && (
+              <p
+                style={{
+                  color: "red",
+                  textAlign: "center",
+                  fontSize: "12px",
+                  marginTop: "4px",
+                }}
+              >
+                {ErrorMessage}
+              </p>
+            )}
           </form>
         </div>
       </section>
