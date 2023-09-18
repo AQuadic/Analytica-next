@@ -154,7 +154,7 @@ onChange={(e)=>setCode(e.target.value)}
         </div>
         <div className="part2">
           <h3>{t('summary')}</h3>
-          <h4>{t('fundamentals')}</h4>
+          <h4>{course.name.en}</h4>
           <ul>
             <li>
               <h5>{t('originalPrice')}</h5>

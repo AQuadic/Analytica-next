@@ -17,7 +17,7 @@ function Courses() {
   const [Topic, setTopic] = useState();
   const [Language, setLanguage] = useState();
   const [Price, setPrice] = useState();
-  const [AllTopic, setAllTopic] = useState();
+  const [AllTopic, setAllTopic] = useState([]);
 
 
   useEffect(() => {
