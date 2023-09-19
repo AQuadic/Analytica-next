@@ -48,9 +48,23 @@ let headersToken = {
         console.log('Error in Add New Category (service) =>', error);
     }
   }
-  
-
-
+  export const getHomeSections = async () => {
+    try {
+        const res = await fetch(`https://education.aquadic.com/api/v1/meta/home_sections`, {
+            method: 'GET',
+            headers:{
+              
+                 "Content-Type": "application/json",
+                 Accept: "application/json",
+                 
+               },
+        },);
+        const data = await res.json();
+        return data;
+    } catch (error) {
+        console.log('Error in Add New Category (service) =>', error);
+    }
+  }
   export const getInstractor = async (e) => {
     try {
         const res = await fetch(`https://education.aquadic.com/api/v1/users/instructors/${e}`, {

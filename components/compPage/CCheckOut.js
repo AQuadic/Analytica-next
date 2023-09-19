@@ -8,9 +8,13 @@ import { getOneCourse } from "../useAPI/CorsesApi/GetCourses";
 import { getHomePage } from "../useAPI/GetUser";
 import axios from "axios";
 import Cookies from "js-cookie";
+import Link from "next/link";
+import { useRecoilState } from "recoil";
+import { navState } from "@/atoms";
 
 
 function CCheckOut() {
+  const [IsUser, setIsUser] = useRecoilState(navState);
   const t = useTranslations("CheckOut");
   const [paymentValue, setPayment] = useState("1");
   const [payment_methods, setPayment_methods] = useState([]);
@@ -30,11 +34,16 @@ useEffect(() => {
 }, []);
 const FetchDataOFOneCourse = async () => {
   const Courses = await getOneCourse(CoursesID);
-  if (!Courses) console.log(Courses?.message);
-  setCourse(Courses);
-  setPrice(Courses.price)
- 
+  if (!Courses) router.push('/courses');
+  if (!Courses.id){
+    router.push('/courses')
+  }else{
+    setCourse(Courses);
+    console.log(Courses);
+    setPrice(Courses.price)
+  }
 };
+
 const FetchDataOFHomePage= async () => {
   const AllData = await getHomePage();
 if (!AllData) console.log(AllData?.message)
@@ -74,7 +83,9 @@ const handelCoupons = () => {
 
 
 const handelCheckOut = () => {
- 
+ if(!IsUser){
+router.push('/signIn')
+ }else{
   const po = axios
     .post(
       "https://education.aquadic.com/api/v1/users/purchase/purchase",
@@ -98,16 +109,15 @@ router.push(res.data.payment_link)
     })
     .catch((res) => {
     /*  setLoading(false);*/
-   
         console.log(res);
     });
+  }
 };
-
   return (
   
     <>
     {
-      course? <>
+        course? <>
        <div className="checkOut container">
         <div className="part1">
           <h2>{t('title')}</h2>
@@ -177,7 +187,9 @@ onChange={(e)=>setCode(e.target.value)}
           </button>
         </div>
       </div>
-      </> :<></>
+      </> :<>
+     
+      </>
     }
      
     </>
