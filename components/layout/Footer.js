@@ -30,7 +30,7 @@ const [pages ,setPage]= useState([])
       <div className="fotter_content">
         <div className="head">
           <h1>
-            <Link href="/"><img src="/images/logo.svg" alt="logo" /></Link>
+            <Link href="/"><img src="/images/Logo.svg" alt="logo" /></Link>
           </h1>
           <p>
            {t('footerTitle')}

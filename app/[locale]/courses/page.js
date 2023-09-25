@@ -338,7 +338,7 @@ function Courses() {
         <div className="part2">
           <h2>User Experience Design Courses</h2>
           <div className="fillter_Courses">
-            {allCourses?.map((course) => {
+            {allCourses?.filter((item)=>item.is_active!=0).map((course) => {
               return (
                 <ItemCourse2
                   key={course.id}

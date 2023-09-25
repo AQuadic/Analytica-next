@@ -4,10 +4,7 @@ import React, { useEffect, useState } from "react";
 import Link from "next/link";
 import ItemCourse from "@/components/ItemCourse";
 import {
-  getDevices,
-  getHomePage,
   getHomeSections,
-  getUser,
 } from "@/components/useAPI/GetUser";
 import {
   getAllCourses,
@@ -33,6 +30,7 @@ export default function Home({ params: { locale } }) {
     if (IsUser) {
       FetchDataOFAllCoursesWithUser();
       // FetchDataOFDevices()
+      console.log("yes user");
     }
     if (!IsUser) {
       FetchDataOFAllCourses();
@@ -45,16 +43,22 @@ export default function Home({ params: { locale } }) {
     setAllCourses(AllCourses.data);
   };
 
+
   const FetchDataOFAllCoursesWithUser = async () => {
     const AllCourses = await getAllCoursesWithUser();
     if (!AllCourses) console.log(AllCourses?.message);
     setAllCourses(AllCourses.data);
   };
+  console.log(allCourses);
+
+  console.log(homeData);
   const FetchDataOFHomePage = async () => {
     const AllData = await getHomeSections();
     if (!AllData) console.log(AllData?.message);
     setHomeData(AllData);
   };
+
+  
 
   return (
     <main className={styles.main}>
@@ -101,7 +105,7 @@ export default function Home({ params: { locale } }) {
               published every month
             </p>
             <div className="allServices">
-              {allCourses.map((course) => {
+              {allCourses.filter((item)=>item.is_active!=0).map((course) => {
                 return (
                   <ItemCourse
                     key={course.id}
@@ -178,7 +182,7 @@ export default function Home({ params: { locale } }) {
                     {part.description && part.description?.en}
                   </p>
                   <div className="allServices">
-                    {part.courses.map((course) => {
+                    {part.courses.filter((item)=>item.is_active!=0).map((course) => {
                       return (
                         <ItemCourse
                           key={course.id}

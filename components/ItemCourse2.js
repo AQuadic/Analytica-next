@@ -30,7 +30,7 @@ function ItemCourse2({title,star,dec,oldsalary,newsalary,image,info,imageCourse,
         <div className="head">
         <h3>{title}</h3>
           <div className="Star">
-            <img src="./images/star.svg" alt="star" />
+            <img src="/images/star.svg" alt="star" />
             <p>{star}</p>
           </div>
         </div>
