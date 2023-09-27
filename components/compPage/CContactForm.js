@@ -7,6 +7,7 @@ import PhoneInput from "react-phone-number-input";
 import { getHomePage } from "../useAPI/GetUser";
 import axios from "axios";
 import { useRouter } from "next/navigation";
+import api from '../../app/[locale]/api';
 
 function CContactForm() {
   const t = useTranslations("Teach");
@@ -70,9 +71,9 @@ const router = useRouter()
     setErrorWhatsapp("");
     setErrorMessage("");
 
-    const po = axios
+    const po = api
       .post(
-        "https://education.aquadic.com/api/v1/instructors/auth/signup",
+        "/api/v1/instructors/auth/signup",
         {
           name: name,
           email: email,

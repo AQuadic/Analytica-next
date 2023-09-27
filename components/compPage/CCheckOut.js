@@ -11,6 +11,7 @@ import Cookies from "js-cookie";
 import Link from "next/link";
 import { useRecoilState } from "recoil";
 import { navState } from "@/atoms";
+import api from '../../app/[locale]/api';
 
 
 function CCheckOut() {
@@ -52,9 +53,9 @@ setPayment_methods(AllData.payment_methods)
 
 const handelCoupons = () => {
  
-  const po = axios
+  const po = api
     .post(
-      "https://education.aquadic.com/api/v1/users/coupons/check",
+      "/api/v1/users/coupons/check",
       {
         "code": code,
         "course_id": CoursesID
@@ -86,9 +87,9 @@ const handelCheckOut = () => {
  if(!IsUser){
 router.push('/signIn')
  }else{
-  const po = axios
+  const po = api
     .post(
-      "https://education.aquadic.com/api/v1/users/purchase/purchase",
+      "/api/v1/users/purchase/purchase",
       {
         "course_id": CoursesID,
         "payment_method_id": paymentValue,

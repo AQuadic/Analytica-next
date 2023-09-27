@@ -1,14 +1,48 @@
 import React from 'react'
+import Slider from 'react-slick'
 
 function Swiper1() {
-  
+  var settings = {
+    dots: true,
+    infinite: true,
+    speed: 500,
+    slidesToShow: 3,
+    slidesToScroll: 1,
+    responsive: [
+    
+      {
+        breakpoint: 600,
+        settings: {
+          slidesToShow: 2,
+        },
+      },
+    ],
+  };
+  var settings2 = {
+    dots: true,
+    arrows:false,
+    infinite: true,
+    speed: 500,
+    slidesToShow: 2,
+    slidesToScroll: 1,
+    responsive: [
+    
+      {
+        breakpoint: 1000,
+        settings: {
+          slidesToShow: 1,
+        },
+      },
+    ],
+  };
   return (
    <>
     <section className="photosSection m80">
       <h2>Photos Section</h2>
       <div className="allPhoto container">
         <div className="responsive">
-          <div className="item">
+        <Slider {...settings}>
+        <div className="item">
             <img src="/images/instructorScreen/photo1.webp" alt="photosSection" />
           </div>
           <div className="item">
@@ -23,13 +57,16 @@ function Swiper1() {
           <div className="item">
             <img src="/images/instructorScreen/photo1.webp" alt="photosSection" />
           </div>
+        </Slider>
+        
         </div>
       </div>
     </section>
     <section className="testimonials container m80">
       <h2>Photos Section</h2>
       <div className="testimonialsSlide">
-        <div className="item">
+      <Slider {...settings2}>
+      <div className="item">
           <div className="content">
             <p>
               Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
@@ -57,6 +94,8 @@ function Swiper1() {
             </div>
           </div>
         </div>
+      </Slider>
+        
       </div>
     </section>
    </>

@@ -111,9 +111,9 @@ export default function Home({ params: { locale } }) {
                     key={course.id}
                     id={course.id}
                     title={course.name.en}
-                    imageCourse={course.image.url}
+                    imageCourse={course.image?.url}
                     star="4.8"
-                    dec={course.instructor.name}
+                    dec={course.instructor?.name}
                     newsalary={course.price ? "EG " + course.price : "free"}
                   />
                 );
@@ -169,8 +169,7 @@ export default function Home({ params: { locale } }) {
           </div>
         </section>
         {homeData &&
-          homeData
-            .filter((item) => item.courses.length !== 0)
+          homeData.filter((item) => item.courses.length !== 0)
             .map((part) => {
               return (
                 <section

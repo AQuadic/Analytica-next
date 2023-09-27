@@ -21,13 +21,12 @@ function Layout({children,lang}) {
     {
       isClintUrl?
        <>
-    
+    <Script async src='/js/jquery-3.6.1.min.js'/>
+      
         <Navbar2/>
        {children}
         <Footer2/> 
-        <Script async src='/js/jquery-3.6.1.min.js'/>
-        <Script async src='/js/slick.min.js'/>
-        <Script async src='/js/funSlick.js' />
+        
         </> 
       :
       <>

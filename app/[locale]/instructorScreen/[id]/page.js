@@ -2,25 +2,40 @@
 import FAQ from "@/components/FAQ";
 import ItemCourse from "@/components/ItemCourse";
 import Swiper1 from "@/components/Swiper1";
+import { getOneInstractor } from "@/components/useAPI/GetUser";
 import Cookies from "js-cookie";
 import React, { useEffect, useState } from "react";
 
 function page({ params }) {
-  const [instractor, setInstractor] = useState();
+Cookies.set("nameUrl",params.id)
+  const [instractor, setInstractor] = useState([]);
 console.log(params);
   useEffect(() => {
     FetchDataOFInstractorInfo();
   }, []);
   const FetchDataOFInstractorInfo = async () => {
-    const InstractorInfo = await getInstractor(params.id);
+    const InstractorInfo = await getOneInstractor(params.id);
     if (!InstractorInfo) console.log(InstractorInfo?.message);
     setInstractor(InstractorInfo);
   };
 console.log(instractor);
 
+
+
+
+const result = instractor?.courses&&Object.groupBy(instractor?.courses, ({ category }) => category.name.ar);
+
+console.log(result);
+if(result){
+  for (let [key, value] of Object.entries(result)) {
+    console.log(key, value);
+  }
+}
+
   return (
+    instractor&&
     <>
-      <section className="instructor_head m80">
+      {/* <section className="instructor_head m80">
         <h1>Design Thinking for Beginners: Develop Innovative Ideas</h1>
         <p>
           Apply the five-step design thinking process to identify and creatively
@@ -29,19 +44,19 @@ console.log(instractor);
         <a href="" className="btn_page3" style={{ display: "none" }}>
           Start Now
         </a>
-      </section>
+      </section> */}
 
       <section className="instructor_about container m80">
         <div className="content">
           <div className="instructor_user">
-            <img src="./images/persone.webp" alt="user" />
-            <h2>Muhammed Ahmed</h2>
-            <p>UI UX Designer</p>
+            <img src={instractor.image?instractor.image.url:"/images/persone.webp"} alt="user" />
+            <h2>{instractor.name}</h2>
+            
           </div>
           <div className="instructor_info">
             <h3>INSTRUCTOR</h3>
             <p>
-              Hello ,i'm Muhammed Ahmed ,UI/UX Designer and ui Developer .I have
+              Hello ,i'm {instractor.name} ,UI/UX Designer and ui Developer .I have
               worked in web interface design and mobile application design .I
               also worked in the graphic design field for several years.., also
               worked as an instructor ,, explaining the design approach and user
@@ -56,7 +71,7 @@ console.log(instractor);
         <div className="container">
           <div className="content">
             <div className="part1">
-              <img src="./images/instructorScreen/about1.webp" alt="about1" />
+              <img src="/images/instructorScreen/about1.webp" alt="about1" />
             </div>
             <div className="instructor_info">
               <h3>TITLE</h3>
@@ -107,100 +122,43 @@ console.log(instractor);
           </div>
         </div>
       </section>
+     {
+      result&&
+      Object.entries(result).map(obj => {
+        const key   = obj[0];
+        const value = obj[1];
+     return(
       <section className="services services2 container m80">
-        <h2>Graphic Courses</h2>
-        <div className="allServices">
-          <ItemCourse
-            link2="/instructorScreen/courseDetails"
-            title="Learn python: The Complete Python Programming Course"
-            image="21"
-            star="4.8"
-            dec="Avinash jain, The Codex"
-            oldsalary="E£679.99"
-            newsalary="E£1,599.99"
-          />
-          <ItemCourse
-            link2="/instructorScreen/courseDetails"
-            title="Learn python: The Complete Python Programming Course"
-            image="22"
-            star="4.8"
-            dec="Avinash jain, The Codex"
-            newsalary="E£1,599.99"
-          />
-          <ItemCourse
-            link2="/instructorScreen/courseDetails"
-            title="Learn python: The Complete Python Programming Course"
-            image="23"
-            star="4.8"
-            dec="Avinash jain, The Codex"
-            newsalary="E£1,599.99"
-          />
-          <ItemCourse
-            link2="/instructorScreen/courseDetails"
-            title="Learn python: The Complete Python Programming Course"
-            image="24"
-            star="4.8"
-            dec="Avinash jain, The Codex"
-            newsalary="E£1,599.99"
-          />
-        </div>
-      </section>
-      <section className="services services2 container m80">
-        <h2>UI UX Courses</h2>
-        <div className="allServices">
-          <ItemCourse
-            link2="/instructorScreen/courseDetails"
-            title="Learn python: The Complete Python Programming Course"
-            image="25"
-            star="4.8"
-            dec="Avinash jain, The Codex"
-            oldsalary="E£679.99"
-            newsalary="E£1,599.99"
-          />
-          <ItemCourse
-            link2="/instructorScreen/courseDetails"
-            title="Learn python: The Complete Python Programming Course"
-            image="26"
-            star="4.8"
-            dec="Avinash jain, The Codex"
-            newsalary="E£1,599.99"
-          />
-          <ItemCourse
-            link2="/instructorScreen/courseDetails"
-            title="Learn python: The Complete Python Programming Course"
-            image="27"
-            star="4.8"
-            dec="Avinash jain, The Codex"
-            newsalary="E£1,599.99"
-          />
-          <ItemCourse
-            link2="/instructorScreen/courseDetails"
-            title="Learn python: The Complete Python Programming Course"
-            image="24"
-            star="4.8"
-            dec="Avinash jain, The Codex"
-            oldsalary="E£679.99"
-            newsalary="E£1,599.99"
-          />
-          <ItemCourse
-            link2="/instructorScreen/courseDetails"
-            title="Learn python: The Complete Python Programming Course"
-            image="27"
-            star="4.8"
-            dec="Avinash jain, The Codex"
-            newsalary="E£1,599.99"
-          />
-          <ItemCourse
-            link2="/instructorScreen/courseDetails"
-            title="Learn python: The Complete Python Programming Course"
-            image="24"
-            star="4.8"
-            dec="Avinash jain, The Codex"
-            oldsalary="E£679.99"
-            newsalary="E£1,599.99"
-          />
-        </div>
-      </section>
+      <h2>{key}</h2>
+      <div className="allServices">
+        {
+          value?.map((item)=>{
+            return(
+              <ItemCourse
+              link2={`/instructorScreen/courseDetails/${item.id}`}
+              title={item.name.ar}
+              image="21"
+              imageCourse={item.image?.url}
+              star="4.8"
+              dec={instractor.name}
+             id={item.id}
+              newsalary={item.price}
+            />
+            )
+          })
+        }
+       
+       
+       
+      </div>
+    </section>
+     )
+        // do whatever you want with those values.
+     })
+      
+     }
+     
+      
       <Swiper1 />
       <FAQ />
     </>

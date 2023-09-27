@@ -5,6 +5,7 @@ import Cookies from "js-cookie";
 import { useTranslations } from "next-intl";
 import { useRouter } from "next/navigation";
 import React, { useState } from "react";
+import api from '../../app/[locale]/api';
 
 
 
@@ -18,9 +19,9 @@ console.log(email);
   const handelForgetPass = () => {
     setErroremail("")
  setErrorMessage("")
-    const po = axios
+    const po = api
       .post(
-        "https://education.aquadic.com/api/v1/users/auth/forgot",
+        "/api/v1/users/auth/forgot",
         {
           email: email,
         },

@@ -1,5 +1,5 @@
 import Cookies from "js-cookie";
-
+import { BASE_URL } from '../../../app/[locale]/api';
 let headersToken = {
   Authorization: `Bearer ${Cookies.get("token")} `,
   "Content-Type": "application/json",
@@ -14,7 +14,7 @@ let headers = {
 export const getMyCourses = async () => {
   try {
     const res = await fetch(
-      `https://education.aquadic.com/api/v1/users/courses/mine`,
+      `${BASE_URL}/api/v1/users/courses/mine`,
       {
         method: "GET",
         headers: {
@@ -34,7 +34,7 @@ export const getMyCourses = async () => {
 export const getAllCourses = async () => {
   try {
     const res = await fetch(
-      `https://education.aquadic.com/api/v1/users/courses`,
+      `${BASE_URL}/api/v1/users/courses`,
       {
         method: "GET",
         headers: {
@@ -53,7 +53,7 @@ export const getAllCourses = async () => {
 export const getAllCoursesWithUser = async () => {
   try {
     const res = await fetch(
-      `https://education.aquadic.com/api/v1/users/courses`,
+      `${BASE_URL}/api/v1/users/courses`,
       {
         method: "GET",
 
@@ -73,7 +73,7 @@ export const getAllCoursesWithUser = async () => {
 export const getOneCourse = async (e) => {
   try {
     const res = await fetch(
-      `https://education.aquadic.com/api/v1/users/courses/${e}`,
+      `${BASE_URL}/api/v1/users/courses/${e}`,
       {
         method: "GET",
         headers: {

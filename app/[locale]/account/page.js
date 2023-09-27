@@ -13,7 +13,7 @@ import React, { useEffect } from "react";
 import { useState } from "react";
 import PhoneInput from "react-phone-number-input";
 import { useRecoilState } from "recoil";
-
+import api from '../../app/[locale]/api';
 
 // export const metadata = {
 //   title: 'analytica | Account',
@@ -86,9 +86,9 @@ setErrorMessage("")
   changeImage?body.append('image', selectedFile):null;
   body.append('phone', phone);
   body.append('phone_country', phone_country);
-  const po = axios
+  const po = api
     .post(
-      "https://education.aquadic.com/api/v1/users/auth/update",
+      "/api/v1/users/auth/update",
       body,
       {
         headers: {

@@ -5,6 +5,7 @@ import { useTranslations } from "next-intl";
 import { useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
 import OTPInput from "react-otp-input";
+import api from '../../app/[locale]/api';
 
 function CVerify() {
   const router = useRouter()
@@ -47,9 +48,9 @@ function CVerify() {
   }, []);
 
   const handelVerify = () => {
-    const po = axios
+    const po = api
       .post(
-        "https://education.aquadic.com/api/v1/users/auth/verify",
+        "/api/v1/users/auth/verify",
         {
           email: Cookies.get("email"),
 

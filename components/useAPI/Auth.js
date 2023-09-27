@@ -1,5 +1,5 @@
 import Cookies from "js-cookie";
-
+import { BASE_URL } from '../../app/[locale]/api';
 let headersToken = {
     Authorization: `Bearer ${Cookies.get('token')} `,
      "Content-Type": "application/json",
@@ -18,7 +18,7 @@ let headersToken = {
 
   export const LogOut = async (e) => {
     try {
-        const res = await fetch(`https://education.aquadic.com/api/v1/users/auth/logout`, {
+        const res = await fetch(`${BASE_URL}/api/v1/users/auth/logout`, {
             method: 'POST',
             headers:{
               Authorization: `Bearer ${e} `,
@@ -36,7 +36,7 @@ let headersToken = {
   }
   export const SignUP = async (formate) => {
     try {
-        const res = await fetch("https://education.aquadic.com/api/v1/users/auth/signup", {
+        const res = await fetch(`${BASE_URL}/api/v1/users/auth/signup`, {
             method: 'POST',
             headers:{
                "Content-Type": "application/json",

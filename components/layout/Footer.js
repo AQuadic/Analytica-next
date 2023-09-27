@@ -40,7 +40,7 @@ const [pages ,setPage]= useState([])
           <h2> {t('main')}</h2>
           <div className="links">
             {
-              pages.map((page)=>{
+              pages?.map((page)=>{
                 return(
                   <Link key={page.id} href={`/about?id=${page.id}`}>{page.title.en}</Link>
                 )

@@ -5,6 +5,7 @@ import Cookies from "js-cookie";
 import { useTranslations } from "next-intl";
 import { useRouter } from "next/navigation";
 import React, { useState } from "react";
+import api from '../../app/[locale]/api';
 
 function CSetPassword() {
   const t = useTranslations('Sign');
@@ -31,9 +32,9 @@ setErrorpassword("")
     }else{
       setErrorpasswordConfirmation("")
     }
-    const po = axios
+    const po = api
       .post(
-        "https://education.aquadic.com/api/v1/users/auth/change_password",
+        "/api/v1/users/auth/change_password",
         {
           "reset_token": Cookies.get("reset_token"),
           "password": password,

@@ -10,6 +10,7 @@ import { useRouter } from "next/navigation";
 import React from "react";
 import { useState } from "react";
 import { useRecoilState } from "recoil";
+import api from '../../api';
 
 // export const metadata = {
 //   title: 'analytica | Account',
@@ -40,9 +41,9 @@ const [ErrorMessage, setErrorMessage] = useState("");
   };
 
   const handelChangePass = () => {
-    const po = axios
+    const po = api
       .post(
-        "https://education.aquadic.com/api/v1/users/auth/change_password",
+        "/api/v1/users/auth/change_password",
         {
           "password": newpassword,
           "current_password": password,

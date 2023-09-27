@@ -9,6 +9,7 @@ import { useEffect } from "react";
 import Cookies from "js-cookie";
 import { useRouter } from "next/navigation";
 import { PasswordInput, Select, TextInput } from "@mantine/core";
+import api from '../../app/[locale]/api';
 
 function CSignup() {
   const router = useRouter();
@@ -61,8 +62,8 @@ function CSignup() {
     setErrorProfession("")
     setErrorMessage("")
    
-    const po = axios
-      .post("https://education.aquadic.com/api/v1/users/auth/signup", {
+    const po = api
+      .post("/api/v1/users/auth/signup", {
         "name": name,
           "email": email,
           "password": password,
