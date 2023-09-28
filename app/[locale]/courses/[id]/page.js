@@ -216,7 +216,7 @@ console.log(allCourses);
                   </div>
                 </div>
               </div>
-              {allCourses.requirements.en && (
+              {allCourses.requirements?.en && (
                 <div className="part">
                   <div className="description">
                     <h2 className="headDetails">Requirements</h2>
@@ -226,7 +226,7 @@ console.log(allCourses);
                   </div>
                 </div>
               )}
-               {allCourses.description.en && (
+               {allCourses.description?.en && (
                 <div className="part">
                   <div className="description">
                     <h2 className="headDetails">Description</h2>

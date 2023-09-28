@@ -127,22 +127,7 @@ export default function Home({ params: { locale } }) {
                     />
                   );
                 })}
-              <ItemCourse
-                title="Learn python: The Complete Python Programming Course"
-                image="1"
-                star="4.8"
-                dec="Avinash jain, The Codex"
-                oldsalary="E£679.99"
-                newsalary="E£1,599.99"
-              />
-              <ItemCourse
-                title="Learn python: The Complete Python Programming Course"
-                image="2"
-                star="4.8"
-                dec="Avinash jain, The Codex"
-                newsalary="E£1,599.99"
-                best="Bestseller"
-              />
+              
             </div>
           </section>
         ) : null}
