@@ -13,7 +13,7 @@ import React, { useEffect } from "react";
 import { useState } from "react";
 import PhoneInput from "react-phone-number-input";
 import { useRecoilState } from "recoil";
-import api from '../../app/[locale]/api';
+import api from '../api';
 
 // export const metadata = {
 //   title: 'analytica | Account',
