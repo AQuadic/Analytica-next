@@ -3,6 +3,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 
 import "slick-carousel/slick/slick.css"; 
 import "slick-carousel/slick/slick-theme.css";
+import "react-toastify/dist/ReactToastify.css";
 import './globals.css'
 import 'react-phone-number-input/style.css'
 import Script from 'next/script';
@@ -10,6 +11,7 @@ import Layout from '@/components/layout/Layout';
 import {NextIntlClientProvider, useLocale} from 'next-intl';
 import {notFound} from 'next/navigation';
 import Head from 'next/head';
+import PushNotificationLayout from '@/components/PushNotificationLayout';
 
 
 
@@ -50,6 +52,9 @@ if(locale==='ar'){
         
 
       <NextIntlClientProvider locale={locale} messages={messages}>
+      <PushNotificationLayout>
+
+      
         <Layout lang={locale}>
       
 
@@ -59,6 +64,7 @@ if(locale==='ar'){
        
         
         </Layout>
+        </PushNotificationLayout>
         </NextIntlClientProvider>
 
         <Script  src='/bootstrap.js'/>

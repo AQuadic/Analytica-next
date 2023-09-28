@@ -13,6 +13,10 @@ import {
 import { useRecoilState } from "recoil";
 import { navState } from "@/atoms";
 import { useTranslations } from "next-intl";
+import {  gethh } from "@/components/useAPI/Auth";
+
+
+
 
 // export  function generateMetadata({params}) {
 //   return {
@@ -26,6 +30,7 @@ export default function Home({ params: { locale } }) {
   const [IsUser, setIsUser] = useRecoilState(navState);
   const t = useTranslations("Index");
   useEffect(() => {
+    FetchDataOFNotifications()
     FetchDataOFHomePage();
     if (IsUser) {
       FetchDataOFAllCoursesWithUser();
@@ -58,11 +63,17 @@ export default function Home({ params: { locale } }) {
     setHomeData(AllData);
   };
 
-  
+  const FetchDataOFNotifications = async () => {
+    const Notifications = await gethh();
+    if (!Notifications) console.log(Notifications?.message);
+    console.log(Notifications);
+  };
 
+  
   return (
     <main className={styles.main}>
       <>
+     
         <section className="about m60">
           <div className="container allAbout">
             <div className="part1">
