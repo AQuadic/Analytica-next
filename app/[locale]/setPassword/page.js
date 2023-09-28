@@ -1,14 +1,16 @@
 import CSetPassword from '@/components/compPage/CSetPassword'
 import React from 'react'
+
 export const metadata = {
-  title: 'analytica | Set Password',
+    title: 'analytica | Set Password',
 }
+
 function page() {
-  return (
-   <>
-   <CSetPassword/>
-   </>
-  ) 
+    return (
+        <>
+            <CSetPassword/>
+        </>
+    )
 }
 
 export default page
