@@ -321,8 +321,18 @@ function CSignup() {
                                 onChange={setProfession}
                                 error={ErrorProfession}
                                 data={[
-                                    {value: "Profession1", label: "Profession1"},
-                                    {value: "Profession2", label: "Profession2"},
+                                    {value: "Engineer", label: "Engineer"},
+                                    {value: "Doctor", label: "Doctor"},
+                                    {value: "Accountant", label: "Accountant"},
+                                    {value: "Developer", label: "Developer"},
+                                    {value: "Artist", label: "Artist"},
+                                    {value: "Artist", label: "Artist"},
+                                    {value: "Astronaut", label: "Astronaut"},
+                                    {value: "Chef", label: "Chef"},
+                                    {value: "Construction Worker", label: "Construction Worker"},
+                                    {value: "Firefighter", label: "Firefighter"},
+                                    {value: "Police", label: "Police"},
+                                    {value: "Teacher", label: "Teacher"},
                                 ]}
                             />
                         </div>
