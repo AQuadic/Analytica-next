@@ -25,8 +25,7 @@ function PushNotificationLayout({ children }) {
     // Event listener that listens for the push notification event in the background
     if ("serviceWorker" in navigator) {
       navigator.serviceWorker.addEventListener("message", (event) => {
-        console.log("title", event.data.firebaseMessaging.payload.notification.title);
-        console.log("body", event.data.firebaseMessaging.payload.notification.title);
+        console.log("event for the service worker", event);
       });
     }
 
@@ -51,12 +50,10 @@ function PushNotificationLayout({ children }) {
 
   // Get the push notification message and triggers a toast to display it
   function getMessage() {
-    console.log("Regreg");
     const messaging = getMessaging();
     
     onMessage(messaging, (payload) => {
-        console.log("hhhhhhhhhhhhhhhh");
-        console.log( payload);
+        console.log('Message received. ', payload);
         // ...
       });
   }
