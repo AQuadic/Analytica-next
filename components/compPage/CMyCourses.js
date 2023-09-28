@@ -62,21 +62,6 @@ function CMyCourses() {
                                 )
                             })
                         }
-                        <ItemCourse
-                            title="Learn python: The Complete Python Programming Course"
-                            dec="Avinash jain, The Codex"
-                            image="1"
-                            Myprogress={true}
-                            numProgress="42%"
-                        />
-
-                        <ItemCourse
-                            title="Learn python: The Complete Python Programming Course"
-                            dec="Avinash jain, The Codex"
-                            image="1"
-                            Myprogress={true}
-                            numProgress="100%"
-                        />
                     </div>
                 </div>
             </section>
