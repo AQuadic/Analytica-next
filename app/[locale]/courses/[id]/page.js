@@ -30,7 +30,7 @@ console.log(allCourses);
                 {allCourses.short_description && <h3>{allCourses.short_description.en}</h3>}
                 <p>
                   Instructor:{" "}
-                  <Link href={`/instractorInfo/${allCourses.instructor.id}`}>
+                  <Link href={`/instractorInfo/${allCourses.instructor.slug}`}>
                     {allCourses.instructor.name}
                   </Link>
                 </p>
@@ -47,23 +47,17 @@ console.log(allCourses);
                       src="/images/details/copywriting.svg"
                       alt="copywriting"
                     />
-                    <p>{allCourses.users_count} User</p>
+                    <p>{allCourses.users_count} Enrolled Students</p>
                   </li>
                   <li>
                     <img src="/images/details/video.svg" alt="video" />
-                    <p>{allCourses.video_lessons_count} video</p>
+                    <p>{allCourses.video_lessons_count} videos</p>
                   </li>
                   <li>
                     <img src="/images/details/test.svg" alt="test" />
-                    <p>{allCourses.exams_count} practice test</p>
+                    <p>{allCourses.exams_count} Count Exams</p>
                   </li>
-                  <li>
-                    <img
-                      src="/images/details/assignment.svg"
-                      alt="assignment"
-                    />
-                    <p>Assignments</p>
-                  </li>
+                 
                   <li>
                     <img
                       src="/images/details/copywriting.svg"
@@ -76,7 +70,7 @@ console.log(allCourses);
                       src="/images/details/smart-devices.svg"
                       alt="smart-devices"
                     />
-                    <p>Access on mobile and TV</p>
+                    <p>Access on mobile and PC</p>
                   </li>
                   <li>
                     <img src="/images/details/award.svg" alt="award" />
@@ -167,22 +161,16 @@ console.log(allCourses);
                                       src="/images/details/video.svg"
                                       alt="video"
                                     />
-                                    <p>{lesson.videos_count} video</p>
+                                    <p>{lesson.videos_count} videos</p>
                                   </li>
                                   <li>
                                     <img
                                       src="/images/details/test.svg"
                                       alt="test"
                                     />
-                                    <p>{lesson.exams_count} practice test</p>
+                                    <p>{lesson.exams_count} Count Exams</p>
                                   </li>
-                                  <li>
-                                    <img
-                                      src="/images/details/assignment.svg"
-                                      alt="assignment"
-                                    />
-                                    <p>Assignments</p>
-                                  </li>
+                              
                                   <li>
                                     <img
                                       src="/images/details/copywriting.svg"
@@ -195,7 +183,7 @@ console.log(allCourses);
                                       src="/images/details/smart-devices.svg"
                                       alt="smart-devices"
                                     />
-                                    <p>Access on mobile and TV</p>
+                                    <p>Access on mobile and PC</p>
                                   </li>
                                   <li>
                                     <img
