@@ -31,7 +31,9 @@ function InstractorInfo({params}) {
                         <div className="info_about">
                             <h2>INSTRUCTOR</h2>
                             <h3>{instractor?.name}</h3>
-                            <h4>UI UX Designer</h4>
+                            {
+                                instractor.title?.en && <h4>{instractor.title?.en}</h4>
+                            }
                         </div>
                     </div>
                     <div className="achievement">
@@ -55,10 +57,10 @@ function InstractorInfo({params}) {
                         </div>
                     </div>
                     {
-                        instractor?.title?.ar && <div className="aboutME">
+                        instractor?.about?.en && <div className="aboutME">
                             <h3>About me</h3>
                             <p>
-                                {instractor.title.ar}
+                                {instractor.about.en}
                             </p>
                         </div>
                     }
@@ -111,7 +113,7 @@ function InstractorInfo({params}) {
                                     <ItemCourse
                                         key={course.id}
                                         id={course.id}
-                                        title={course.name.ar}
+                                        title={course.name.en}
                                         imageCourse={course.image.url}
                                         star="4.8"
                                         //dec={course.instructor.name}

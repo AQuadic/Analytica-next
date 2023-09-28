@@ -21,7 +21,7 @@ function page({params}) {
     console.log(instractor);
 
 
-    const result = instractor?.courses && Object.groupBy(instractor?.courses, ({category}) => category?.name?.ar ?? 'كورسات اخري');
+    const result = instractor?.courses && Object.groupBy(instractor?.courses, ({category}) => category?.name?.en ?? 'كورسات اخري');
 
     console.log(result);
     if (result) {
@@ -134,7 +134,7 @@ function page({params}) {
                                         return (
                                             <ItemCourse
                                                 link2={`/instructorScreen/courseDetails/${item.id}`}
-                                                title={item.name.ar}
+                                                title={item.name.en}
                                                 image="21"
                                                 imageCourse={item.image?.url}
                                                 star="4.8"

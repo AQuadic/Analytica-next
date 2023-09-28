@@ -26,7 +26,7 @@ function page({params}) {
                 <div className="part1">
                     <div className="content container">
                         <div className="contantAbout">
-                            <h2>{allCourses.name.ar}</h2>
+                            <h2>{allCourses.name.en}</h2>
                             {allCourses.short_description && <h3>{allCourses.short_description.en}</h3>}
                             <p>
                                 Instructor:{" "}
@@ -157,7 +157,7 @@ function page({params}) {
                                                                     aria-expanded="false"
                                                                     aria-controls={`flush-collapse${lesson.id}`}
                                                                 >
-                                                                    {lesson.name.ar}
+                                                                    {lesson.name.en}
                                                                 </button>
 
                                                             </h2>

@@ -149,7 +149,7 @@ function CourseDetails({params}) {
                                                                     aria-expanded="false"
                                                                     aria-controls={`flush-collapse${lesson.id}`}
                                                                 >
-                                                                    {lesson.name.ar}
+                                                                    {lesson.name.en}
                                                                 </button>
 
                                                             </h2>

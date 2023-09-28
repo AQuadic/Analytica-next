@@ -51,7 +51,7 @@ function CMyCourses() {
                             myCourses?.map((course) => {
                                 return (
                                     <ItemCourse
-                                        title={course.name.ar}
+                                        title={course.name.en}
                                         dec={course.instructor.name}
                                         imageCourse={course.image.url}
                                         Myprogress={true}
