@@ -188,68 +188,68 @@ export default function Home({params: {locale}}) {
                                 </section>
                             );
                         })}
-                <section className="live m60">
-                    <div className="container">
-                        <h2 className="headtitle wow fadeInDown">
-                            Create, manage, and market your learning environment with advanced
-                            features like
-                        </h2>
-                        <div className="all_Live row">
-                            <div className="part col-md-4 col-sm-6 col-12">
-                                <img src="/images/live.svg" alt="live"/>
-                                <h3>Live lessons and events</h3>
-                            </div>
-                            <div className="part col-md-4 col-sm-6 col-12">
-                                <img src="/images/live.svg" alt="live"/>
-                                <h3>Live lessons and events</h3>
-                            </div>
-                            <div className="part col-md-4 col-sm-6 col-12">
-                                <img src="/images/live.svg" alt="live"/>
-                                <h3>Live lessons and events</h3>
-                            </div>
-                            <div className="part col-md-4 col-sm-6 col-12">
-                                <img src="/images/live.svg" alt="live"/>
-                                <h3>Live lessons and events</h3>
-                            </div>
-                            <div className="part col-md-4 col-sm-6 col-12">
-                                <img src="/images/live.svg" alt="live"/>
-                                <h3>Live lessons and events</h3>
-                            </div>
-                            <div className="part col-md-4 col-sm-6 col-12">
-                                <img src="/images/live.svg" alt="live"/>
-                                <h3>Live lessons and events</h3>
-                            </div>
-                            <div className="part col-md-4 col-sm-6 col-12">
-                                <img src="/images/live.svg" alt="live"/>
-                                <h3>Live lessons and events</h3>
-                            </div>
-                            <div className="part col-md-4 col-sm-6 col-12">
-                                <img src="/images/live.svg" alt="live"/>
-                                <h3>Live lessons and events</h3>
-                            </div>
-                            <div className="part col-md-4 col-sm-6 col-12">
-                                <img src="/images/live.svg" alt="live"/>
-                                <h3>Live lessons and events</h3>
-                            </div>
-                            <div className="part col-md-4 col-sm-6 col-12">
-                                <img src="/images/live.svg" alt="live"/>
-                                <h3>Live lessons and events</h3>
-                            </div>
-                            <div className="part col-md-4 col-sm-6 col-12">
-                                <img src="/images/live.svg" alt="live"/>
-                                <h3>Live lessons and events</h3>
-                            </div>
-                            <div className="part col-md-4 col-sm-6 col-12">
-                                <img src="/images/live.svg" alt="live"/>
-                                <h3>Live lessons and events</h3>
-                            </div>
-                            <div className="part col-md-4 col-sm-6 col-12">
-                                <img src="/images/live.svg" alt="live"/>
-                                <h3>Live lessons and events</h3>
-                            </div>
-                        </div>
-                    </div>
-                </section>
+                {/*<section className="live m60">*/}
+                {/*    <div className="container">*/}
+                {/*        <h2 className="headtitle wow fadeInDown">*/}
+                {/*            Create, manage, and market your learning environment with advanced*/}
+                {/*            features like*/}
+                {/*        </h2>*/}
+                {/*        <div className="all_Live row">*/}
+                {/*            <div className="part col-md-4 col-sm-6 col-12">*/}
+                {/*                <img src="/images/live.svg" alt="live"/>*/}
+                {/*                <h3>Live lessons and events</h3>*/}
+                {/*            </div>*/}
+                {/*            <div className="part col-md-4 col-sm-6 col-12">*/}
+                {/*                <img src="/images/live.svg" alt="live"/>*/}
+                {/*                <h3>Live lessons and events</h3>*/}
+                {/*            </div>*/}
+                {/*            <div className="part col-md-4 col-sm-6 col-12">*/}
+                {/*                <img src="/images/live.svg" alt="live"/>*/}
+                {/*                <h3>Live lessons and events</h3>*/}
+                {/*            </div>*/}
+                {/*            <div className="part col-md-4 col-sm-6 col-12">*/}
+                {/*                <img src="/images/live.svg" alt="live"/>*/}
+                {/*                <h3>Live lessons and events</h3>*/}
+                {/*            </div>*/}
+                {/*            <div className="part col-md-4 col-sm-6 col-12">*/}
+                {/*                <img src="/images/live.svg" alt="live"/>*/}
+                {/*                <h3>Live lessons and events</h3>*/}
+                {/*            </div>*/}
+                {/*            <div className="part col-md-4 col-sm-6 col-12">*/}
+                {/*                <img src="/images/live.svg" alt="live"/>*/}
+                {/*                <h3>Live lessons and events</h3>*/}
+                {/*            </div>*/}
+                {/*            <div className="part col-md-4 col-sm-6 col-12">*/}
+                {/*                <img src="/images/live.svg" alt="live"/>*/}
+                {/*                <h3>Live lessons and events</h3>*/}
+                {/*            </div>*/}
+                {/*            <div className="part col-md-4 col-sm-6 col-12">*/}
+                {/*                <img src="/images/live.svg" alt="live"/>*/}
+                {/*                <h3>Live lessons and events</h3>*/}
+                {/*            </div>*/}
+                {/*            <div className="part col-md-4 col-sm-6 col-12">*/}
+                {/*                <img src="/images/live.svg" alt="live"/>*/}
+                {/*                <h3>Live lessons and events</h3>*/}
+                {/*            </div>*/}
+                {/*            <div className="part col-md-4 col-sm-6 col-12">*/}
+                {/*                <img src="/images/live.svg" alt="live"/>*/}
+                {/*                <h3>Live lessons and events</h3>*/}
+                {/*            </div>*/}
+                {/*            <div className="part col-md-4 col-sm-6 col-12">*/}
+                {/*                <img src="/images/live.svg" alt="live"/>*/}
+                {/*                <h3>Live lessons and events</h3>*/}
+                {/*            </div>*/}
+                {/*            <div className="part col-md-4 col-sm-6 col-12">*/}
+                {/*                <img src="/images/live.svg" alt="live"/>*/}
+                {/*                <h3>Live lessons and events</h3>*/}
+                {/*            </div>*/}
+                {/*            <div className="part col-md-4 col-sm-6 col-12">*/}
+                {/*                <img src="/images/live.svg" alt="live"/>*/}
+                {/*                <h3>Live lessons and events</h3>*/}
+                {/*            </div>*/}
+                {/*        </div>*/}
+                {/*    </div>*/}
+                {/*</section>*/}
 
                 <section className="become container m60">
                     <div className="box">
