@@ -12,6 +12,7 @@ function Footer({lang}) {
   const pathname = usePathname();
   const t = useTranslations('Footer');
 const [pages ,setPage]= useState([])
+const [social ,setSocial]= useState([])
   useEffect(() => {
     FetchDataOFHomePage();
   }, []);
@@ -19,6 +20,9 @@ const [pages ,setPage]= useState([])
     const AllData = await getHomePage();
   if (!AllData) console.log(AllData?.message)
   setPage(AllData.pages)
+console.log('====================================');
+console.log(AllData);
+console.log('====================================');
   
   }
   console.log('====================================');
