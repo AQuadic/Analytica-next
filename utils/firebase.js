@@ -22,7 +22,7 @@ const firebaseCloudMessaging = {
 
       try {
         const messaging = getMessaging(app);
-        console.log(messaging);
+        //console.log(messaging);
         const tokenInLocalForage = await localforage.getItem("fcm_token");
 
          // Return the token if it is alredy in our local storage
@@ -40,7 +40,7 @@ const firebaseCloudMessaging = {
           if (currentToken) {
             // Send the token to your server and update the UI if necessary
             // ...
-            console.log(currentToken);
+           // console.log(currentToken);
             localforage.setItem("fcm_token", currentToken);
             return currentToken;
           } else {

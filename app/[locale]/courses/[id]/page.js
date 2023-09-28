@@ -42,13 +42,20 @@ console.log(allCourses);
                   Apply Now
                 </Link>
                 <ul>
+                <li>
+                    <img
+                      src="/images/details/copywriting.svg"
+                      alt="copywriting"
+                    />
+                    <p>{allCourses.users_count} User</p>
+                  </li>
                   <li>
                     <img src="/images/details/video.svg" alt="video" />
-                    <p>1 hour on-demand video</p>
+                    <p>{allCourses.video_lessons_count} video</p>
                   </li>
                   <li>
                     <img src="/images/details/test.svg" alt="test" />
-                    <p>1 practice test</p>
+                    <p>{allCourses.exams_count} practice test</p>
                   </li>
                   <li>
                     <img
@@ -62,7 +69,7 @@ console.log(allCourses);
                       src="/images/details/copywriting.svg"
                       alt="copywriting"
                     />
-                    <p>1 article</p>
+                    <p>{allCourses.article_lessons_count} article</p>
                   </li>
                   <li>
                     <img
@@ -146,7 +153,7 @@ console.log(allCourses);
                               >
                                 {lesson.name.ar}
                               </button>
-                              <p>2 lectures • 15m</p>
+                             
                             </h2>
                             <div
                               id={`flush-collapse${lesson.id}`}
@@ -160,14 +167,14 @@ console.log(allCourses);
                                       src="/images/details/video.svg"
                                       alt="video"
                                     />
-                                    <p>1 hour on-demand video</p>
+                                    <p>{lesson.videos_count} video</p>
                                   </li>
                                   <li>
                                     <img
                                       src="/images/details/test.svg"
                                       alt="test"
                                     />
-                                    <p>1 practice test</p>
+                                    <p>{lesson.exams_count} practice test</p>
                                   </li>
                                   <li>
                                     <img
@@ -181,7 +188,7 @@ console.log(allCourses);
                                       src="/images/details/copywriting.svg"
                                       alt="copywriting"
                                     />
-                                    <p>1 article</p>
+                                    <p>{lesson.files_count} article</p>
                                   </li>
                                   <li>
                                     <img

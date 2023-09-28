@@ -13,6 +13,8 @@ import { MessagingFir, tokenNotifiable } from "@/atoms";
 
 function PushNotificationLayout({ children }) {
   const [tokenNOTF, setTokenNOTF] = useRecoilState(tokenNotifiable);
+  const [messagingFire, setMessagingFire] = useRecoilState(MessagingFir);
+
   const router = useRouter();
   useEffect(() => {
     setToken();
@@ -50,7 +52,7 @@ function PushNotificationLayout({ children }) {
     const messaging = getMessaging();
     setMessagingFire(messaging)
     onMessage(messaging, (payload) => {
-       // console.log('Message received. ', payload);
+        console.log('Message received. ', payload);
         // ...
       });
   }
