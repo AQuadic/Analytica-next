@@ -32,7 +32,7 @@ function InstractorInfo({params}) {
                             <h2>INSTRUCTOR</h2>
                             <h3>{instractor?.name}</h3>
                             {
-                                instractor.title?.en && <h4>{instractor.title?.en}</h4>
+                                instractor?.title?.en && <h4>{instractor?.title?.en}</h4>
                             }
                         </div>
                     </div>
