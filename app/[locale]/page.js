@@ -3,9 +3,7 @@ import styles from "./page.module.css";
 import React, { useEffect, useState } from "react";
 import Link from "next/link";
 import ItemCourse from "@/components/ItemCourse";
-import {
-  getHomeSections,
-} from "@/components/useAPI/GetUser";
+import { getHomePage, getHomeSections } from "@/components/useAPI/GetUser";
 import {
   getAllCourses,
   getAllCoursesWithUser,
@@ -13,24 +11,25 @@ import {
 import { useRecoilState } from "recoil";
 import { navState } from "@/atoms";
 import { useTranslations } from "next-intl";
-import {  gethh } from "@/components/useAPI/Auth";
-
-
-
-
-// export  function generateMetadata({params}) {
-//   return {
-//     title: "product title",
-//   }
-// }
-
+import { DeviceUUID } from "device-uuid";
+import platform from 'platform';
+import Cookies from "js-cookie";
 export default function Home({ params: { locale } }) {
   const [allCourses, setAllCourses] = useState([]);
   const [homeData, setHomeData] = useState([]);
   const [IsUser, setIsUser] = useRecoilState(navState);
   const t = useTranslations("Index");
+
+  var uuid = new DeviceUUID().get();
+
+
+
+
+
+
+
   useEffect(() => {
-    FetchDataOFNotifications()
+    FetchDataOFHome();
     FetchDataOFHomePage();
     if (IsUser) {
       FetchDataOFAllCoursesWithUser();
@@ -48,7 +47,6 @@ export default function Home({ params: { locale } }) {
     setAllCourses(AllCourses.data);
   };
 
-
   const FetchDataOFAllCoursesWithUser = async () => {
     const AllCourses = await getAllCoursesWithUser();
     if (!AllCourses) console.log(AllCourses?.message);
@@ -63,17 +61,15 @@ export default function Home({ params: { locale } }) {
     setHomeData(AllData);
   };
 
-  const FetchDataOFNotifications = async () => {
-    const Notifications = await gethh();
-    if (!Notifications) console.log(Notifications?.message);
-    console.log(Notifications);
+  const FetchDataOFHome = async () => {
+    const AllData = await getHomePage();
+    if (!AllData) console.log(AllData?.message);
+    console.log(AllData);
   };
 
-  
   return (
     <main className={styles.main}>
       <>
-     
         <section className="about m60">
           <div className="container allAbout">
             <div className="part1">
@@ -108,7 +104,7 @@ export default function Home({ params: { locale } }) {
             </div>
           </div>
         </section>
-        {allCourses.length && (
+        {allCourses.length ? (
           <section className="services services_content container m60">
             <h2 className="headtitle wow fadeInDown">Recommended for you</h2>
             <p className="p_page wow fadeInUp">
@@ -116,19 +112,21 @@ export default function Home({ params: { locale } }) {
               published every month
             </p>
             <div className="allServices">
-              {allCourses.filter((item)=>item.is_active!=0).map((course) => {
-                return (
-                  <ItemCourse
-                    key={course.id}
-                    id={course.id}
-                    title={course.name.en}
-                    imageCourse={course.image?.url}
-                    star="4.8"
-                    dec={course.instructor?.name}
-                    newsalary={course.price ? "EG " + course.price : "free"}
-                  />
-                );
-              })}
+              {allCourses
+                .filter((item) => item.is_active != 0)
+                .map((course) => {
+                  return (
+                    <ItemCourse
+                      key={course.id}
+                      id={course.id}
+                      title={course.name.en}
+                      imageCourse={course.image?.url}
+                      star="4.8"
+                      dec={course.instructor?.name}
+                      newsalary={course.price ? "EG " + course.price : "free"}
+                    />
+                  );
+                })}
               <ItemCourse
                 title="Learn python: The Complete Python Programming Course"
                 image="1"
@@ -147,7 +145,7 @@ export default function Home({ params: { locale } }) {
               />
             </div>
           </section>
-        )}
+        ) : null}
 
         <section className="top m60">
           <div className="container">
@@ -180,7 +178,8 @@ export default function Home({ params: { locale } }) {
           </div>
         </section>
         {homeData &&
-          homeData.filter((item) => item.courses.length !== 0)
+          homeData
+            .filter((item) => item.courses.length !== 0)
             .map((part) => {
               return (
                 <section
@@ -192,21 +191,23 @@ export default function Home({ params: { locale } }) {
                     {part.description && part.description?.en}
                   </p>
                   <div className="allServices">
-                    {part.courses.filter((item)=>item.is_active!=0).map((course) => {
-                      return (
-                        <ItemCourse
-                          key={course.id}
-                          id={course.id}
-                          title={course.name.en}
-                          imageCourse={course.image.url}
-                          star="4.8"
-                          //dec={course.instructor.name}
-                          newsalary={
-                            course.price ? "EG " + course.price : "free"
-                          }
-                        />
-                      );
-                    })}
+                    {part.courses
+                      .filter((item) => item.is_active != 0)
+                      .map((course) => {
+                        return (
+                          <ItemCourse
+                            key={course.id}
+                            id={course.id}
+                            title={course.name.en}
+                            imageCourse={course.image.url}
+                            star="4.8"
+                            //dec={course.instructor.name}
+                            newsalary={
+                              course.price ? "EG " + course.price : "free"
+                            }
+                          />
+                        );
+                      })}
                   </div>
                 </section>
               );

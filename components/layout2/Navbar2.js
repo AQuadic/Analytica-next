@@ -69,8 +69,8 @@ function Navbar2() {
 
           
              
-            <Link href="signIn" className="btn_page2">Log In</Link>
-             <Link href="signUp" className="btn_page">Sign Up</Link>
+            <Link href="/signIn" className="btn_page2">Log In</Link>
+             <Link href="/signUp" className="btn_page">Sign Up</Link>
           <div className="dropdown" style={{position:"relative",display:"none"}}>
             <h4
               className="dropdown-toggle nav_btn btn_page2"

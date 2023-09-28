@@ -1,5 +1,6 @@
 import Cookies from "js-cookie";
 import { BASE_URL } from '../../app/[locale]/api';
+
 let headersToken = {
     Authorization: `Bearer ${Cookies.get('token')} `,
      "Content-Type": "application/json",
@@ -16,6 +17,7 @@ let headersToken = {
     "from_all": true
 };
 
+
   export const LogOut = async (e) => {
     try {
         const res = await fetch(`${BASE_URL}/api/v1/users/auth/logout`, {
@@ -29,7 +31,9 @@ let headersToken = {
             body,
         },);
         const data = await res.json();
-        return data;
+        
+        
+        return data;  
     } catch (error) {
         console.log('Error in Add New Category (service) =>', error);
     }

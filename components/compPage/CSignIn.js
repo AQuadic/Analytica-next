@@ -6,12 +6,14 @@ import Cookies from "js-cookie";
 import { PasswordInput, TextInput } from "@mantine/core";
 import { useRouter } from 'next/navigation'
 import { useRecoilState } from "recoil";
-import { navState } from "@/atoms";
+import {  navState, tokenNotifiable } from "@/atoms";
 import { useTranslations } from "next-intl";
 import api from '../../app/[locale]/api';
-
+import { DeviceUUID } from 'device-uuid';
+import platform from 'platform';
 
 function CSignIn() {
+ 
   const router = useRouter()
   const [email, setemail] = useState("");
   const [password, setpassword] = useState("");
@@ -19,7 +21,11 @@ function CSignIn() {
   const [Errorpassword, setErrorpassword] = useState("");
   const [ErrorMessage, setErrorMessage] = useState("");
   const [IsUser, setIsUser] = useRecoilState(navState);
+  const [tokenNOTF, setTokenNOTF] = useRecoilState(tokenNotifiable);
   const t = useTranslations('Sign');
+
+  var uuid = new DeviceUUID().get();
+  console.log( uuid);
 
   const handellogin = () => {
     setErroremail("")
@@ -36,6 +42,52 @@ setErrorMessage("")
           headers: {
             "Content-Type": "application/json",
             Accept: "application/json",
+          },
+        }
+      )
+      .then((res) => {
+        setIsUser(true)
+        Cookies.set("token",res.data.token);
+        handelAddDevices()
+       console.log(res);
+       router.push('/')
+      })
+      .catch((res) => {
+      /*  setLoading(false);*/
+        res.response.data.errors?.email
+          ? setErroremail(res.response.data.errors.email[0])
+          : setErroremail("");
+        res.response.data.errors?.password
+          ? setErrorpassword(res.response.data.errors.password[0])
+          : setErrorpassword("");
+          res.response.data.message
+          ? setErrorMessage(res.response.data.message)
+          : setErrorMessage("");
+          console.log(res);
+      });
+  };
+ 
+  const handelAddDevices = () => {
+   
+    setErroremail("")
+setErrorpassword("")
+setErrorMessage("")
+    const po = api
+      .post(
+        "/api/v1/users/devices",
+        {
+          "device_type": "web",
+    "device_token": uuid,
+    "device_name":platform.name,
+    "notifiable_method": "firebase",
+    "notifiable_token": tokenNOTF,
+    "enabled": false
+        },
+        {
+          headers: {
+            "Authorization": `Bearer ${Cookies.get("token")}`,
+            "Content-Type": "application/json",
+            "Accept": "application/json",
           },
         }
       )
@@ -59,8 +111,10 @@ setErrorMessage("")
           console.log(res);
       });
   };
+  console.log(tokenNOTF);
   return (
     <>
+  
       <section className="sign container">
         <div className="box_sign">
           <h2 className="title_sign">{t('in')}</h2>

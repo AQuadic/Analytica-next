@@ -52,7 +52,7 @@ function ItemCourse({
             )}
           </div>
           <p className="dec_service">{dec}</p>
-          {newsalary && (
+          {newsalary ? (
             <div className="salary">
               {!oldsalary && <p>{newsalary}</p>}
               {oldsalary && (
@@ -62,7 +62,7 @@ function ItemCourse({
                 </>
               )}
             </div>
-          )}
+          ):"free"}
         </Link>
         {Myprogress && (
           <>

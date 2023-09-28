@@ -18,7 +18,7 @@ function CourseDetails({ params }) {
     if (!AllCourses) console.log(AllCourses?.message);
     setAllCourses(AllCourses);
   };
-
+console.log(allCourses);
   return (
     <>
       {allCourses ? (
@@ -27,7 +27,7 @@ function CourseDetails({ params }) {
             <div className="content container">
               <div className="contantAbout">
                 <h2>{allCourses.name.en}</h2>
-                {allCourses.description && <h3>{allCourses.description.en}</h3>}
+                {allCourses.short_description && <h3>{allCourses.short_description.en}</h3>}
                 <p>
                   Instructor:{" "}
                   <Link href={`/instractorInfo/${allCourses.instructor.id}`}>
@@ -90,47 +90,35 @@ function CourseDetails({ params }) {
                 <h2 className="headDetails">What you'll learn</h2>
                 <div className="learn">
                   <ul className="row">
-                    <li className="col-md-5">
-                      <img src="/images/details/true.svg" alt="true" />
-                      <p>
-                        Develop knowledge of cybersecurity analyst tools
-                        including data protection; endpoint protection; SIEM;
-                        and systems and network fundamentals.
-                      </p>
-                    </li>
-                    <li className="col-md-5">
-                      <img src="/images/details/true.svg" alt="true" />
-                      <p>
-                        Learn about key compliance and threat intelligence
-                        topics important in today’s cybersecurity landscape.
-                      </p>
-                    </li>
-                    <li className="col-md-5">
-                      <img src="/images/details/true.svg" alt="true" />
-                      <p>
-                        Gain skills for incident responses and forensics with
-                        real-world cybersecurity case studies.
-                      </p>
-                    </li>
-                    <li className="col-md-5">
-                      <img src="/images/details/true.svg" alt="true" />
-                      <p>
-                        Get hands-on experience to develop skills via industry
-                        specific and open source Security tools.
-                      </p>
-                    </li>
+                    {
+                      allCourses.learn.en.map((item,i)=>{
+                        return(
+                          <li className="col-md-5" key={i}>
+                          <img src="/images/details/true.svg" alt="true" />
+                          <p>
+                            {item}
+                          </p>
+                        </li>
+                        )
+                      })
+                    }
+                 
                   </ul>
                 </div>
               </div>
                {/*TODO*/ }
               <div className="part">
-                <h2 className="headDetails">What you'll learn</h2>
+                <h2 className="headDetails">Skills you'll gain</h2>
                 <div className="skills">
                   <ul>
-                    <li>UX Design</li>
-                    <li>User Interface Design</li>
-                    <li>UX Design</li>
-                    <li>User Interface Design</li>
+                    {
+                      allCourses.gain.en.map((item,i)=>{
+                        return(
+                          <li key={i}>{item}</li>
+                        )
+                      })
+                    }
+                    
                   </ul>
                 </div>
               </div>
@@ -143,376 +131,88 @@ function CourseDetails({ params }) {
                       className="accordion accordion-flush"
                       id="accordionFlushExample2"
                     >
-                      <div className="accordion-item">
-                        <h2 className="accordion-header">
-                          <button
-                            className="accordion-button collapsed"
-                            type="button"
-                            data-bs-toggle="collapse"
-                            data-bs-target="#flush-collapseOne"
-                            aria-expanded="false"
-                            aria-controls="flush-collapseOne"
-                          >
-                            Introduction
-                          </button>
-                          <p>2 lectures • 15m</p>
-                        </h2>
-                        <div
-                          id="flush-collapseOne"
-                          className="accordion-collapse collapse"
-                          data-bs-parent="#accordionFlushExample2"
-                        >
-                          <div className="accordion-body">
-                            <ul>
-                              <li>
-                                <img
-                                  src="/images/details/video.svg"
-                                  alt="video"
-                                />
-                                <p>1 hour on-demand video</p>
-                              </li>
-                              <li>
-                                <img
-                                  src="/images/details/test.svg"
-                                  alt="test"
-                                />
-                                <p>1 practice test</p>
-                              </li>
-                              <li>
-                                <img
-                                  src="/images/details/assignment.svg"
-                                  alt="assignment"
-                                />
-                                <p>Assignments</p>
-                              </li>
-                              <li>
-                                <img
-                                  src="/images/details/copywriting.svg"
-                                  alt="copywriting"
-                                />
-                                <p>1 article</p>
-                              </li>
-                              <li>
-                                <img
-                                  src="/images/details/smart-devices.svg"
-                                  alt="smart-devices"
-                                />
-                                <p>Access on mobile and TV</p>
-                              </li>
-                              <li>
-                                <img
-                                  src="/images/details/award.svg"
-                                  alt="award"
-                                />
-                                <p>Certificate of completion</p>
-                              </li>
-                              <li>
-                                <img
-                                  src="/images/details/infinity.svg"
-                                  alt="infinity"
-                                />
-                                <p>Full lifetime access</p>
-                              </li>
-                            </ul>
+                      {
+                        allCourses.lessons.map((lesson)=>{
+                          return(
+                            <div className="accordion-item" key={lesson.id}>
+                            <h2 className="accordion-header">
+                              <button
+                                className="accordion-button collapsed"
+                                type="button"
+                                data-bs-toggle="collapse"
+                                data-bs-target={`#flush-collapse${lesson.id}`}
+                                aria-expanded="false"
+                                aria-controls={`flush-collapse${lesson.id}`}
+                              >
+                                {lesson.name.ar}
+                              </button>
+                              <p>2 lectures • 15m</p>
+                            </h2>
+                            <div
+                              id={`flush-collapse${lesson.id}`}
+                              className="accordion-collapse collapse"
+                              data-bs-parent="#accordionFlushExample2"
+                            >
+                              <div className="accordion-body">
+                                <ul>
+                                  <li>
+                                    <img
+                                      src="/images/details/video.svg"
+                                      alt="video"
+                                    />
+                                    <p>1 hour on-demand video</p>
+                                  </li>
+                                  <li>
+                                    <img
+                                      src="/images/details/test.svg"
+                                      alt="test"
+                                    />
+                                    <p>1 practice test</p>
+                                  </li>
+                                  <li>
+                                    <img
+                                      src="/images/details/assignment.svg"
+                                      alt="assignment"
+                                    />
+                                    <p>Assignments</p>
+                                  </li>
+                                  <li>
+                                    <img
+                                      src="/images/details/copywriting.svg"
+                                      alt="copywriting"
+                                    />
+                                    <p>1 article</p>
+                                  </li>
+                                  <li>
+                                    <img
+                                      src="/images/details/smart-devices.svg"
+                                      alt="smart-devices"
+                                    />
+                                    <p>Access on mobile and TV</p>
+                                  </li>
+                                  <li>
+                                    <img
+                                      src="/images/details/award.svg"
+                                      alt="award"
+                                    />
+                                    <p>Certificate of completion</p>
+                                  </li>
+                                  <li>
+                                    <img
+                                      src="/images/details/infinity.svg"
+                                      alt="infinity"
+                                    />
+                                    <p>Full lifetime access</p>
+                                  </li>
+                                </ul>
+                              </div>
+                            </div>
                           </div>
-                        </div>
-                      </div>
-                      <div className="accordion-item">
-                        <h2 className="accordion-header">
-                          <button
-                            className="accordion-button collapsed"
-                            type="button"
-                            data-bs-toggle="collapse"
-                            data-bs-target="#flush-collapsetwo"
-                            aria-expanded="false"
-                            aria-controls="flush-collapsetwo"
-                          >
-                            Chapter 1 - Basics of UX
-                          </button>
-                          <p>2 lectures • 15m</p>
-                        </h2>
-                        <div
-                          id="flush-collapsetwo"
-                          className="accordion-collapse collapse"
-                          data-bs-parent="#accordionFlushExample2"
-                        >
-                          <div className="accordion-body">
-                            <ul>
-                              <li>
-                                <img
-                                  src="/images/details/video.svg"
-                                  alt="video"
-                                />
-                                <p>1 hour on-demand video</p>
-                              </li>
-                              <li>
-                                <img
-                                  src="/images/details/test.svg"
-                                  alt="test"
-                                />
-                                <p>1 practice test</p>
-                              </li>
-                              <li>
-                                <img
-                                  src="/images/details/assignment.svg"
-                                  alt="assignment"
-                                />
-                                <p>Assignments</p>
-                              </li>
-                              <li>
-                                <img
-                                  src="/images/details/copywriting.svg"
-                                  alt="copywriting"
-                                />
-                                <p>1 article</p>
-                              </li>
-                              <li>
-                                <img
-                                  src="/images/details/smart-devices.svg"
-                                  alt="smart-devices"
-                                />
-                                <p>Access on mobile and TV</p>
-                              </li>
-                              <li>
-                                <img
-                                  src="/images/details/award.svg"
-                                  alt="award"
-                                />
-                                <p>Certificate of completion</p>
-                              </li>
-                              <li>
-                                <img
-                                  src="/images/details/infinity.svg"
-                                  alt="infinity"
-                                />
-                                <p>Full lifetime access</p>
-                              </li>
-                            </ul>
-                          </div>
-                        </div>
-                      </div>
-                      <div className="accordion-item">
-                        <h2 className="accordion-header">
-                          <button
-                            className="accordion-button collapsed"
-                            type="button"
-                            data-bs-toggle="collapse"
-                            data-bs-target="#flush-collapsethree"
-                            aria-expanded="false"
-                            aria-controls="flush-collapsethree"
-                          >
-                            Chapter 2 - Basics of UX
-                          </button>
-                          <p>2 lectures • 15m</p>
-                        </h2>
-                        <div
-                          id="flush-collapsethree"
-                          className="accordion-collapse collapse"
-                          data-bs-parent="#accordionFlushExample2"
-                        >
-                          <div className="accordion-body">
-                            <ul>
-                              <li>
-                                <img
-                                  src="/images/details/video.svg"
-                                  alt="video"
-                                />
-                                <p>1 hour on-demand video</p>
-                              </li>
-                              <li>
-                                <img
-                                  src="/images/details/test.svg"
-                                  alt="test"
-                                />
-                                <p>1 practice test</p>
-                              </li>
-                              <li>
-                                <img
-                                  src="/images/details/assignment.svg"
-                                  alt="assignment"
-                                />
-                                <p>Assignments</p>
-                              </li>
-                              <li>
-                                <img
-                                  src="/images/details/copywriting.svg"
-                                  alt="copywriting"
-                                />
-                                <p>1 article</p>
-                              </li>
-                              <li>
-                                <img
-                                  src="/images/details/smart-devices.svg"
-                                  alt="smart-devices"
-                                />
-                                <p>Access on mobile and TV</p>
-                              </li>
-                              <li>
-                                <img
-                                  src="/images/details/award.svg"
-                                  alt="award"
-                                />
-                                <p>Certificate of completion</p>
-                              </li>
-                              <li>
-                                <img
-                                  src="/images/details/infinity.svg"
-                                  alt="infinity"
-                                />
-                                <p>Full lifetime access</p>
-                              </li>
-                            </ul>
-                          </div>
-                        </div>
-                      </div>
-                      <div className="accordion-item">
-                        <h2 className="accordion-header">
-                          <button
-                            className="accordion-button collapsed"
-                            type="button"
-                            data-bs-toggle="collapse"
-                            data-bs-target="#flush-collapsefour"
-                            aria-expanded="false"
-                            aria-controls="flush-collapsefour"
-                          >
-                            Chapter 3 - Basics of UX
-                          </button>
-                          <p>2 lectures • 15m</p>
-                        </h2>
-                        <div
-                          id="flush-collapsefour"
-                          className="accordion-collapse collapse"
-                          data-bs-parent="#accordionFlushExample2"
-                        >
-                          <div className="accordion-body">
-                            <ul>
-                              <li>
-                                <img
-                                  src="/images/details/video.svg"
-                                  alt="video"
-                                />
-                                <p>1 hour on-demand video</p>
-                              </li>
-                              <li>
-                                <img
-                                  src="/images/details/test.svg"
-                                  alt="test"
-                                />
-                                <p>1 practice test</p>
-                              </li>
-                              <li>
-                                <img
-                                  src="/images/details/assignment.svg"
-                                  alt="assignment"
-                                />
-                                <p>Assignments</p>
-                              </li>
-                              <li>
-                                <img
-                                  src="/images/details/copywriting.svg"
-                                  alt="copywriting"
-                                />
-                                <p>1 article</p>
-                              </li>
-                              <li>
-                                <img
-                                  src="/images/details/smart-devices.svg"
-                                  alt="smart-devices"
-                                />
-                                <p>Access on mobile and TV</p>
-                              </li>
-                              <li>
-                                <img
-                                  src="/images/details/award.svg"
-                                  alt="award"
-                                />
-                                <p>Certificate of completion</p>
-                              </li>
-                              <li>
-                                <img
-                                  src="/images/details/infinity.svg"
-                                  alt="infinity"
-                                />
-                                <p>Full lifetime access</p>
-                              </li>
-                            </ul>
-                          </div>
-                        </div>
-                      </div>
-                      <div className="accordion-item">
-                        <h2 className="accordion-header">
-                          <button
-                            className="accordion-button collapsed"
-                            type="button"
-                            data-bs-toggle="collapse"
-                            data-bs-target="#flush-collapsefive"
-                            aria-expanded="false"
-                            aria-controls="flush-collapsethree"
-                          >
-                            Chapter 4 - Basics of UX
-                          </button>
-                          <p>2 lectures • 15m</p>
-                        </h2>
-                        <div
-                          id="flush-collapsefive"
-                          className="accordion-collapse collapse"
-                          data-bs-parent="#accordionFlushExample2"
-                        >
-                          <div className="accordion-body">
-                            <ul>
-                              <li>
-                                <img
-                                  src="/images/details/video.svg"
-                                  alt="video"
-                                />
-                                <p>1 hour on-demand video</p>
-                              </li>
-                              <li>
-                                <img
-                                  src="/images/details/test.svg"
-                                  alt="test"
-                                />
-                                <p>1 practice test</p>
-                              </li>
-                              <li>
-                                <img
-                                  src="/images/details/assignment.svg"
-                                  alt="assignment"
-                                />
-                                <p>Assignments</p>
-                              </li>
-                              <li>
-                                <img
-                                  src="/images/details/copywriting.svg"
-                                  alt="copywriting"
-                                />
-                                <p>1 article</p>
-                              </li>
-                              <li>
-                                <img
-                                  src="/images/details/smart-devices.svg"
-                                  alt="smart-devices"
-                                />
-                                <p>Access on mobile and TV</p>
-                              </li>
-                              <li>
-                                <img
-                                  src="/images/details/award.svg"
-                                  alt="award"
-                                />
-                                <p>Certificate of completion</p>
-                              </li>
-                              <li>
-                                <img
-                                  src="/images/details/infinity.svg"
-                                  alt="infinity"
-                                />
-                                <p>Full lifetime access</p>
-                              </li>
-                            </ul>
-                          </div>
-                        </div>
-                      </div>
+                          )
+                        })
+                      }
+                    
+                      
                     </div>
                   </div>
                 </div>

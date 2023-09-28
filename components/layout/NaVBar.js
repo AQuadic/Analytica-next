@@ -6,14 +6,17 @@ import {usePathname, useRouter} from 'next-intl/client';
 import { LogOut } from "../useAPI/Auth";
 import Cookies from "js-cookie";
 import { useRecoilState } from "recoil";
-import { navState } from "@/atoms";
+import { MessagingFir, navState } from "@/atoms";
 import Link from 'next-intl/link';
 import { useTranslations } from "next-intl";
+import { deleteToken } from "firebase/messaging";
 
 
 function NavBar({lang}) {
   const [userData, setUserData] = useState();
   const [IsUser, setIsUser] = useRecoilState(navState);
+  const [messagingFire, setMessagingFire] = useRecoilState(MessagingFir);
+
   const t = useTranslations('Nav');
   const t2 = useTranslations('Account');
   console.log(IsUser);
@@ -38,6 +41,7 @@ function NavBar({lang}) {
     const UserLogOut = await LogOut(Cookies.get("token"));
     if (UserLogOut.message === "auth.logged_out") {
       console.log("done");
+      deleteToken(messaging)
       setIsUser(false);
       Cookies.remove('token')
       router.push('/signIn')

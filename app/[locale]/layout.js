@@ -16,6 +16,7 @@ import PushNotificationLayout from '@/components/PushNotificationLayout';
 
 
 
+
  
 
 export const metadata = {
@@ -52,21 +53,21 @@ if(locale==='ar'){
         
 
       <NextIntlClientProvider locale={locale} messages={messages}>
-      <PushNotificationLayout>
+     
 
       
         <Layout lang={locale}>
-      
+        <PushNotificationLayout>
 
         <main >
         {children}
         </main>
+        </PushNotificationLayout>
        
         
         </Layout>
-        </PushNotificationLayout>
         </NextIntlClientProvider>
-
+      
         <Script  src='/bootstrap.js'/>
         
         </body>

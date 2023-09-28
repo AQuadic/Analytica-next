@@ -10,10 +10,15 @@ import Cookies from "js-cookie";
 import { useRouter } from "next/navigation";
 import { PasswordInput, Select, TextInput } from "@mantine/core";
 import api from '../../app/[locale]/api';
-
+import { DeviceUUID } from 'device-uuid';
+import platform from 'platform';
+import { useRecoilState } from "recoil";
+import { tokenNotifiable } from "@/atoms";
 function CSignup() {
   const router = useRouter();
   const t = useTranslations("Sign");
+  const [tokenNOTF, setTokenNOTF] = useRecoilState(tokenNotifiable);
+
   const [allCountries, setallCountries] = useState([]);
   const [data, setData] = useState([]);
   const [name, setName] = useState("");
@@ -50,6 +55,8 @@ function CSignup() {
       setData((current) => [...current, item]);
     });
   };
+  var uuid = new DeviceUUID().get();
+  console.log( uuid);
 
   const handelSignUP = () => {
     setErrorName("")
@@ -120,7 +127,50 @@ function CSignup() {
         console.log(res);
       });
   };
-
+  const handelAddDevices = () => {
+   
+    setErroremail("")
+setErrorpassword("")
+setErrorMessage("")
+    const po = api
+      .post(
+        "/api/v1/users/auth/login",
+        {
+          "device_type": "web",
+    "device_token": uuid,
+    "device_name":platform.name,
+    "notifiable_method": "firebase",
+    "notifiable_token": tokenNOTF,
+    "enabled": false
+        },
+        {
+          headers: {
+            "Authorization": `Bearer ${Cookies.get("token")}`,
+            "Content-Type": "application/json",
+            "Accept": "application/json",
+          },
+        }
+      )
+      .then((res) => {
+        setIsUser(true)
+        Cookies.set("token",res.data.token);
+       console.log(res);
+       router.push('/')
+      })
+      .catch((res) => {
+      /*  setLoading(false);*/
+        res.response.data.errors?.email
+          ? setErroremail(res.response.data.errors.email[0])
+          : setErroremail("");
+        res.response.data.errors?.password
+          ? setErrorpassword(res.response.data.errors.password[0])
+          : setErrorpassword("");
+          res.response.data.message
+          ? setErrorMessage(res.response.data.message)
+          : setErrorMessage("");
+          console.log(res);
+      });
+  };
   return (
     <>
       <section className="sign container">
