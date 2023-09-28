@@ -1,3 +1,4 @@
+"use client";
 import FAQ from "@/components/FAQ";
 import Swiper1 from "@/components/Swiper1";
 import React from "react";
