@@ -23,7 +23,7 @@ console.log(instractor);
 
 
 
-const result = instractor?.courses&&Object.groupBy(instractor?.courses, ({ category }) => category.name.ar);
+const result = instractor?.courses&&Object.groupBy(instractor?.courses, ({ category }) => category?.name?.ar ?? 'كورسات اخري');
 
 console.log(result);
 if(result){
@@ -49,7 +49,7 @@ if(result){
       <section className="instructor_about container m80">
         <div className="content">
           <div className="instructor_user">
-            <img src={instractor.image?instractor.image.url:"/images/persone.webp"} alt="user" />
+            <img src={instractor.image?.url?instractor.image.url:"/images/persone.webp"} alt="user" />
             <h2>{instractor.name}</h2>
             
           </div>
