@@ -78,7 +78,7 @@ function InstractorInfo({params}) {
                         </li>}
 
                         {instractor?.socials?.linkedin && <li>
-                            <a href={`https://www.linkedin.com/${instractor.socials.linkedin}`}>
+                            <a href={`https://www.linkedin.com/in/${instractor.socials.linkedin}`}>
                                 <img src="/images/media/linkedin2.webp" alt="linkedin"/>
                                 <p>{instractor.socials.linkedin}</p>
                             </a>
