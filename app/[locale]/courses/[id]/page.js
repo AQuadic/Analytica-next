@@ -42,29 +42,30 @@ console.log(allCourses);
                   Apply Now
                 </Link>
                 <ul>
-                <li>
+                  {allCourses.users_count>0&& <li>
                     <img
                       src="/images/details/copywriting.svg"
                       alt="copywriting"
                     />
                     <p>{allCourses.users_count} Enrolled Students</p>
-                  </li>
-                  <li>
+                  </li>}
+                  {allCourses.video_lessons_count>0&& <li>
                     <img src="/images/details/video.svg" alt="video" />
                     <p>{allCourses.video_lessons_count} videos</p>
-                  </li>
-                  <li>
+                  </li>}
+                  {allCourses.exams_count>0&& <li>
                     <img src="/images/details/test.svg" alt="test" />
                     <p>{allCourses.exams_count} Count Exams</p>
-                  </li>
+                  </li>}
                  
-                  <li>
+                  {allCourses.article_lessons_count>0&&  <li>
                     <img
                       src="/images/details/copywriting.svg"
                       alt="copywriting"
                     />
                     <p>{allCourses.article_lessons_count} article</p>
-                  </li>
+                  </li>}
+                
                   <li>
                     <img
                       src="/images/details/smart-devices.svg"
@@ -87,12 +88,12 @@ console.log(allCourses);
           <div className="container">
             <div className="part2 ">
               {/*TODO*/ }
-              <div className="part">
+              {allCourses.learn&& <div className="part">
                 <h2 className="headDetails">What you'll learn</h2>
                 <div className="learn">
                   <ul className="row">
                     {
-                      allCourses.learn.en.map((item,i)=>{
+                      allCourses.learn?.en.map((item,i)=>{
                         return(
                           <li className="col-md-5" key={i}>
                           <img src="/images/details/true.svg" alt="true" />
@@ -106,14 +107,15 @@ console.log(allCourses);
                  
                   </ul>
                 </div>
-              </div>
+              </div>}
+             
                {/*TODO*/ }
-              <div className="part">
+               {allCourses.gain&& <div className="part">
                 <h2 className="headDetails">Skills you'll gain</h2>
                 <div className="skills">
                   <ul>
                     {
-                      allCourses.gain.en.map((item,i)=>{
+                      allCourses.gain?.en.map((item,i)=>{
                         return(
                           <li key={i}>{item}</li>
                         )
@@ -122,7 +124,8 @@ console.log(allCourses);
                     
                   </ul>
                 </div>
-              </div>
+              </div>}
+             
               <div className="part">
                 <div className="course_Content">
                   <h2 className="headDetails">Course Content</h2>
@@ -156,28 +159,29 @@ console.log(allCourses);
                             >
                               <div className="accordion-body">
                                 <ul>
-                                  <li>
+                                {lesson.videos_count>0&&<li>
                                     <img
                                       src="/images/details/video.svg"
                                       alt="video"
                                     />
                                     <p>{lesson.videos_count} videos</p>
-                                  </li>
-                                  <li>
+                                  </li>}
+                                  {lesson.exams_count>0&& <li>
                                     <img
                                       src="/images/details/test.svg"
                                       alt="test"
                                     />
                                     <p>{lesson.exams_count} Count Exams</p>
-                                  </li>
-                              
-                                  <li>
+                                  </li>}
+                                 
+                                  {lesson.files_count>0&& <li>
                                     <img
                                       src="/images/details/copywriting.svg"
                                       alt="copywriting"
                                     />
                                     <p>{lesson.files_count} article</p>
-                                  </li>
+                                  </li>}
+                                 
                                   <li>
                                     <img
                                       src="/images/details/smart-devices.svg"
@@ -212,7 +216,7 @@ console.log(allCourses);
                   </div>
                 </div>
               </div>
-              {allCourses.requirements && (
+              {allCourses.requirements.en && (
                 <div className="part">
                   <div className="description">
                     <h2 className="headDetails">Requirements</h2>
@@ -222,7 +226,7 @@ console.log(allCourses);
                   </div>
                 </div>
               )}
-               {allCourses.description && (
+               {allCourses.description.en && (
                 <div className="part">
                   <div className="description">
                     <h2 className="headDetails">Description</h2>

@@ -42,28 +42,29 @@ allCourses&&
                 Apply Now
               </Link>
               <ul>
-              <li>
+              {allCourses.users_count>0&&   <li>
                     <img
                       src="/images/details/copywriting.svg"
                       alt="copywriting"
                     />
                     <p>{allCourses.users_count} Enrolled Students</p>
-                  </li>
-                <li>
+                  </li>}
+                  {allCourses.videos_count>0&& <li>
                   <img src="/images/details/video.svg" alt="video" />
                   <p>{allCourses.videos_count} videos</p>
-                </li>
-                <li>
+                </li>}
+                {allCourses.exams_count>0&&  <li>
                   <img src="/images/details/test.svg" alt="test" />
                   <p>{allCourses.exams_count} Count Exams</p>
-                </li>
-                <li>
+                </li>}
+                {allCourses.article_lessons_count>0&&  <li>
                   <img
                     src="/images/details/copywriting.svg"
                     alt="copywriting"
                   />
                   <p>{allCourses.article_lessons_count} article</p>
-                </li>
+                </li>}
+              
                 <li>
                   <img
                     src="/images/details/smart-devices.svg"
@@ -168,28 +169,29 @@ allCourses&&
                             >
                               <div className="accordion-body">
                                 <ul>
-                                  <li>
+                                {lesson.videos_count>0&&  <li>
                                     <img
                                       src="/images/details/video.svg"
                                       alt="video"
                                     />
                                     <p>{lesson.videos_count} videos</p>
-                                  </li>
-                                  <li>
+                                  </li>}
+                                  {lesson.exams_count>0&&   <li>
                                     <img
                                       src="/images/details/test.svg"
                                       alt="test"
                                     />
                                     <p>{lesson.exams_count} Count Exams</p>
-                                  </li>
-                                 
-                                  <li>
+                                  </li>}
+                                  {lesson.files_count>0&& <li>
                                     <img
                                       src="/images/details/copywriting.svg"
                                       alt="copywriting"
                                     />
                                     <p>{lesson.files_count} article</p>
-                                  </li>
+                                  </li>}
+                                 
+                                 
                                   <li>
                                     <img
                                       src="/images/details/smart-devices.svg"
