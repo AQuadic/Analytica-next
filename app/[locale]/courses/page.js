@@ -352,17 +352,6 @@ function Courses() {
                                 />
                             );
                         })}
-
-                        <ItemCourse2
-                            title="Learn python: The Complete Python Programming Course"
-                            image="1"
-                            star="4.8"
-                            info="Use XD to get a job in UI Design, User Interface, User
-                  Experience design, UX design & Web Design"
-                            dec="Avinash jain, The Codex"
-                            oldsalary="E£679.99"
-                            newsalary="E£1,599.99"
-                        />
                     </div>
                 </div>
             </div>
