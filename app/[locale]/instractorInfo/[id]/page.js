@@ -26,7 +26,7 @@ console.log(instractor);
       <section className="InstractorInfo container">
         <div className="part1">
           <div className="info">
-            <img src={instractor?.image.url?instractor.image.url:"/images/persone.webp"} className="person" alt="persone" />
+            <img src={instractor?.image?.url?instractor.image.url:"/images/persone.webp"} className="person" alt="persone" />
             <div className="info_about">
               <h2>INSTRUCTOR</h2>
               <h3>{instractor?.name}</h3>
