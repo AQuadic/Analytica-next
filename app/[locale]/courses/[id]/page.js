@@ -30,7 +30,8 @@ function CourseDetails({params}) {
                                 {allCourses.short_description && <h3>{allCourses.short_description.en}</h3>}
                                 <p>
                                     Instructor:{" "}
-                                    <Link href={`/instractorInfo/${allCourses.instructor.slug}`}>
+                                    <Link
+                                        href={`/instractorInfo/${allCourses.instructor.slug ?? allCourses.instructor.id}`}>
                                         {allCourses.instructor.name}
                                     </Link>
                                 </p>
