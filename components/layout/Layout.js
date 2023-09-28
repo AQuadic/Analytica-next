@@ -8,11 +8,14 @@ import Footer2 from '../layout2/Footer2'
 
 import Script from 'next/script'
 import { RecoilRoot } from 'recoil'
+import Cookies from 'js-cookie'
 
 function Layout({children,lang}) {
   const pathname = usePathname()
   const isClintUrl = pathname.includes('instructorScreen');
- 
+ if(Cookies.get("token")=="undefined"){
+  Cookies.remove("token")
+ }
   return (
     <>
     <RecoilRoot>

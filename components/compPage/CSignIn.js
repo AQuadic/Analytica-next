@@ -25,7 +25,7 @@ function CSignIn() {
   const t = useTranslations('Sign');
 
   var uuid = new DeviceUUID().get();
-  console.log( uuid);
+
 
   const handellogin = () => {
     setErroremail("")
@@ -92,10 +92,8 @@ setErrorMessage("")
         }
       )
       .then((res) => {
-        setIsUser(true)
-        Cookies.set("token",res.data.token);
+ 
        console.log(res);
-       router.push('/')
       })
       .catch((res) => {
       /*  setLoading(false);*/
