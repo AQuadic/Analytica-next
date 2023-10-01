@@ -9,6 +9,7 @@ import {useRouter} from "next/navigation";
 import React, {useState} from "react";
 import {useRecoilState} from "recoil";
 import api from '../../api';
+import { Alert } from "react-bootstrap";
 
 // export const metadata = {
 //   title: 'analytica | Account',
@@ -18,6 +19,8 @@ function page() {
     const router = useRouter();
     const t = useTranslations("Account");
     const t2 = useTranslations("Sign");
+    const [show, setShow] = useState(false);
+
     const [IsUser, setIsUser] = useRecoilState(navState);
     const [password, setpassword] = useState("");
     const [newpassword, setNewpassword] = useState("");
@@ -60,6 +63,8 @@ function page() {
             })
             .catch((res) => {
                 /*  setLoading(false);*/
+                res.response.status===500&&setShow(true)
+
                 res.response.data.errors?.current_password
                     ? setErrorPassword(res.response.data.errors.current_password[0])
                     : setErrorPassword("");
@@ -75,6 +80,16 @@ function page() {
 
     return (
         <>
+        {
+    show&&<Alert variant="danger" onClose={() => setShow(false)} dismissible>
+    <Alert.Heading>Oh snap! You got an error!</Alert.Heading>
+    <p>
+      Change this and that and try again. Duis mollis, est non commodo
+      luctus, nisi erat porttitor ligula, eget lacinia odio sem nec elit.
+      Cras mattis consectetur purus sit amet fermentum.
+    </p>
+  </Alert>
+}
             <section className="account container">
                 <div className="account_info personal_info">
                     <div className="part1">

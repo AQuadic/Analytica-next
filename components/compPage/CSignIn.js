@@ -98,6 +98,8 @@ function CSignIn() {
             })
             .catch((res) => {
                 /*  setLoading(false);*/
+                res.response.status===500&&setShow(true)
+
                 res.response.data.errors?.email
                     ? setErroremail(res.response.data.errors.email[0])
                     : setErroremail("");

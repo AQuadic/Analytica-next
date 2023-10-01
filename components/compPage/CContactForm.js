@@ -6,10 +6,13 @@ import PhoneInput from "react-phone-number-input";
 import {getHomePage} from "../useAPI/GetUser";
 import {useRouter} from "next/navigation";
 import api from '../../app/[locale]/api';
+import { Alert } from "react-bootstrap";
 
 function CContactForm() {
     const t = useTranslations("Teach");
     const t2 = useTranslations("Sign");
+    const [show, setShow] = useState(false);
+
     const router = useRouter()
     const [name, setName] = useState("");
     const [email, setEmail] = useState("");
@@ -97,6 +100,8 @@ function CContactForm() {
             })
             .catch((res) => {
                 /*  setLoading(false);*/
+                res.response.status===500&&setShow(true)
+
                 res.response.data.errors?.name
                     ? setErrorName(res.response.data.errors.name[0])
                     : setErrorName("");
@@ -123,7 +128,16 @@ function CContactForm() {
 
     return (
         <>
-            <script src="../phone.js"/>
+        {
+    show&&<Alert variant="danger" onClose={() => setShow(false)} dismissible>
+    <Alert.Heading>Oh snap! You got an error!</Alert.Heading>
+    <p>
+      Change this and that and try again. Duis mollis, est non commodo
+      luctus, nisi erat porttitor ligula, eget lacinia odio sem nec elit.
+      Cras mattis consectetur purus sit amet fermentum.
+    </p>
+  </Alert>
+}
             <section className="bookingForm">
                 <div className="container">
                     <div className="content">

@@ -12,11 +12,14 @@ import {DeviceUUID} from 'device-uuid';
 import platform from 'platform';
 import {useRecoilState} from "recoil";
 import {tokenNotifiable} from "@/atoms";
+import { Alert } from "react-bootstrap";
 
 function CSignup() {
     const router = useRouter();
     const t = useTranslations("Sign");
     const [tokenNOTF, setTokenNOTF] = useRecoilState(tokenNotifiable);
+    const [show, setShow] = useState(false);
+
 
     const [allCountries, setallCountries] = useState([]);
     const [data, setData] = useState([]);
@@ -97,6 +100,7 @@ function CSignup() {
             })
             .catch((res) => {
                 /*  setLoading(false);*/
+                res.response.status===500&&setShow(true)
                 res.response.data.errors?.name
                     ? setErrorName(res.response.data.errors.name[0])
                     : setErrorName("");
@@ -159,6 +163,8 @@ function CSignup() {
             })
             .catch((res) => {
                 /*  setLoading(false);*/
+                res.response.status===500&&setShow(true)
+
                 res.response.data.errors?.email
                     ? setErroremail(res.response.data.errors.email[0])
                     : setErroremail("");
@@ -173,6 +179,16 @@ function CSignup() {
     };
     return (
         <>
+        {
+    show&&<Alert variant="danger" onClose={() => setShow(false)} dismissible>
+    <Alert.Heading>Oh snap! You got an error!</Alert.Heading>
+    <p>
+      Change this and that and try again. Duis mollis, est non commodo
+      luctus, nisi erat porttitor ligula, eget lacinia odio sem nec elit.
+      Cras mattis consectetur purus sit amet fermentum.
+    </p>
+  </Alert>
+}
             <section className="sign container">
                 <div className="box_sign">
                     <h2 className="title_sign">{t("up")}</h2>

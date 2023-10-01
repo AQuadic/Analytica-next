@@ -9,10 +9,13 @@ import Cookies from "js-cookie";
 import {useRecoilState} from "recoil";
 import {navState} from "@/atoms";
 import api from '../../app/[locale]/api';
+import { Alert } from "react-bootstrap";
 
 
 function CCheckOut() {
     const [IsUser, setIsUser] = useRecoilState(navState);
+    const [show, setShow] = useState(false);
+
     const t = useTranslations("CheckOut");
     const [paymentValue, setPayment] = useState("1");
     const [payment_methods, setPayment_methods] = useState([]);
@@ -72,6 +75,8 @@ function CCheckOut() {
             })
             .catch((res) => {
                 /*  setLoading(false);*/
+                res.response.status===500&&setShow(true)
+
                 res.response.data.message
                     ? setErrorMessage(res.response.data.message)
                     : setErrorMessage("");
@@ -107,6 +112,8 @@ function CCheckOut() {
                 })
                 .catch((res) => {
                     /*  setLoading(false);*/
+                res.response.status===500&&setShow(true)
+
                     console.log(res);
                 });
         }
@@ -114,6 +121,16 @@ function CCheckOut() {
     return (
 
         <>
+        {
+    show&&<Alert variant="danger" onClose={() => setShow(false)} dismissible>
+    <Alert.Heading>Oh snap! You got an error!</Alert.Heading>
+    <p>
+      Change this and that and try again. Duis mollis, est non commodo
+      luctus, nisi erat porttitor ligula, eget lacinia odio sem nec elit.
+      Cras mattis consectetur purus sit amet fermentum.
+    </p>
+  </Alert>
+}
             {
                 course ? <>
                     <div className="checkOut container">

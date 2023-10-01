@@ -12,6 +12,7 @@ import React, {useEffect, useState} from "react";
 import PhoneInput from "react-phone-number-input";
 import {useRecoilState} from "recoil";
 import api from '../api';
+import { Alert } from "react-bootstrap";
 
 // export const metadata = {
 //   title: 'analytica | Account',
@@ -19,6 +20,8 @@ import api from '../api';
 
 function page() {
     const router = useRouter();
+    const [show, setShow] = useState(false);
+
     const t = useTranslations('Account');
     const t2 = useTranslations('Sign');
     const [IsUser, setIsUser] = useRecoilState(navState);
@@ -99,6 +102,7 @@ function page() {
 
             })
             .catch((res) => {
+                res.response.status===500&&setShow(true)
                 res.response.data.errors?.name
                     ? setErrorName(res.response.data.errors.name[0])
                     : setErrorName("");
@@ -122,6 +126,16 @@ function page() {
 
     return (
         <>
+        {
+    show&&<Alert variant="danger" onClose={() => setShow(false)} dismissible>
+    <Alert.Heading>Oh snap! You got an error!</Alert.Heading>
+    <p>
+      Change this and that and try again. Duis mollis, est non commodo
+      luctus, nisi erat porttitor ligula, eget lacinia odio sem nec elit.
+      Cras mattis consectetur purus sit amet fermentum.
+    </p>
+  </Alert>
+}
             <section className="account container">
                 <div className="account_info personal_info">
                     <div className="part1">

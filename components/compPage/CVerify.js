@@ -5,10 +5,13 @@ import {useRouter} from "next/navigation";
 import React, {useEffect, useState} from "react";
 import OTPInput from "react-otp-input";
 import api from '../../app/[locale]/api';
+import { Alert } from "react-bootstrap";
 
 function CVerify() {
     const router = useRouter()
     const t = useTranslations("Sign");
+    const [show, setShow] = useState(false);
+
     const [otp, setOtp] = useState("");
     const [ErrorMessage, setErrorMessage] = useState("");
     const clearOtp = () => {
@@ -72,6 +75,8 @@ function CVerify() {
             })
             .catch((res) => {
                 console.log(res);
+                res.response.status===500&&setShow(true)
+
                 res.response.data?.message
                     ? setErrorMessage(res.response.data.message)
                     : setErrorMessage("");
@@ -80,7 +85,17 @@ function CVerify() {
 
     return (
         <>
-            <script src="../js/otp.js"/>
+        {
+    show&&<Alert variant="danger" onClose={() => setShow(false)} dismissible>
+    <Alert.Heading>Oh snap! You got an error!</Alert.Heading>
+    <p>
+      Change this and that and try again. Duis mollis, est non commodo
+      luctus, nisi erat porttitor ligula, eget lacinia odio sem nec elit.
+      Cras mattis consectetur purus sit amet fermentum.
+    </p>
+  </Alert>
+}
+           
             <section className="sign container">
                 <div className="box_sign">
                     <h2 className="title_sign">{t("verifyEmail")}</h2>

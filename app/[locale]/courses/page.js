@@ -3,6 +3,7 @@ import ItemCourse2 from "@/components/ItemCourse2";
 import {getHomePage} from "@/components/useAPI/GetUser";
 import {Checkbox, Group, Slider} from "@mantine/core";
 import React, {useEffect, useState} from "react";
+import { Alert } from "react-bootstrap";
 
 // export const metadata = {
 //   title: 'analytica | Courses',
@@ -17,6 +18,7 @@ function Courses() {
     const [Language, setLanguage] = useState();
     const [Price, setPrice] = useState();
     const [AllTopic, setAllTopic] = useState([]);
+    const [show, setShow] = useState(false);
 
 
     useEffect(() => {
@@ -49,6 +51,8 @@ function Courses() {
             const data = await res.json();
             setAllCourses(data.data);
         } catch (error) {
+            error.response.status===500&&setShow(true)
+
             console.log("Error in Add New Category (service) =>", error);
         }
     };
@@ -62,6 +66,16 @@ function Courses() {
     }
     return (
         <>
+        {
+    show&&<Alert variant="danger" onClose={() => setShow(false)} dismissible>
+    <Alert.Heading>Oh snap! You got an error!</Alert.Heading>
+    <p>
+      Change this and that and try again. Duis mollis, est non commodo
+      luctus, nisi erat porttitor ligula, eget lacinia odio sem nec elit.
+      Cras mattis consectetur purus sit amet fermentum.
+    </p>
+  </Alert>
+}
             <div className="courses container">
                 <div className="part1">
                     <div className="accordion accordion-flush" id="accordionFlushExample">

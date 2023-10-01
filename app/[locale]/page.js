@@ -8,7 +8,7 @@ import {getAllCourses, getAllCoursesWithUser,} from "@/components/useAPI/CorsesA
 import {useRecoilState} from "recoil";
 import {navState} from "@/atoms";
 import {useTranslations} from "next-intl";
-import {DeviceUUID} from "device-uuid";
+
 import { Alert } from "react-bootstrap";
 import Cookies from "js-cookie";
 
@@ -18,7 +18,7 @@ export default function Home({params: {locale}}) {
     const [IsUser, setIsUser] = useRecoilState(navState);
     const t = useTranslations("Index");
 
-    var uuid = new DeviceUUID().get();
+   
 
 
     useEffect(() => {
@@ -61,17 +61,18 @@ export default function Home({params: {locale}}) {
     };
    
     const [show, setShow] = useState(true);
+    
     return (
         <main className={styles.main}>
             <>
-            <Alert variant="danger" onClose={() => setShow(false)} dismissible>
+            {/*<Alert variant="danger" onClose={() => setShow(false)} dismissible>
         <Alert.Heading>Oh snap! You got an error!</Alert.Heading>
         <p>
           Change this and that and try again. Duis mollis, est non commodo
           luctus, nisi erat porttitor ligula, eget lacinia odio sem nec elit.
           Cras mattis consectetur purus sit amet fermentum.
         </p>
-      </Alert>
+    </Alert>*/ }
             
                 <section className="about m60">
                     <div className="container allAbout">

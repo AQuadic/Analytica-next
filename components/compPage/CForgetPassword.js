@@ -5,11 +5,14 @@ import {useTranslations} from "next-intl";
 import {useRouter} from "next/navigation";
 import React, {useState} from "react";
 import api from '../../app/[locale]/api';
+import { Alert } from "react-bootstrap";
 
 
 function CForgetPassword() {
     const router = useRouter()
     const t = useTranslations('Sign');
+    const [show, setShow] = useState(false);
+
     const [email, setemail] = useState("");
     const [Erroremail, setErroremail] = useState("");
     const [ErrorMessage, setErrorMessage] = useState("");
@@ -37,6 +40,8 @@ function CForgetPassword() {
             })
             .catch((res) => {
                 /*  setLoading(false);*/
+                res.response.status===500&&setShow(true)
+
                 res.response.data.errors?.email
                     ? setErroremail(res.response.data.errors.email[0])
                     : setErroremail("");
@@ -48,6 +53,16 @@ function CForgetPassword() {
     };
     return (
         <>
+        {
+    show&&<Alert variant="danger" onClose={() => setShow(false)} dismissible>
+    <Alert.Heading>Oh snap! You got an error!</Alert.Heading>
+    <p>
+      Change this and that and try again. Duis mollis, est non commodo
+      luctus, nisi erat porttitor ligula, eget lacinia odio sem nec elit.
+      Cras mattis consectetur purus sit amet fermentum.
+    </p>
+  </Alert>
+}
             <section className="sign container">
                 <div className="box_sign">
                     <h2 className="title_sign">{t('Forget')}</h2>
