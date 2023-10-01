@@ -29,7 +29,9 @@ function page({params}) {
             console.log(key, value);
         }
     }
-
+console.log('====================================');
+console.log(instractor);
+console.log('====================================');
     return (
         instractor &&
         <>
@@ -54,13 +56,7 @@ function page({params}) {
                     <div className="instructor_info">
                         <h3>INSTRUCTOR</h3>
                         <p>
-                            Hello ,i'm {instractor.name} ,UI/UX Designer and ui Developer .I have
-                            worked in web interface design and mobile application design .I
-                            also worked in the graphic design field for several years.., also
-                            worked as an instructor ,, explaining the design approach and user
-                            experience.. I have a passion for simplifying the science of
-                            design and user experience and presenting it to students in the
-                            simplest form..
+                            Hello ,i'm {instractor.name} ,{instractor?.about?.en}
                         </p>
                     </div>
                 </div>
@@ -122,18 +118,19 @@ function page({params}) {
             </section>
             {
                 result &&
-                Object.entries(result).map(obj => {
+                Object.entries(result).map((obj,i) => {
                     const key = obj[0];
                     const value = obj[1];
                     return (
-                        <section className="services services2 container m80">
+                        <section className="services services2 container m80" key={i}>
                             <h2>{key}</h2>
                             <div className="allServices">
                                 {
                                     value?.map((item) => {
                                         return (
                                             <ItemCourse
-                                                link2={`/instructorScreen/courseDetails/${item.id}`}
+                                            key={item.id}
+                                                link2={`/i/courseDetails/${item.id}`}
                                                 title={item.name.en}
                                                 image="21"
                                                 imageCourse={item.image?.url}

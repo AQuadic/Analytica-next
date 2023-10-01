@@ -10,9 +10,10 @@ import {useTranslations} from "next-intl";
 import api from '../../app/[locale]/api';
 import {DeviceUUID} from 'device-uuid';
 import platform from 'platform';
+import { Alert } from "react-bootstrap";
 
 function CSignIn() {
-
+    const [show, setShow] = useState(false);
     const router = useRouter()
     const [email, setemail] = useState("");
     const [password, setpassword] = useState("");
@@ -52,6 +53,7 @@ function CSignIn() {
                 router.push('/')
             })
             .catch((res) => {
+                res.response.status===500&&setShow(true)
                 /*  setLoading(false);*/
                 res.response.data.errors?.email
                     ? setErroremail(res.response.data.errors.email[0])
@@ -111,7 +113,16 @@ function CSignIn() {
     console.log(tokenNOTF);
     return (
         <>
-
+{
+    show&&<Alert variant="danger" onClose={() => setShow(false)} dismissible>
+    <Alert.Heading>Oh snap! You got an error!</Alert.Heading>
+    <p>
+      Change this and that and try again. Duis mollis, est non commodo
+      luctus, nisi erat porttitor ligula, eget lacinia odio sem nec elit.
+      Cras mattis consectetur purus sit amet fermentum.
+    </p>
+  </Alert>
+}
             <section className="sign container">
                 <div className="box_sign">
                     <h2 className="title_sign">{t('in')}</h2>

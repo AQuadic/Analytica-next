@@ -110,7 +110,7 @@ function page({params}) {
                 <h2>Graphic Courses</h2>
                 <div className="allServices">
                     <ItemCourse
-                        link2="/instructorScreen/courseDetails"
+                        link2="/i/courseDetails"
                         title="Learn python: The Complete Python Programming Course"
                         image="21"
                         star="4.8"
@@ -119,7 +119,7 @@ function page({params}) {
                         newsalary="E£1,599.99"
                     />
                     <ItemCourse
-                        link2="/instructorScreen/courseDetails"
+                        link2="/i/courseDetails"
                         title="Learn python: The Complete Python Programming Course"
                         image="22"
                         star="4.8"
@@ -127,7 +127,7 @@ function page({params}) {
                         newsalary="E£1,599.99"
                     />
                     <ItemCourse
-                        link2="/instructorScreen/courseDetails"
+                        link2="/i/courseDetails"
                         title="Learn python: The Complete Python Programming Course"
                         image="23"
                         star="4.8"
@@ -135,7 +135,7 @@ function page({params}) {
                         newsalary="E£1,599.99"
                     />
                     <ItemCourse
-                        link2="/instructorScreen/courseDetails"
+                        link2="/i/courseDetails"
                         title="Learn python: The Complete Python Programming Course"
                         image="24"
                         star="4.8"
@@ -148,7 +148,7 @@ function page({params}) {
                 <h2>UI UX Courses</h2>
                 <div className="allServices">
                     <ItemCourse
-                        link2="/instructorScreen/courseDetails"
+                        link2="/i/courseDetails"
                         title="Learn python: The Complete Python Programming Course"
                         image="25"
                         star="4.8"
@@ -157,7 +157,7 @@ function page({params}) {
                         newsalary="E£1,599.99"
                     />
                     <ItemCourse
-                        link2="/instructorScreen/courseDetails"
+                        link2="/i/courseDetails"
                         title="Learn python: The Complete Python Programming Course"
                         image="26"
                         star="4.8"
@@ -165,7 +165,7 @@ function page({params}) {
                         newsalary="E£1,599.99"
                     />
                     <ItemCourse
-                        link2="/instructorScreen/courseDetails"
+                        link2="/i/courseDetails"
                         title="Learn python: The Complete Python Programming Course"
                         image="27"
                         star="4.8"
@@ -173,7 +173,7 @@ function page({params}) {
                         newsalary="E£1,599.99"
                     />
                     <ItemCourse
-                        link2="/instructorScreen/courseDetails"
+                        link2="/i/courseDetails"
                         title="Learn python: The Complete Python Programming Course"
                         image="24"
                         star="4.8"
@@ -182,7 +182,7 @@ function page({params}) {
                         newsalary="E£1,599.99"
                     />
                     <ItemCourse
-                        link2="/instructorScreen/courseDetails"
+                        link2="/i/courseDetails"
                         title="Learn python: The Complete Python Programming Course"
                         image="27"
                         star="4.8"
@@ -190,7 +190,7 @@ function page({params}) {
                         newsalary="E£1,599.99"
                     />
                     <ItemCourse
-                        link2="/instructorScreen/courseDetails"
+                        link2="/i/courseDetails"
                         title="Learn python: The Complete Python Programming Course"
                         image="24"
                         star="4.8"

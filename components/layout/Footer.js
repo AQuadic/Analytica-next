@@ -51,8 +51,8 @@ function Footer({lang}) {
                             <Link href="/">  {t('home')}</Link>
                             <Link href="/myCourses">{t('myCourses')}</Link>
 
-                            <Link href="/instructorScreen">instructorScreen 1</Link>
-                            <Link href="/instructorScreen/oneCourse">instructorScreen 2</Link>
+                            <Link href="/i">instructorScreen 1</Link>
+                            <Link href="/i/oneCourse">instructorScreen 2</Link>
                         </div>
                     </div>
                     <div className="part">

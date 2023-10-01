@@ -16,7 +16,7 @@ function page() {
                             </h3>
                             <p>
                                 Instructor:{" "}
-                                <Link href="/instructorScreen/oneCourse">Ahmed Muhammed</Link>
+                                <Link href="/i/oneCourse">Ahmed Muhammed</Link>
                             </p>
                         </div>
                         <div className="contantCart">

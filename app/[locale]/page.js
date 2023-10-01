@@ -9,6 +9,8 @@ import {useRecoilState} from "recoil";
 import {navState} from "@/atoms";
 import {useTranslations} from "next-intl";
 import {DeviceUUID} from "device-uuid";
+import { Alert } from "react-bootstrap";
+import Cookies from "js-cookie";
 
 export default function Home({params: {locale}}) {
     const [allCourses, setAllCourses] = useState([]);
@@ -57,10 +59,20 @@ export default function Home({params: {locale}}) {
         if (!AllData) console.log(AllData?.message);
         console.log(AllData);
     };
-
+   
+    const [show, setShow] = useState(true);
     return (
         <main className={styles.main}>
             <>
+            <Alert variant="danger" onClose={() => setShow(false)} dismissible>
+        <Alert.Heading>Oh snap! You got an error!</Alert.Heading>
+        <p>
+          Change this and that and try again. Duis mollis, est non commodo
+          luctus, nisi erat porttitor ligula, eget lacinia odio sem nec elit.
+          Cras mattis consectetur purus sit amet fermentum.
+        </p>
+      </Alert>
+            
                 <section className="about m60">
                     <div className="container allAbout">
                         <div className="part1">

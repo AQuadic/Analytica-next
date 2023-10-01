@@ -31,7 +31,7 @@ function page({params}) {
                             <p>
                                 Instructor:{" "}
                                 <Link
-                                    href={`/instructorScreen/${Cookies.get("nameUrl")}`}>{allCourses.instructor.name}</Link>
+                                    href={`/i/${Cookies.get("nameUrl")}`}>{allCourses.instructor.name}</Link>
                             </p>
                         </div>
                         <div className="contantCart">
