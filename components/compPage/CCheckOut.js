@@ -25,7 +25,9 @@ function CCheckOut() {
     const [discountID, setDiscountID] = useState();
     const [Price, setPrice] = useState();
     const [ErrorMessage, setErrorMessage] = useState("");
+    const [ErrorMessage2, setErrorMessage2] = useState("");
     const SearchParams = useSearchParams()
+
     const router = useRouter()
     const CoursesID = SearchParams.get("id");
 
@@ -107,12 +109,15 @@ function CCheckOut() {
                 )
                 .then((res) => {
                     console.log(res);
-                    router.push(res.data.payment_link)
+                    res.data.payment_link?router.push(res.data.payment_link):router.push('/myCourses')
 
                 })
                 .catch((res) => {
                     /*  setLoading(false);*/
-                res.response.status===500&&setShow(true)
+                res.response?.status===500&&setShow(true)
+                res.response.data.message
+                    ? setErrorMessage2(res.response.data.message)
+                    : setErrorMessage2("");
 
                     console.log(res);
                 });
@@ -207,7 +212,10 @@ function CCheckOut() {
                             }} className="btn_page">
                                 {t('title')}
                             </button>
+                            {ErrorMessage2 &&
+                                    <p style={{color: "red", fontSize: "12px", marginTop: "6px",textAlign:"center"}}>{ErrorMessage2}</p>}
                         </div>
+                       
                     </div>
                 </> : <>
 
