@@ -2,7 +2,7 @@
 import React, {useEffect, useState} from 'react'
 import Link from 'next/link'
 import {usePathname, useRouter} from 'next-intl/client';
-import {useTranslations} from 'next-intl';
+import {useLocale, useTranslations} from 'next-intl';
 import {getHomePage} from '../useAPI/GetUser';
 
 function Footer({lang}) {
@@ -11,6 +11,8 @@ function Footer({lang}) {
     const t = useTranslations('Footer');
     const [pages, setPage] = useState([])
     const [social, setSocial] = useState([])
+    const locale = useLocale();
+
     useEffect(() => {
         FetchDataOFHomePage();
     }, []);
@@ -44,7 +46,7 @@ function Footer({lang}) {
                             {
                                 pages?.map((page) => {
                                     return (
-                                        <Link key={page.id} href={`/about?id=${page.id}`}>{page.title.en}</Link>
+                                        <Link key={page.id} href={`/about?id=${page.id}`}>{page.title[locale]}</Link>
                                     )
                                 })
                             }

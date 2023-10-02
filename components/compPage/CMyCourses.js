@@ -58,6 +58,7 @@ function CMyCourses() {
                                         numProgress="42%"
                                         key={course.id}
                                         id={course.id}
+                                        NoPrice={true}
                                     />
                                 )
                             })

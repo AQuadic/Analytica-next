@@ -53,7 +53,7 @@ function ItemCourse2({
         </Link>
 
         {is_purchased ? (
-          <Link href={`/courseVideo`} className="btn_page">
+          <Link href={`/courseContent/${id}`} className="btn_page">
             Continue learning
           </Link>
         ) : (

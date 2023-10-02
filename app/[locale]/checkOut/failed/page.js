@@ -11,6 +11,7 @@ function Successfull() {
                 dec={t('wrong')}
                 link={'/myCourses'}
                title2={t('myCourses')}
+               failed={true}
             />
         </>
     );

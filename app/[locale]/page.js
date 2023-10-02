@@ -7,10 +7,12 @@ import {getHomePage, getHomeSections} from "@/components/useAPI/GetUser";
 import {getAllCourses, getAllCoursesWithUser,} from "@/components/useAPI/CorsesApi/GetCourses";
 import {useRecoilState} from "recoil";
 import {navState} from "@/atoms";
-import {useTranslations} from "next-intl";
+import {useLocale, useTranslations} from "next-intl";
 
 import { Alert } from "react-bootstrap";
 import Cookies from "js-cookie";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
+
 
 export default function Home({params: {locale}}) {
     const [allCourses, setAllCourses] = useState([]);
@@ -19,6 +21,7 @@ export default function Home({params: {locale}}) {
     const t = useTranslations("Index");
 
    
+ 
 
 
     useEffect(() => {
@@ -83,7 +86,7 @@ export default function Home({params: {locale}}) {
                                 {t("title3")} <span className="mainColor">{t("title4")}</span>
                             </h1>
                             <p>{t("dec")}</p>
-                            <Link href="courses" className="btn_page wow fadeInDown">
+                            <Link href="courses"  className="btn_page wow fadeInDown">
                                 {t("start")}
                             </Link>
                             <div className="trusted">
@@ -123,7 +126,7 @@ export default function Home({params: {locale}}) {
                                         <ItemCourse
                                             key={course.id}
                                             id={course.id}
-                                            title={course.name.en}
+                                            title={course.name[locale]}
                                             imageCourse={course.image?.url}
                                             star="4.8"
                                             dec={course.instructor?.name}
@@ -176,9 +179,9 @@ export default function Home({params: {locale}}) {
                                     className="services services_content container m60"
                                     key={part.id}
                                 >
-                                    <h2 className="headtitle wow fadeInDown">{part.name.en}</h2>
+                                    <h2 className="headtitle wow fadeInDown">{part.name[locale]}</h2>
                                     <p className="p_page wow fadeInUp">
-                                        {part.description && part.description?.en}
+                                        {part.description && part.description[locale]}
                                     </p>
                                     <div className="allServices">
                                         {part.courses
@@ -188,7 +191,7 @@ export default function Home({params: {locale}}) {
                                                     <ItemCourse
                                                         key={course.id}
                                                         id={course.id}
-                                                        title={course.name.en}
+                                                        title={course.name[locale]}
                                                         imageCourse={course.image.url}
                                                         star="4.8"
                                                         is_purchased={course.is_purchased?true:false}

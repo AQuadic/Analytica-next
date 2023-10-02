@@ -7,7 +7,7 @@ let headersToken = {
     Accept: "application/json",
 };
 
-let headers = {
+let header = {
     "Content-Type": "application/json",
     Accept: "application/json",
 };
@@ -71,16 +71,13 @@ export const getAllCoursesWithUser = async () => {
         console.log("Error in Add New Category (service) =>", error);
     }
 };
-export const getOneCourse = async (e) => {
+export const getOneCourse = async (e,IsUser) => {
     try {
         const res = await fetch(
             `${BASE_URL}/api/v1/users/courses/${e}`,
             {
                 method: "GET",
-                headers: {
-                    "Content-Type": "application/json",
-                    Accept: "application/json",
-                },
+                headers: IsUser?headersToken:header,
             }
         );
         const data = await res.json();
@@ -91,4 +88,19 @@ export const getOneCourse = async (e) => {
 };
 
 
+export const getOneLessons = async (e,IsUser) => {
+    try {
+        const res = await fetch(
+            `${BASE_URL}/api/v1/users/lessons/${e}`,
+            {
+                method: "GET",
+                headers: IsUser?headersToken:header,
+            }
+        );
+        const data = await res.json();
+        return data;
+    } catch (error) {
+        console.log("Error in Add New Category (service) =>", error);
+    }
+};
 

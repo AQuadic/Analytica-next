@@ -15,6 +15,7 @@ function ItemCourse({
   link2,
   id,
   is_purchased,
+  NoPrice
 }) {
   return (
     <div className="service ">
@@ -47,7 +48,8 @@ function ItemCourse({
             )}
           </div>
           <p className="dec_service">{dec}</p>
-          {newsalary ? (
+         {
+          NoPrice?null: newsalary ? (
             <div className="salary">
               {!oldsalary && <p>{newsalary}</p>}
               {oldsalary && (
@@ -59,7 +61,9 @@ function ItemCourse({
             </div>
           ) : (
             "free"
-          )}
+          )
+        }
+         
         </Link>
         {Myprogress && (
           <>
@@ -78,7 +82,7 @@ function ItemCourse({
         )}
         {!Myprogress ? (
           is_purchased ? (
-            <Link href={`/courseVideo`} className="btn_page">
+            <Link href={`/courseContent/${id}`} className="btn_page">
               Continue learning
             </Link>
           ) : (

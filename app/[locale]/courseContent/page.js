@@ -1,9 +1,9 @@
 "use client";
 import React, {useState} from "react";
 // export const metadata = {
-//   title: 'analytica | CourseVideo',
+//   title: 'analytica | courseContent',
 // }
-function CourseVideo() {
+function page() {
     const [openClose, setOpenClose] = useState(false);
     const [content, setContent] = useState("one");
 
@@ -319,4 +319,4 @@ function CourseVideo() {
     );
 }
 
-export default CourseVideo;
+export default page;

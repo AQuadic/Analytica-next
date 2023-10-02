@@ -1,11 +1,13 @@
 import React from 'react'
 import Link from 'next/link'
 
-function Thanks({title, dec, link, dash,title2}) {
+function Thanks({title, dec, link, dash,title2,failed}) {
     return (
         <>
             <div className="successfull container">
-                <img src="/images/successfull.webp" alt="successfull"/>
+                {
+                    failed?<img src="/images/transactionfailed.webp" alt="transactionfailed"/>:<img src="/images/successfull.webp" alt="successfull"/>
+                }
                 <h2>{title}</h2>
                 <p>{dec}</p>
                 {
