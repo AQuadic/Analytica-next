@@ -130,60 +130,7 @@ function page({ params }) {
                         )
                     })
                 }
-                <li
-                  className="lecture"
-                  onClick={() => {
-                    HandelContent("two");
-                  }}
-                >
-                  <h4>Introduction</h4>
-                  <p>0/2 | 5min</p>
-                </li>
-                <li
-                  className="lecture"
-                  onClick={() => {
-                    HandelContent("two");
-                  }}
-                >
-                  <h4>Chapter 1 - Basics of UX</h4>
-                  <p>0/10 | 2hr 35min</p>
-                </li>
-                <li
-                  className="lecture"
-                  onClick={() => {
-                    HandelContent("two");
-                  }}
-                >
-                  <h4>Chapter 1 - Basics of UX</h4>
-                  <p>0/10 | 2hr 35min</p>
-                </li>
-                <li
-                  className="lecture"
-                  onClick={() => {
-                    HandelContent("two");
-                  }}
-                >
-                  <h4>Chapter 1 - Basics of UX</h4>
-                  <p>0/10 | 2hr 35min</p>
-                </li>
-                <li
-                  className="lecture"
-                  onClick={() => {
-                    HandelContent("two");
-                  }}
-                >
-                  <h4>Chapter 1 - Basics of UX</h4>
-                  <p>0/10 | 2hr 35min</p>
-                </li>
-                <li
-                  className="lecture"
-                  onClick={() => {
-                    HandelContent("two");
-                  }}
-                >
-                  <h4>Chapter 1 - Basics of UX</h4>
-                  <p>0/10 | 2hr 35min</p>
-                </li>
+               
               </ul>
             </div>
           

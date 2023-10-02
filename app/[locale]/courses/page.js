@@ -401,7 +401,7 @@ const searchParams = useSearchParams()
           </button>
         </div>
         <div className="part2">
-          <h2  >User Experience Design Courses</h2>
+          {/* <h2  >User Experience Design Courses</h2> */}
           <div className="fillter_Courses">
             {allCourses
               ?.filter((item) => item.is_active != 0)
