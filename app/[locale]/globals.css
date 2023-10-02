@@ -628,7 +628,7 @@ html[dir="rtl"] .services .allServices .service h5 {
     font-family: "DM Sans";
 }
 
-.services .allServices .service .aboutservice .btn_page2 {
+.services .allServices .service .aboutservice .btn_page2 ,.services .allServices .service .aboutservice .btn_page{
     font-size: 16px;
     line-height: 21px;
     border-radius: 5px;
@@ -636,7 +636,9 @@ html[dir="rtl"] .services .allServices .service h5 {
     height: 38px;
     margin-bottom: 20px;
 }
-
+.services .allServices .service .aboutservice .btn_page{
+    margin: 0px auto 20px;
+}
 .allServices .service .dec_service {
     font-size: 12px;
     line-height: 16px;
@@ -1347,7 +1349,7 @@ html[dir="rtl"] .form-check .form-check-input {
     color: black;
 }
 
-.courses .part2 .fillter_Courses .item .aboutservice .btn_page2 {
+.courses .part2 .fillter_Courses .item .aboutservice .btn_page2,.courses .part2 .fillter_Courses .item .aboutservice .btn_page {
     width: 192px;
     height: 38px;
     border-radius: 5px;

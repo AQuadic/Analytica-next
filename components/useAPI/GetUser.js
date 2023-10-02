@@ -1,14 +1,14 @@
 import Cookies from "js-cookie";
 import {BASE_URL} from '../../app/[locale]/api';
 
+
 let headersToken = {
     Authorization: `Bearer ${Cookies.get('token')} `,
     "Content-Type": "application/json",
     Accept: "application/json",
-
 };
 
-let headers = {
+let header = {
     "Content-Type": "application/json",
     Accept: "application/json",
 
@@ -36,12 +36,7 @@ export const getHomePage = async () => {
     try {
         const res = await fetch(`${BASE_URL}/api/v1/meta/data`, {
             method: 'GET',
-            headers: {
-
-                "Content-Type": "application/json",
-                Accept: "application/json",
-
-            },
+            headers:headersToken,
         },);
         const data = await res.json();
         return data;
@@ -49,16 +44,11 @@ export const getHomePage = async () => {
         console.log('Error in Add New Category (service) =>', error);
     }
 }
-export const getHomeSections = async () => {
+export const getHomeSections = async (IsUser) => {
     try {
         const res = await fetch(`${BASE_URL}/api/v1/meta/home_sections`, {
             method: 'GET',
-            headers: {
-
-                "Content-Type": "application/json",
-                Accept: "application/json",
-
-            },
+            headers: IsUser?headersToken:header,
         },);
         const data = await res.json();
         return data;
@@ -66,15 +56,11 @@ export const getHomeSections = async () => {
         console.log('Error in Add New Category (service) =>', error);
     }
 }
-export const getInstractor = async (e) => {
+export const getInstractor = async (e,IsUser) => {
     try {
         const res = await fetch(`${BASE_URL}/api/v1/users/instructors/${e}`, {
             method: 'GET',
-            headers: {
-                "Content-Type": "application/json",
-                Accept: "application/json",
-
-            },
+            headers: IsUser?headersToken:header,
         },);
         const data = await res.json();
         return data;

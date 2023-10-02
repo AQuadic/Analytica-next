@@ -126,7 +126,11 @@
     "ads": "Ads",
     "agreement": "This is your agreement that you bear the responsibility for the video that will be downloaded on your platform",
     "Successfully": "You Apply Successfully",
-    "contact": "We Will Contact With You As Soon As Possible"
+    "contact": "We Will Contact With You As Soon As Possible",
+    "seeCourse":"You can see the course in My Courses Page",
+    "myCourses": "My Courses",
+    "failed":"Transaction Failed ",
+    "wrong":"some thing went wrong, please try again later"
   },
   "CheckOut": {
     "title": "Check Out",

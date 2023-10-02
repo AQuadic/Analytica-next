@@ -49,7 +49,7 @@ export default function Home({params: {locale}}) {
 
     console.log(homeData);
     const FetchDataOFHomePage = async () => {
-        const AllData = await getHomeSections();
+        const AllData = await getHomeSections(IsUser);
         if (!AllData) console.log(AllData?.message);
         setHomeData(AllData);
     };
@@ -127,6 +127,7 @@ export default function Home({params: {locale}}) {
                                             imageCourse={course.image?.url}
                                             star="4.8"
                                             dec={course.instructor?.name}
+                                            is_purchased={course.is_purchased?true:false}
                                             newsalary={course.price ? "EG " + course.price : "free"}
                                         />
                                     );
@@ -190,7 +191,8 @@ export default function Home({params: {locale}}) {
                                                         title={course.name.en}
                                                         imageCourse={course.image.url}
                                                         star="4.8"
-                                                        //dec={course.instructor.name}
+                                                        is_purchased={course.is_purchased?true:false}
+                                                        //dec={course.instructor?.name}
                                                         newsalary={
                                                             course.price ? "EG " + course.price : "free"
                                                         }

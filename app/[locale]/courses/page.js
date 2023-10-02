@@ -1,9 +1,12 @@
 "use client";
+import { navState } from "@/atoms";
 import ItemCourse2 from "@/components/ItemCourse2";
 import {getHomePage} from "@/components/useAPI/GetUser";
 import {Checkbox, Group, Slider} from "@mantine/core";
+import Cookies from "js-cookie";
 import React, {useEffect, useState} from "react";
 import { Alert } from "react-bootstrap";
+import { useRecoilState } from "recoil";
 
 // export const metadata = {
 //   title: 'analytica | Courses',
@@ -19,8 +22,18 @@ function Courses() {
     const [Price, setPrice] = useState();
     const [AllTopic, setAllTopic] = useState([]);
     const [show, setShow] = useState(false);
-
-
+    const [IsUser, setIsUser] = useRecoilState(navState);
+    let headersToken = {
+        Authorization: `Bearer ${Cookies.get('token')} `,
+        "Content-Type": "application/json",
+        Accept: "application/json",
+    };
+    
+    let header = {
+        "Content-Type": "application/json",
+        Accept: "application/json",
+    
+    };
     useEffect(() => {
         handelFilterCourses();
         FetchDataOFHomePage();
@@ -43,10 +56,7 @@ function Courses() {
             );
             const res = await fetch(url, {
                 method: "GET",
-                headers: {
-                    "Content-Type": "application/json",
-                    Accept: "application/json",
-                },
+                 headers: IsUser?headersToken:header,
             });
             const data = await res.json();
             setAllCourses(data.data);
@@ -56,7 +66,7 @@ function Courses() {
             console.log("Error in Add New Category (service) =>", error);
         }
     };
-
+console.log(allCourses);
 
     const FetchDataOFHomePage = async () => {
         const AllData = await getHomePage();
@@ -360,6 +370,7 @@ function Courses() {
                                     id={course.id}
                                     title={course.name.en}
                                     imageCourse={course.image.url}
+                                    is_purchased={course.is_purchased?true:false}
                                     star="4.8"
                                     dec={course.instructor.name}
                                     newsalary={course.price ? "EG " + course.price : "free"}

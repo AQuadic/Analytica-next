@@ -1,7 +1,9 @@
 "use client";
+import { navState } from "@/atoms";
 import ItemCourse from "@/components/ItemCourse";
 import {getInstractor} from "@/components/useAPI/GetUser";
 import React, {useEffect, useState} from "react";
+import { useRecoilState } from "recoil";
 
 
 // export const metadata = {
@@ -9,14 +11,14 @@ import React, {useEffect, useState} from "react";
 // }
 function InstractorInfo({params}) {
 
-
+    const [IsUser, setIsUser] = useRecoilState(navState);
     const [instractor, setInstractor] = useState();
 
     useEffect(() => {
         FetchDataOFInstractorInfo();
     }, []);
     const FetchDataOFInstractorInfo = async () => {
-        const InstractorInfo = await getInstractor(params.id);
+        const InstractorInfo = await getInstractor(params.id,IsUser);
         if (!InstractorInfo) console.log(InstractorInfo?.message);
         setInstractor(InstractorInfo);
     };
@@ -116,7 +118,7 @@ function InstractorInfo({params}) {
                                         title={course.name.en}
                                         imageCourse={course.image.url}
                                         star="4.8"
-                                        //dec={course.instructor.name}
+                                        is_purchased={course.is_purchased?true:false}
                                         newsalary={course.price ? "EG " + course.price : "free"}
                                     />
                                 )

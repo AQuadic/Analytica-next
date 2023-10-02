@@ -11,15 +11,12 @@ import Link from 'next-intl/link';
 import {useTranslations} from "next-intl";
 import {deleteToken} from "firebase/messaging";
 
-
 function NavBar({lang}) {
     const [userData, setUserData] = useState();
     const [IsUser, setIsUser] = useRecoilState(navState);
     const [messagingFire, setMessagingFire] = useRecoilState(MessagingFir);
-
     const t = useTranslations('Nav');
     const t2 = useTranslations('Account');
-    console.log(IsUser);
     const router = useRouter();
     const pathname = usePathname();
 
@@ -39,12 +36,15 @@ function NavBar({lang}) {
     console.log(userData);
     const HandelLogOut = async () => {
         const UserLogOut = await LogOut(Cookies.get("token"));
+        console.log(UserLogOut);
         if (UserLogOut.message === "auth.logged_out") {
             console.log("done");
-            deleteToken(messaging)
             setIsUser(false);
             Cookies.remove('token')
             router.push('/signIn')
+            deleteToken(messaging)
+           
+           
         }
     };
 

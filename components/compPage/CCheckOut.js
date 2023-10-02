@@ -3,7 +3,7 @@ import {useTranslations} from "next-intl";
 import React, {useEffect, useState} from "react";
 import {Group, Radio} from "@mantine/core";
 import {useRouter, useSearchParams} from "next/navigation";
-import {getOneCourse} from "../useAPI/CorsesApi/GetCourses";
+import {getMyCourses, getOneCourse} from "../useAPI/CorsesApi/GetCourses";
 import {getHomePage} from "../useAPI/GetUser";
 import Cookies from "js-cookie";
 import {useRecoilState} from "recoil";
@@ -15,7 +15,6 @@ import { Alert } from "react-bootstrap";
 function CCheckOut() {
     const [IsUser, setIsUser] = useRecoilState(navState);
     const [show, setShow] = useState(false);
-
     const t = useTranslations("CheckOut");
     const [paymentValue, setPayment] = useState("1");
     const [payment_methods, setPayment_methods] = useState([]);
@@ -27,6 +26,8 @@ function CCheckOut() {
     const [ErrorMessage, setErrorMessage] = useState("");
     const [ErrorMessage2, setErrorMessage2] = useState("");
     const SearchParams = useSearchParams()
+    const [HaveMyCourses, setHaveMyCourses] = useState();
+
 
     const router = useRouter()
     const CoursesID = SearchParams.get("id");
@@ -34,6 +35,7 @@ function CCheckOut() {
     useEffect(() => {
         FetchDataOFHomePage()
         FetchDataOFOneCourse();
+        FetchDataOFMyCourses()
     }, []);
     const FetchDataOFOneCourse = async () => {
         const Courses = await getOneCourse(CoursesID);
@@ -109,7 +111,7 @@ function CCheckOut() {
                 )
                 .then((res) => {
                     console.log(res);
-                    res.data.payment_link?router.push(res.data.payment_link):router.push('/myCourses')
+                    res.data.payment_link?router.push(res.data.payment_link):router.push('/checkOut/successfull')
 
                 })
                 .catch((res) => {
@@ -123,6 +125,16 @@ function CCheckOut() {
                 });
         }
     };
+   
+
+    const FetchDataOFMyCourses = async () => {
+
+        const MyCourses = await getMyCourses();
+        if (!MyCourses) console.log(MyCourses?.message)
+        console.log(MyCourses);
+MyCourses.map((item)=>{item.id=CoursesID?setHaveMyCourses(true):setHaveMyCourses(false)} )
+    }
+    console.log(HaveMyCourses);
     return (
 
         <>
