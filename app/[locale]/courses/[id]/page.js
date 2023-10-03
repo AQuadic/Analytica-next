@@ -1,6 +1,8 @@
 "use client";
 import { navState } from "@/atoms";
+import Thanks from "@/components/Thanks";
 import { getOneCourse } from "@/components/useAPI/CorsesApi/GetCourses";
+import { useTranslations } from "next-intl";
 import Link from "next/link";
 import React, { useEffect, useState } from "react";
 import { useRecoilState } from "recoil";
@@ -11,7 +13,9 @@ import { useRecoilState } from "recoil";
 
 function CourseDetails({ params }) {
   const [allCourses, setAllCourses] = useState();
+  const [Bloked, setBloked] = useState(false);
   const [IsUser, setIsUser] = useRecoilState(navState);
+  const t = useTranslations('Teach');
 
   useEffect(() => {
     FetchDataOFOneCourse();
@@ -19,6 +23,7 @@ function CourseDetails({ params }) {
   const FetchDataOFOneCourse = async () => {
     const AllCourses = await getOneCourse(params.id, IsUser);
     if (!AllCourses) console.log(AllCourses?.message);
+    if (AllCourses?.message==="instructor blocked you") setBloked(true);
     setAllCourses(AllCourses);
   };
   console.log(allCourses);
@@ -33,6 +38,17 @@ function CourseDetails({ params }) {
 
   return (
     <>
+   
+    {
+      Bloked? <>
+      <Thanks
+                title={t('noAccess')}
+                dec={t('blocked')}
+                link={'/myCourses'}
+               title2={t('backTo')}
+               Bloked={true}
+            />
+      </>:<>
       {allCourses ? (
         <div className="coursesDetails coursesDetails1 ">
           <div className="part1">
@@ -57,7 +73,7 @@ function CourseDetails({ params }) {
                 <h3>Get started today</h3>
                 <h4>Start your application or request more information.</h4>
                 {allCourses.is_purchased ? (
-                  <Link href={`/courseContent/${allCourses.id}`} className="btn_page">
+                  <Link href={`/courseContent/${allCourses.last_watched_lesson_id}`} className="btn_page">
                  Continue learning
                   </Link>
                 ) : (
@@ -301,6 +317,9 @@ function CourseDetails({ params }) {
       ) : (
         <></>
       )}
+      </>
+    }
+      
     </>
   );
 }

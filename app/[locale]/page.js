@@ -111,7 +111,7 @@ export default function Home({params: {locale}}) {
                         </div>
                     </div>
                 </section>
-                {allCourses.length ? (
+                {allCourses?.length ? (
                     <section className="services services_content container m60">
                         <h2 className="headtitle wow fadeInDown">Recommended for you</h2>
                         <p className="p_page wow fadeInUp">
@@ -131,6 +131,7 @@ export default function Home({params: {locale}}) {
                                             star="4.8"
                                             dec={course.instructor?.name}
                                             is_purchased={course.is_purchased?true:false}
+                                            last_watched={course.last_watched_lesson_id}
                                             newsalary={course.price ? "EG " + course.price : "free"}
                                         />
                                     );

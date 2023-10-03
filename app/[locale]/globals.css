@@ -1264,13 +1264,15 @@ html[dir="rtl"] .form-check .form-check-input {
 
 .courses .part2 .fillter_Courses .item .imageLink img {
     width: 100%;
+    
 }
 
 .courses .part2 .fillter_Courses .item .imgService {
     width: 270px;
     border-radius: 10px;
-    object-fit: fill;
+    object-fit: cover;
     min-height: 100%;
+    max-height: 200px;
 }
 
 .courses .part2 .fillter_Courses .item .aboutservice {
@@ -5588,4 +5590,12 @@ p {
     align-items: flex-start;
     padding-bottom: 20px;
     gap: 6px;
+}
+a.ytp-youtube-button.ytp-button.yt-uix-sessionlink {
+    display: none;
+}
+.ytp-chrome-controls .ytp-button, .ytp-replay-button {
+ 
+    display: none;
+   
 }

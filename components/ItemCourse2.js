@@ -34,10 +34,10 @@ function ItemCourse2({
         <Link href={`/courses/${id}`} className="aboutservice">
           <div className="head">
             <h3>{title}</h3>
-            <div className="Star">
+            {/* {<div className="Star">
               <img src="/images/star.svg" alt="star" />
               <p>{star}</p>
-            </div>
+            </div>} */}
           </div>
           <h4>{info}</h4>
           <p className="dec_service">{dec}</p>

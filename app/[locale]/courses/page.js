@@ -6,10 +6,11 @@ import { Checkbox, Group, Radio, RangeSlider, Slider } from "@mantine/core";
 import Cookies from "js-cookie";
 import { useLocale } from "next-intl";
 import Link from "next/link";
-import {  useRouter, useSearchParams } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 
 import React, { useEffect, useState } from "react";
 import { Alert } from "react-bootstrap";
+import InfiniteScroll from "react-infinite-scroll-component";
 import { useRecoilState } from "recoil";
 
 // export const metadata = {
@@ -22,30 +23,33 @@ function Courses() {
   const [Duration, setDuration] = useState();
   const [Level_id, setLevel_id] = useState([]);
   const [Topic, setTopic] = useState();
+  const [Page, setPage] = useState(0);
   const [Categories, setCategories] = useState([]);
   const [CategoriesID, setCategoriesID] = useState([]);
-  const [Language, setLanguage] = useState('en');
+  const [Language, setLanguage] = useState("en");
   const [PriceType, setPriceType] = useState();
   const [PriceFrom, setPriceFrom] = useState();
   const [PriceTo, setPriceTo] = useState();
   const [Price, setPrice] = useState();
   const [AllTopic, setAllTopic] = useState([]);
   const [show, setShow] = useState(false);
+  const [UrlNew, setUerNew] = useState("");
   const [IsUser, setIsUser] = useRecoilState(navState);
   const locale = useLocale();
   const router = useRouter();
-const searchParams = useSearchParams()
-//console.log(searchParams.getAll());
+  const [hasMore, setHasMore] = useState(true);
+  const searchParams2 = useSearchParams();
+  //console.log(searchParams.getAll());
+  searchParams2.get("search");
   const handleClick = () => {
     const { pathname, query } = router;
-    const newQuery = { ...query, age: '20' };
+    const newQuery = { ...query, age: "20" };
 
     router.push({
       pathname,
       query: newQuery,
     });
   };
-
 
   console.log(CategoriesID);
   let headersToken = {
@@ -58,10 +62,9 @@ const searchParams = useSearchParams()
     "Content-Type": "application/json",
     Accept: "application/json",
   };
-  useEffect(()=>{
-    
-
-  },[])
+  useEffect(() => {
+    handelFilterCourses();
+  }, [UrlNew]);
   useEffect(() => {
     handelFilterCourses();
     FetchDataOFHomePage();
@@ -70,40 +73,45 @@ const searchParams = useSearchParams()
   const handelFilterCourses = async () => {
     try {
       const url = new URL(`https://education.aquadic.com/api/v1/users/courses`);
-     
+
       const params = {
+        page: Page + 1,
         language: Language,
-        price_from:PriceFrom,
-        price_to:PriceTo,
-        price_type:PriceType
+        price_from: PriceFrom,
+        price_to: PriceTo,
+        price_type: PriceType,
+        search:searchParams2.get("search")
       };
       console.log(params);
       Object.keys(params).forEach((key) =>
         url.searchParams.append(key, params[key])
-        
       );
-      if(Level_id.length>0){
-        Level_id.map((item,i)=>{
-            url.searchParams.append(`level_ids[${i}]`,item)
-          })
+      
+      if (Level_id.length > 0) {
+        Level_id.map((item, i) => {
+          url.searchParams.append(`level_ids[${i}]`, item);
+        });
       }
-      if(CategoriesID.length>0){
-        CategoriesID.map((item,i)=>{
-            url.searchParams.append(`category_ids[${i}]`,item)
-          })
+      if (CategoriesID.length > 0) {
+        CategoriesID.map((item, i) => {
+          url.searchParams.append(`category_ids[${i}]`, item);
+        });
       }
+
       console.log(url.search);
-      router.push(`/courses${url.search}`)
+      router.push(`/courses${url.search}`);
       const res = await fetch(url, {
         method: "GET",
         headers: IsUser ? headersToken : header,
       });
+      setPage(Page + 1);
       const data = await res.json();
-      setAllCourses(data.data);
+      if (data.data.length === 0) {
+        setHasMore(false);
+      }
+      setAllCourses((dataGet) => [...dataGet, ...data.data]);
       console.log(data);
     } catch (error) {
-      
-
       console.log("Error in Add New Category (service) =>", error);
     }
   };
@@ -116,6 +124,9 @@ const searchParams = useSearchParams()
     setCategories(AllData.categories);
     console.log(AllData);
   };
+
+  
+
   return (
     <>
       {show && (
@@ -128,14 +139,14 @@ const searchParams = useSearchParams()
           </p>
         </Alert>
       )}
-    {/*  <Link href={{ pathname: '/courses', query: { name: ['566',"56565"], id: '11' } }}>
+      {/*  <Link href={{ pathname: '/courses', query: { name: ['566',"56565"], id: '11' } }}>
       rthrt
     </Link>
       <button  onClick={handleClick}>rtgerththbtrh</button>*/}
       <div className="courses container">
         <div className="part1">
           <div className="accordion accordion-flush" id="accordionFlushExample">
-          {/*  <div className="accordion-item">
+            {/*  <div className="accordion-item">
               <h2 className="accordion-header">
                 <button
                   className="accordion-button collapsed"
@@ -352,8 +363,18 @@ const searchParams = useSearchParams()
                     value={PriceType}
                   >
                     <Group mt="xs">
-                      <Radio size="xs" value="free" color="indigo" label="Free" />
-                      <Radio size="xs" value="paid" color="indigo" label="Paid" />
+                      <Radio
+                        size="xs"
+                        value="free"
+                        color="indigo"
+                        label="Free"
+                      />
+                      <Radio
+                        size="xs"
+                        value="paid"
+                        color="indigo"
+                        label="Paid"
+                      />
                     </Group>
                   </Radio.Group>
                 </div>
@@ -381,7 +402,10 @@ const searchParams = useSearchParams()
                   <RangeSlider
                     min={0}
                     color="indigo"
-                    onChange={(e)=>{setPriceFrom(e[0]);setPriceTo(e[1])}}
+                    onChange={(e) => {
+                      setPriceFrom(e[0]);
+                      setPriceTo(e[1]);
+                    }}
                     thumbSize={22}
                     max={1000}
                     labelAlwaysOn
@@ -399,26 +423,52 @@ const searchParams = useSearchParams()
           >
             Apply
           </button>
+          <button
+            className="btn_page"
+            onClick={(e) => {
+              e.preventDefault();
+              handelFilterCourses();
+            }}
+          >
+            Apply
+          </button>
         </div>
         <div className="part2">
           {/* <h2  >User Experience Design Courses</h2> */}
-          <div className="fillter_Courses">
-            {allCourses
-              ?.filter((item) => item.is_active != 0)
-              .map((course) => {
-                return (
-                  <ItemCourse2
-                    key={course.id}
-                    id={course.id}
-                    title={course.name[locale]}
-                    imageCourse={course.image.url}
-                    is_purchased={course.is_purchased ? true : false}
-                    star="4.8"
-                    dec={course.instructor.name}
-                    newsalary={course.price ? "EG " + course.price : "free"}
-                  />
-                );
-              })}
+          <div
+            className="fillter_Courses"
+            id="scrollableDiv"
+            style={{
+              height: 700,
+
+              overflow: "auto",
+              display: "flex",
+            }}
+          >
+            <InfiniteScroll
+              dataLength={allCourses.length}
+              next={handelFilterCourses}
+              style={{ display: "flex", flexDirection: "column" }}
+              hasMore={hasMore}
+              loader={<h3> Loading...</h3>}
+              endMessage={
+                <h4 style={{ textAlign: "center" }}>Nothing more to show</h4>
+              }
+              scrollableTarget="scrollableDiv"
+            >
+              {allCourses?.map((course, i) => (
+                <ItemCourse2
+                  key={i}
+                  id={course.id}
+                  title={course.name.ar}
+                  imageCourse={course.image.url}
+                  is_purchased={course.is_purchased ? true : false}
+                  star="4.8"
+                  dec={course.instructor.name}
+                  newsalary={course.price ? "EG " + course.price : "free"}
+                />
+              ))}
+            </InfiniteScroll>
           </div>
         </div>
       </div>

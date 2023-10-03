@@ -20,14 +20,10 @@ function Footer({lang}) {
         const AllData = await getHomePage();
         if (!AllData) console.log(AllData?.message)
         setPage(AllData.pages)
-        console.log('====================================');
-        console.log(AllData);
-        console.log('====================================');
+     
 
     }
-    console.log('====================================');
-    console.log(pages);
-    console.log('====================================');
+   
     return (
         <footer>
             <div className="container">

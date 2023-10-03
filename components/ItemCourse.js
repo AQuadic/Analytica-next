@@ -15,7 +15,8 @@ function ItemCourse({
   link2,
   id,
   is_purchased,
-  NoPrice
+  NoPrice,
+  last_watched
 }) {
   return (
     <div className="service ">
@@ -39,13 +40,13 @@ function ItemCourse({
         <Link href={link2 ? link2 : `/courses/${id}`}>
           <div className="head">
             <h3>{title}</h3>
-            {star && (
+            {/* {star && (
               <div className="Star">
                 <img src="/images/star.svg" alt="star" />
 
                 <p>{star}</p>
               </div>
-            )}
+            )} */}
           </div>
           <p className="dec_service">{dec}</p>
          {
@@ -82,7 +83,7 @@ function ItemCourse({
         )}
         {!Myprogress ? (
           is_purchased ? (
-            <Link href={`/courseContent/${id}`} className="btn_page">
+            <Link href={`/courseContent/${last_watched}`} className="btn_page">
               Continue learning
             </Link>
           ) : (

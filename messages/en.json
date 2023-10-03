@@ -130,7 +130,10 @@
     "seeCourse":"You can see the course in My Courses Page",
     "myCourses": "My Courses",
     "failed":"Transaction Failed ",
-    "wrong":"some thing went wrong, please try again later"
+    "wrong":"some thing went wrong, please try again later",
+    "noAccess":"No Access for you",
+    "blocked":"instructor blocked you",
+    "backTo":"back to My courses"
   },
   "CheckOut": {
     "title": "Check Out",

@@ -13,6 +13,7 @@ import { deleteToken } from "firebase/messaging";
 
 function NavBar({ lang }) {
   const [userData, setUserData] = useState();
+  const [Search, setSearch] = useState("");
   const [IsUser, setIsUser] = useRecoilState(navState);
   const [messagingFire, setMessagingFire] = useRecoilState(MessagingFir);
   const [Categories, setCategories] = useState([]);
@@ -34,14 +35,11 @@ function NavBar({ lang }) {
     if (!UserData) console.log(UserData?.message);
     setUserData(UserData);
   };
-  console.log("nave user");
 
-  console.log(userData);
   const HandelLogOut = async () => {
     const UserLogOut = await LogOut(Cookies.get("token"));
-    console.log(UserLogOut);
+
     if (UserLogOut.message === "auth.logged_out") {
-      console.log("done");
       setIsUser(false);
       Cookies.remove("token");
       router.push("/signIn");
@@ -53,7 +51,6 @@ function NavBar({ lang }) {
     const AllData = await getHomePage();
     if (!AllData) console.log(AllData?.message);
     setCategories(AllData.categories);
-    console.log(AllData.categories);
   };
   return (
     <nav className="navbar navbar-expand-lg">
@@ -132,8 +129,8 @@ function NavBar({ lang }) {
         </button>
 
         <div className="right_nav ac_nav" id="">
-          <form action="">
-            <input type="text" className="search" />
+          <form action="" onSubmit={(e)=>{e.preventDefault();router.push(`/courses?search=${Search}`)}}>
+            <input type="text" onChange={(e)=>{e.preventDefault();setSearch(e.target.value)}} className="search" />
           </form>
           <div className="col-dec">
             <div className="navbar-nav">
@@ -291,7 +288,7 @@ function NavBar({ lang }) {
         </div>
       </div>
       <form action="" id="form_nav" className="input_srearch">
-        <input type="search" placeholder="Search For ......." />
+        <input type="search" placeholder="Search For ......."  onChange={(e)=>{e.preventDefault();console.log(e.target.value);}}/>
       </form>
     </nav>
   );
