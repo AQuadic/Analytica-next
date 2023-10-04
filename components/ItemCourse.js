@@ -70,11 +70,11 @@ function ItemCourse({
           <>
             <div className="lineprogress">
               <div className="numProgress">
-                <span style={{ width: numProgress }}></span>
+                <span style={{ width:`${numProgress}%`}}></span>
               </div>
-              <p className="dec_service">{numProgress} Completed</p>
+              <p className="dec_service">{numProgress} % Completed</p>
             </div>
-            {numProgress === "100%" && (
+            {numProgress === 100 && (
               <Link href="/certificate" className="btn_page">
                 View Certificate
               </Link>

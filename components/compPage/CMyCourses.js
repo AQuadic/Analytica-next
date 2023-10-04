@@ -47,16 +47,17 @@ function CMyCourses() {
                     </div>
                 </div>
                 <div className="services container m60">
-                    <div className="allServices">
+
+                {active!=="completed"? <><div className="allServices">
                         {
-                            myCourses?.map((course) => {
+                            myCourses.filter(item=>item.watch_progress!==1).map((course) => {
                                 return (
                                     <ItemCourse
                                         title={course.name[locale]}
                                         dec={course.instructor.name}
                                         imageCourse={course.image.url}
                                         Myprogress={true}
-                                        numProgress="42%"
+                                        numProgress={course.watch_progress*100}
                                         key={course.id}
                                         id={course.id}
                                         NoPrice={true}
@@ -64,7 +65,29 @@ function CMyCourses() {
                                 )
                             })
                         }
-                    </div>
+                    </div></>:<>
+                    <div className="allServices">
+                        {
+                            myCourses.filter(item=>item.watch_progress===1)?.map((course) => {
+                                return (
+                                    <ItemCourse
+                                        title={course.name[locale]}
+                                        dec={course.instructor.name}
+                                        imageCourse={course.image.url}
+                                        Myprogress={true}
+                                        numProgress={course.watch_progress*100}
+                                        key={course.id}
+                                        id={course.id}
+                                        NoPrice={true}
+                                    />
+                                )
+                            })
+                        }
+                    </div></>
+
+                    }
+                  
+                   
                 </div>
             </section>
         </>

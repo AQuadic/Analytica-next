@@ -10,6 +10,7 @@ import React, { useEffect, useState } from "react";
 import { useRecoilState } from "recoil";
 import api from "../../api";
 import Cookies from "js-cookie";
+import Thanks from "@/components/Thanks";
 // export const metadata = {
 //   title: 'analytica | courseContent',
 // }
@@ -19,6 +20,7 @@ function page({ params }) {
   const [contentID, setContentID] = useState(1);
   const [ChaptersID, setChaptersID] = useState();
   const [Video, setVideo] = useState();
+  
   const [ContentChapter, setContentChapter] = useState([]);
   const [Youtube, setYoutube] = useState(false);
   const [IDYoutube, setIDYoutube] = useState("");
@@ -28,7 +30,13 @@ function page({ params }) {
   const [allChapters, setAllChapters] = useState([]);
   const [IsUser, setIsUser] = useRecoilState(navState);
   const locale = useLocale();
+  const t2 = useTranslations('Teach');
   const t = useTranslations("Video");
+
+
+  const [Bloked, setBloked] = useState(false);
+  const [ErrorBloked, setErrorBloked] = useState("");
+
   const HandelContent = (e) => {
     setContent(e);
   };
@@ -59,7 +67,10 @@ function page({ params }) {
 
   const FetchDataOFOneLessons = async () => {
     const AllCourses = await getOneLessons(params.id, IsUser);
-    if (!AllCourses) console.log(AllCourses?.message);
+    if (AllCourses.error){
+      setErrorBloked(AllCourses.error)
+      setBloked(true);
+    } 
     console.log(AllCourses);
     setLessons(AllCourses.lesson);
     setContentChapter(AllCourses.lesson.content);
@@ -69,25 +80,26 @@ function page({ params }) {
   };
   console.log(ContentChapter);
   useEffect(() => {
-    getVideo()
+    getVideo();
   }, [Video]);
-  const getVideo = ()=>{
+  const getVideo = () => {
     if (Video) {
       const url = new URL(Video);
       const baseDomain = "https://www.youtube.com";
       if (url.origin === baseDomain) {
         setYoutube(true);
-          const regexPattern = /(?:\/|\=|youtu\.be\/|embed\/|watch\?v=|&v=|youtu\.be\/|\/v\/|\/e\/|\.be\/)([a-zA-Z0-9_-]{11})/;
-          const match = Video.match(regexPattern);
-          if (match) {
-            setIDYoutube(match[1])
-            return match[1];
-          }
+        const regexPattern =
+          /(?:\/|\=|youtu\.be\/|embed\/|watch\?v=|&v=|youtu\.be\/|\/v\/|\/e\/|\.be\/)([a-zA-Z0-9_-]{11})/;
+        const match = Video.match(regexPattern);
+        if (match) {
+          setIDYoutube(match[1]);
+          return match[1];
+        }
       } else {
         setYoutube(false);
       }
     }
-  }
+  };
   console.log(LessonsChapters);
   const getCount = (num) => {
     const allcount = num.reduce(
@@ -148,162 +160,179 @@ function page({ params }) {
       });
   };
 
-
   return (
     <>
-      <section className="videoCourse container">
-        <div
-          className={`headVideo  ${openClose ? "open" : ""} `}
-          id="headVideo"
-        >
-          {Video ? (
-            <>
-              {" "}
-              {Lessons?.id && (
-                <div className="part2">
-                  <h1>Learn python: The Complete Python Programming Course</h1>
-                  <h2>Gestalt Principles</h2>
-                  <div className="boxVideo">
-                    {Youtube ? (
-                      <iframe
-                        style={{ width: "100%", height: "100%" }}
-                        src={`https://www.youtube-nocookie.com/embed/${IDYoutube}`}
-                        title="YouTube video player"
-                        frameBorder="0"
-                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                        allowFullScreen
-                      ></iframe>
-                    ) : (
-                      <iframe
-                        style={{ width: "100%", height: "100%" }}
-                        src={Video}
-                        frameBorder="0"
-                        allowFullScreen
-                      ></iframe>
-                    )}
-                  </div>
-           
-                  <div className="assignments">
-                    <h3>{t("assignments")}</h3>
-                    <div className="file-container">
-                      <div className="file-title">Attach a File</div>
-                      <input type="file" id="file-input" />
-                    </div>
-                  </div>
-                </div>
-              )}
-            </>
-          ) : (
-            <>
-              {ContentChapter && (
-                <div
-                  className="part2"
-                  dangerouslySetInnerHTML={{ __html: ContentChapter[locale] }}
-                ></div>
-              )}
-            </>
-          )}
-
-          <div className="part1 ">
-            <button
-              className="arrowVideo"
-              id="openClose"
-              onClick={() => setOpenClose(!openClose)}
-            >
-              {" "}
-              <img src="/images/icons/arrowVideo.svg" alt="arrowVideo" />
-            </button>
+      {Bloked ? (
+        <>
+          <Thanks
+            title={t2("noAccess")}
+            dec={ErrorBloked}
+            link={"/myCourses"}
+            title2={t2("backTo")}
+            Bloked={true}
+          />
+        </>
+      ) : (
+        <>
+          <section className="videoCourse container">
             <div
-              className="contantOne"
-              style={{ display: content === "one" ? "block" : "none" }}
-              id="contantOne"
+              className={`headVideo  ${openClose ? "open" : ""} `}
+              id="headVideo"
             >
-              <h3>{t("content")}</h3>
-              <ul>
-                {allChapters?.map((item) => {
-                  return (
-                    <li
-                      key={item.id}
-                      className="lecture"
-                      onClick={() => {
-                        HandelContent("two");
-                        setContentID(item.id);
-                      }}
-                    >
-                      <h4>{item.name[locale]}</h4>
-                      <p>
-                        0/{item.lessons.length} |{" "}
-                        {convertMinutesToHours(getCount(item.lessons))}{" "}
-                      </p>
-                    </li>
-                  );
-                })}
-              </ul>
-            </div>
+              {Video ? (
+                <>
+                  {" "}
+                  {Lessons?.id && (
+                    <div className="part2">
+                      <h1>
+                        Learn python: The Complete Python Programming Course
+                      </h1>
+                      <h2>Gestalt Principles</h2>
+                      <div className="boxVideo">
+                        {Youtube ? (
+                          <iframe
+                            style={{ width: "100%", height: "100%" }}
+                            src={`https://www.youtube-nocookie.com/embed/${IDYoutube}`}
+                            title="YouTube video player"
+                            frameBorder="0"
+                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                            allowFullScreen
+                          ></iframe>
+                        ) : (
+                          <iframe
+                            style={{ width: "100%", height: "100%" }}
+                            src={Video}
+                            frameBorder="0"
+                            allowFullScreen
+                          ></iframe>
+                        )}
+                      </div>
 
-            {allChapters?.length > 0 && (
-              <div
-                className="contantTwo"
-                id="contantTwo"
-                style={{ display: content === "two" ? "block" : "none" }}
-              >
-                <h3>{CurrentChapters?.name[locale]}</h3>
+                      <div className="assignments">
+                        <h3>{t("assignments")}</h3>
+                        <div className="file-container">
+                          <div className="file-title">Attach a File</div>
+                          <input type="file" id="file-input" />
+                        </div>
+                      </div>
+                    </div>
+                  )}
+                </>
+              ) : (
+                <>
+                  {ContentChapter && (
+                    <div
+                      className="part2"
+                      dangerouslySetInnerHTML={{
+                        __html: ContentChapter[locale],
+                      }}
+                    ></div>
+                  )}
+                </>
+              )}
+
+              <div className="part1 ">
                 <button
-                  className="back"
-                  id="back"
-                  onClick={() => HandelContent("one")}
+                  className="arrowVideo"
+                  id="openClose"
+                  onClick={() => setOpenClose(!openClose)}
                 >
-                  <img src="/images/icons/ArrowBack.svg" alt="ArrowBack" />
-                  <p>{t("back")}</p>
+                  {" "}
+                  <img src="/images/icons/arrowVideo.svg" alt="arrowVideo" />
                 </button>
-                <ul>
-                  {LessonsChapters?.length > 0 &&
-                    LessonsChapters.map((item) => {
+                <div
+                  className="contantOne"
+                  style={{ display: content === "one" ? "block" : "none" }}
+                  id="contantOne"
+                >
+                  <h3>{t("content")}</h3>
+                  <ul>
+                    {allChapters?.map((item) => {
                       return (
-                        <li key={item.id}>
-                          <form className="infoChapter">
-                            <div className="form-check">
-                              <input
-                                className="form-check-input"
-                                type="checkbox"
-                                value=""
-                                id="flexCheckCheckedDisabled"
-                                disabled
-                              />
-                              <label
-                                className="form-check-label"
-                                htmlFor="flexCheckCheckedDisabled"
-                              >
-                                {item.name[locale]}
-                              </label>
-                              <div className="clock">
-                                <img
-                                  src="/images/icons/copywriting.svg"
-                                  alt="copywriting"
-                                />
-                                <p>{item.duration}min</p>
-                              </div>
-                            </div>
-                          </form>
+                        <li
+                          key={item.id}
+                          className="lecture"
+                          onClick={() => {
+                            HandelContent("two");
+                            setContentID(item.id);
+                          }}
+                        >
+                          <h4>{item.name[locale]}</h4>
+                          <p>
+                            0/{item.lessons.length} |{" "}
+                            {convertMinutesToHours(getCount(item.lessons))}{" "}
+                          </p>
                         </li>
                       );
                     })}
-                </ul>
+                  </ul>
+                </div>
+
+                {allChapters?.length > 0 && (
+                  <div
+                    className="contantTwo"
+                    id="contantTwo"
+                    style={{ display: content === "two" ? "block" : "none" }}
+                  >
+                    <h3>{CurrentChapters?.name[locale]}</h3>
+                    <button
+                      className="back"
+                      id="back"
+                      onClick={() => HandelContent("one")}
+                    >
+                      <img src="/images/icons/ArrowBack.svg" alt="ArrowBack" />
+                      <p>{t("back")}</p>
+                    </button>
+                    <ul>
+                      {LessonsChapters?.length > 0 &&
+                        LessonsChapters.map((item) => {
+                          return (
+                            <li key={item.id}>
+                              <form className="infoChapter">
+                                <div className="form-check">
+                                  <input
+                                    className="form-check-input"
+                                    type="checkbox"
+                                    value=""
+                                    id="flexCheckCheckedDisabled"
+                                    disabled
+                                  />
+                                  <label
+                                    className="form-check-label"
+                                    htmlFor="flexCheckCheckedDisabled"
+                                  >
+                                    {item.name[locale]}
+                                  </label>
+                                  <div className="clock">
+                                    <img
+                                      src="/images/icons/copywriting.svg"
+                                      alt="copywriting"
+                                    />
+                                    <p>{item.duration}min</p>
+                                  </div>
+                                </div>
+                              </form>
+                            </li>
+                          );
+                        })}
+                    </ul>
+                  </div>
+                )}
               </div>
-            )}
-          </div>
-        </div>
-        <div className="endVideo">
-          <a className="btn_page2" href="">
-            <img src="/images/icons/Arrow1.svg" alt="Arrow" />
-            <p>{t("previous")}</p>
-          </a>
-          <a className="btn_page" href="lectureText.html">
-            <p>{t("next")}</p>
-            <img src="/images/icons/Arrow2.svg" alt="Arrow" />
-          </a>
-        </div>
-      </section>
+            </div>
+            <div className="endVideo">
+              <a className="btn_page2" href="">
+                <img src="/images/icons/Arrow1.svg" alt="Arrow" />
+                <p>{t("previous")}</p>
+              </a>
+              <a className="btn_page" href="lectureText.html">
+                <p>{t("next")}</p>
+                <img src="/images/icons/Arrow2.svg" alt="Arrow" />
+              </a>
+            </div>
+          </section>
+        </>
+      )}
     </>
   );
 }

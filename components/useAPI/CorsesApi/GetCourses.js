@@ -1,110 +1,97 @@
 import Cookies from "js-cookie";
-import {BASE_URL} from '../../../app/[locale]/api';
+import api, { BASE_URL } from "../../../app/[locale]/api";
+import axios from "axios";
 
 let headersToken = {
-    Authorization: `Bearer ${Cookies.get("token")} `,
-    "Content-Type": "application/json",
-    Accept: "application/json",
+  Authorization: `Bearer ${Cookies.get("token")} `,
+  "Content-Type": "application/json",
+  Accept: "application/json",
 };
 
 let header = {
-    "Content-Type": "application/json",
-    Accept: "application/json",
+  "Content-Type": "application/json",
+  Accept: "application/json",
 };
 
 export const getMyCourses = async () => {
-    try {
-        const res = await fetch(
-            `${BASE_URL}/api/v1/users/courses/mine`,
-            {
-                method: "GET",
-                headers: {
-                    Authorization: `Bearer ${Cookies.get("token")} `,
-                    "Content-Type": "application/json",
-                    Accept: "application/json",
-                },
-            }
-        );
-        const data = await res.json();
-        return data;
-    } catch (error) {
-        console.log("Error in Add New Category (service) =>", error);
-    }
+  const result = api
+    .get(`/api/v1/users/courses/mine`, {
+      headers: {
+        Authorization: `Bearer ${Cookies.get("token")} `,
+        "Content-Type": "application/json",
+        Accept: "application/json",
+      },
+    })
+    .then((res) => {
+      return res.data;
+    })
+    .catch((error) => {
+      return { error: error.message };
+    });
+  console.log(result);
+  return result;
 };
 
 export const getAllCourses = async () => {
-    try {
-        const res = await fetch(
-            `${BASE_URL}/api/v1/users/courses`,
-            {
-                method: "GET",
-                headers: {
-
-                    "Content-Type": "application/json",
-                    Accept: "application/json",
-                },
-            }
-        );
-        const data = await res.json();
-        return data;
-    } catch (error) {
-        console.log("Error in Add New Category (service) =>", error);
-    }
+  const result = api
+    .get(`/api/v1/users/courses`, {
+      headers: {
+        "Content-Type": "application/json",
+        Accept: "application/json",
+      },
+    })
+    .then((res) => {
+      return res.data;
+    })
+    .catch((error) => {
+      return { error: error.message };
+    });
+  console.log(result);
+  return result;
 };
 export const getAllCoursesWithUser = async () => {
-    try {
-        const res = await fetch(
-            `${BASE_URL}/api/v1/users/courses`,
-            {
-                method: "GET",
-
-                headers: {
-                    Authorization: `Bearer ${Cookies.get("token")} `,
-                    "Content-Type": "application/json",
-                    Accept: "application/json",
-                },
-            }
-        );
-        const data = await res.json();
-        return data;
-    } catch (error) {
-        console.log("Error in Add New Category (service) =>", error);
-    }
+  const result = api
+    .get(`/api/v1/users/courses`, {
+      headers: {
+        Authorization: `Bearer ${Cookies.get("token")} `,
+        "Content-Type": "application/json",
+        Accept: "application/json",
+      },
+    })
+    .then((res) => {
+      return res.data;
+    })
+    .catch((error) => {
+      return { error: error.message };
+    });
+  console.log(result);
+  return result;
 };
-export const getOneCourse = async (e,IsUser) => {
-    try {
-        const res = await fetch(
-            `${BASE_URL}/api/v1/users/courses/${e}`,
-            {
-                method: "GET",
-                headers: IsUser?headersToken:header,
-            }
-        );
-        const data = await res.json();
-        console.log('====================================');
-        console.log(data);
-        console.log('====================================');
-        return data;
-
-    } catch (error) {
-        console.log("Error in Add New Category (service) =>", error);
-    }
+export const getOneCourse = (e, IsUser) => {
+  const result = api
+    .get(`/api/v1/users/courses/${e}`, {
+      headers: IsUser ? headersToken : header,
+    })
+    .then((res) => {
+      return res.data;
+    })
+    .catch((error) => {
+      console.log("Error in Add New Category (service) =>", error);
+    });
+  return result;
 };
 
-
-export const getOneLessons = async (e,IsUser) => {
-    try {
-        const res = await fetch(
-            `${BASE_URL}/api/v1/users/lessons/${e}`,
-            {
-                method: "GET",
-                headers: IsUser?headersToken:header,
-            }
-        );
-        const data = await res.json();
-        return data;
-    } catch (error) {
-        console.log("Error in Add New Category (service) =>", error);
-    }
+export const getOneLessons = async (e, IsUser) => {
+  const result = api
+    .get(`/api/v1/users/lessons/${e}`, {
+      headers: IsUser ? headersToken : header,
+    })
+    .then((res) => {
+      return res.data;
+    })
+    .catch((error) => {
+      return { error: error.message };
+    });
+  console.log(result);
+  return result;
 };
-

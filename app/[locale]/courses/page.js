@@ -28,7 +28,7 @@ function Courses() {
   const [Categories, setCategories] = useState([]);
   const [CategoriesID, setCategoriesID] = useState([]);
   const [Language, setLanguage] = useState();
-  const [PriceType, setPriceType] = useState('');
+  const [PriceType, setPriceType] = useState("");
   const [PriceFrom, setPriceFrom] = useState();
   const [PriceTo, setPriceTo] = useState();
   const [Price, setPrice] = useState();
@@ -53,14 +53,23 @@ function Courses() {
     "Content-Type": "application/json",
     Accept: "application/json",
   };
-  
-  useEffect(() => {
-    handellogin()
-    if(!Search){
-      FetchDataOFHomePage();
 
+  //to get value in params
+  /*
+  const url2 = "level_ids%5B0%5D=1&level_ids%5B1%5D=7&level_ids%5B2%5D=8&level_ids%5B3%5D=13";
+  const valueString = url2.replace(/level_ids%5B\d+%5D=/g, ''); 
+  console.log(valueString);
+  const values = valueString.split("&");
+  const result = values.map(value => parseInt(value, 10));
+    console.log(result);
+*/
+
+  useEffect(() => {
+    if (Search) {
+      handellogin();
     }
-  }, []);
+    FetchDataOFHomePage();
+  }, [Search]);
   const FetchDataOFHomePage = async () => {
     const AllData = await getHomePage();
     if (!AllData) console.log(AllData?.message);
@@ -68,61 +77,62 @@ function Courses() {
     setCategories(AllData.categories);
     console.log(AllData);
   };
-console.log(Search?true:false);
+  console.log(Search ? true : false);
 
-useEffect(()=>{
-if(Language||PriceFrom||PriceTo||PriceType||CategoriesID||Level_id||Search){
-setAllCourses([])
-handellogin(1)
-}
-
-
-},[Language,PriceFrom,PriceTo,PriceType,CategoriesID,Level_id,Search])
-
-
+  useEffect(() => {
+    if (
+      Language ||
+      PriceFrom ||
+      PriceTo ||
+      PriceType ||
+      CategoriesID ||
+      Level_id
+    ) {
+      setAllCourses([]);
+      handellogin(1);
+    }
+  }, [Language, PriceFrom, PriceTo, PriceType, CategoriesID, Level_id]);
 
   const handellogin = (id) => {
-    
-   const url = new URL(`https://education.aquadic.com/api/v1/users/courses?page=${id?id:Page}&price_type=${PriceType}&price_from=${PriceFrom}&price_to=${PriceTo}&price_type=${PriceType}&search=${Search}`);
-    
+    const url = new URL(
+      `https://education.aquadic.com/api/v1/users/courses?page=${
+        id ? id : Page
+      }&price_type=${PriceType}&price_from=${PriceFrom}&price_to=${PriceTo}&price_type=${PriceType}&search=${Search}&language=${Language}`
+    );
+
     const body = new FormData();
-    
-  
+
     setPage(Page + 1);
     if (Level_id.length > 0) {
       Level_id.map((item, i) => {
         url.searchParams.append(`level_ids[${i}]`, item);
       });
     }
-    
+
     if (CategoriesID.length > 0) {
       CategoriesID.map((item, i) => {
         url.searchParams.append(`category_ids[${i}]`, item);
       });
     }
-   
+
     const po = api
-      .get(url,  {
+      .get(url, {
         headers: IsUser ? headersToken : header,
       })
       .then((res) => {
-        
         if (res.data.data.length === 0) {
           setHasMore(false);
-        }else{
+        } else {
           setAllCourses((dataGet) => [...dataGet, ...res.data.data]);
-
         }
-       
+
         console.log(res);
         return res.data.data;
       })
       .catch((res) => {
-
         console.log(res);
       });
   };
-
 
   return (
     <>
@@ -355,7 +365,7 @@ handellogin(1)
               >
                 <div className="accordion-body">
                   <Radio.Group
-                    name="favoriteFramework2"
+                    name="favoriteFramework3"
                     onChange={setPriceType}
                     value={PriceType}
                   >
@@ -420,15 +430,13 @@ handellogin(1)
           >
             Apply
           </button>
-         
         </div>
         <div className="part2">
           {/* <h2  >User Experience Design Courses</h2> */}
           <div
             className="fillter_Courses"
-           
             style={{
-              minHeight:"700px",
+              minHeight: "700px",
 
               overflow: "auto",
               display: "flex",
@@ -437,7 +445,7 @@ handellogin(1)
             <InfiniteScroll
               dataLength={allCourses.length}
               next={handellogin}
-              style={{ display: "flex", flexDirection: "column" ,gap:"14px"}}
+              style={{ display: "flex", flexDirection: "column", gap: "14px" }}
               hasMore={hasMore}
               loader={<h3> Loading...</h3>}
               endMessage={

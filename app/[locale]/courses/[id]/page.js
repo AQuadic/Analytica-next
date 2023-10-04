@@ -23,8 +23,8 @@ function CourseDetails({ params }) {
   }, []);
   const FetchDataOFOneCourse = async () => {
     const AllCourses = await getOneCourse(params.id, IsUser);
-    if (!AllCourses) console.log(AllCourses?.message);
-    if (AllCourses?.message==="instructor blocked you") setBloked(true);
+    if (!AllCourses) setBloked(true);
+   
     setAllCourses(AllCourses);
   };
   console.log(allCourses);
