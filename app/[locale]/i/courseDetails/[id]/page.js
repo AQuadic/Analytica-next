@@ -2,12 +2,13 @@
 import FAQ from "@/components/FAQ";
 import {getOneCourse} from "@/components/useAPI/CorsesApi/GetCourses";
 import Cookies from "js-cookie";
+import { useLocale } from "next-intl";
 import Link from "next/link";
 import React, {useEffect, useState} from "react";
 
 function page({params}) {
 
-
+    const locale = useLocale();
     const [allCourses, setAllCourses] = useState();
 
     useEffect(() => {
@@ -16,7 +17,9 @@ function page({params}) {
     const FetchDataOFOneCourse = async () => {
         const AllCourses = await getOneCourse(params.id);
         if (!AllCourses) console.log(AllCourses?.message);
+       
         setAllCourses(AllCourses);
+       
     };
     console.log(allCourses);
     return (
@@ -26,8 +29,8 @@ function page({params}) {
                 <div className="part1">
                     <div className="content container">
                         <div className="contantAbout">
-                            <h2>{allCourses.name.en}</h2>
-                            {allCourses.short_description && <h3>{allCourses.short_description.en}</h3>}
+                            <h2>{allCourses.name[locale]}</h2>
+                            {allCourses.short_description && <h3>{allCourses.short_description[locale]}</h3>}
                             <p>
                                 Instructor:{" "}
                                 <Link
@@ -91,7 +94,7 @@ function page({params}) {
                                 <div className="learn">
                                     <ul className="row">
                                         {
-                                            allCourses.learn.en.map((item, i) => {
+                                            allCourses.learn[locale].map((item, i) => {
                                                 return (
                                                     <li className="col-md-5" key={i}>
                                                         <img src="/images/instructorScreen/true.svg" alt="true"/>
@@ -123,7 +126,7 @@ function page({params}) {
                                 <div className="skills">
                                     <ul>
                                         {
-                                            allCourses.gain.en.map((item, i) => {
+                                            allCourses.gain[locale].map((item, i) => {
                                                 return (
                                                     <li key={i}>{item}</li>
                                                 )
@@ -157,7 +160,7 @@ function page({params}) {
                                                                     aria-expanded="false"
                                                                     aria-controls={`flush-collapse${lesson.id}`}
                                                                 >
-                                                                    {lesson.name.en}
+                                                                    {lesson.name[locale]}
                                                                 </button>
 
                                                             </h2>
@@ -260,22 +263,22 @@ function page({params}) {
                                 </div>
                             </div>
                         </div>
-                        {allCourses.requirements.en && (
+                        {allCourses.requirements[locale] && (
                             <div className="part">
                                 <div className="description">
                                     <h2 className="headDetails">Requirements</h2>
                                     <p>
-                                        {allCourses.requirements.en}
+                                        {allCourses.requirements[locale]}
                                     </p>
                                 </div>
                             </div>
                         )}
-                        {allCourses.description.en && (
+                        {allCourses.description[locale] && (
                             <div className="part">
                                 <div className="description">
                                     <h2 className="headDetails">Description</h2>
                                     <p>
-                                        {allCourses.description.en}
+                                        {allCourses.description[locale]}
                                     </p>
                                 </div>
                             </div>

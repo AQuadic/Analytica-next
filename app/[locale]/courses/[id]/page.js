@@ -2,7 +2,7 @@
 import { navState } from "@/atoms";
 import Thanks from "@/components/Thanks";
 import { getOneCourse } from "@/components/useAPI/CorsesApi/GetCourses";
-import { useTranslations } from "next-intl";
+import { useLocale, useTranslations } from "next-intl";
 import Link from "next/link";
 import React, { useEffect, useState } from "react";
 import { useRecoilState } from "recoil";
@@ -16,6 +16,7 @@ function CourseDetails({ params }) {
   const [Bloked, setBloked] = useState(false);
   const [IsUser, setIsUser] = useRecoilState(navState);
   const t = useTranslations('Teach');
+  const locale = useLocale();
 
   useEffect(() => {
     FetchDataOFOneCourse();
@@ -54,9 +55,9 @@ function CourseDetails({ params }) {
           <div className="part1">
             <div className="content container">
               <div className="contantAbout">
-                <h2>{allCourses.name.en}</h2>
+                <h2>{allCourses.name[locale]}</h2>
                 {allCourses.short_description && (
-                  <h3>{allCourses.short_description.en}</h3>
+                  <h3>{allCourses.short_description[locale]}</h3>
                 )}
                 <p>
                   Instructor:{" "}
@@ -72,6 +73,7 @@ function CourseDetails({ params }) {
               <div className="contantCart">
                 <h3>Get started today</h3>
                 <h4>Start your application or request more information.</h4>
+                <h5 style={{fontWeight:"bold",marginBottom:"14px"}}>{allCourses.price>0? "EG" +allCourses.price:"free"}</h5>
                 {allCourses.is_purchased ? (
                   <Link href={`/courseContent/${allCourses.last_watched_lesson_id}`} className="btn_page">
                  Continue learning
@@ -142,7 +144,7 @@ function CourseDetails({ params }) {
                   <h2 className="headDetails">What you'll learn</h2>
                   <div className="learn">
                     <ul className="row">
-                      {allCourses.learn?.en.map((item, i) => {
+                      {allCourses.learn[locale]?.map((item, i) => {
                         return (
                           <li className="col-md-5" key={i}>
                             <img src="/images/details/true.svg" alt="true" />
@@ -161,7 +163,7 @@ function CourseDetails({ params }) {
                   <h2 className="headDetails">Skills you'll gain</h2>
                   <div className="skills">
                     <ul>
-                      {allCourses.gain?.en.map((item, i) => {
+                      {allCourses.gain[locale]?.map((item, i) => {
                         return <li key={i}>{item}</li>;
                       })}
                     </ul>
@@ -190,7 +192,7 @@ function CourseDetails({ params }) {
                                 aria-expanded="false"
                                 aria-controls={`flush-collapse${chapter.id}`}
                               >
-                                {chapter.name.en}
+                                {chapter.name[locale]}
                               </button>
                             </h2>
                             <div
@@ -281,19 +283,19 @@ function CourseDetails({ params }) {
                   </div>
                 </div>
               </div>
-              {allCourses.requirements?.en && (
+              {allCourses?.requirements&& (
                 <div className="part">
                   <div className="description">
                     <h2 className="headDetails">Requirements</h2>
-                    <p>{allCourses.requirements.en}</p>
+                    <p>{allCourses.requirements[locale]}</p>
                   </div>
                 </div>
               )}
-              {allCourses.description?.en && (
+              {allCourses.description&& (
                 <div className="part">
                   <div className="description">
                     <h2 className="headDetails">Description</h2>
-                    <p>{allCourses.description.en}</p>
+                    <p>{allCourses.description[locale]}</p>
                   </div>
                 </div>
               )}

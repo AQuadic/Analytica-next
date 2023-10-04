@@ -20,3 +20,7 @@ export const MessagingFir = atom({
     key: "MessagingFir",
     default: "",
 });
+export const StateSearch = atom({
+    key: "StateSearch",
+    default: "",
+});

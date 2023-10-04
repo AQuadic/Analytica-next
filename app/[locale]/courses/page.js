@@ -1,5 +1,5 @@
 "use client";
-import { navState } from "@/atoms";
+import { StateSearch, navState } from "@/atoms";
 import ItemCourse2 from "@/components/ItemCourse2";
 import { getHomePage } from "@/components/useAPI/GetUser";
 import { Checkbox, Group, Radio, RangeSlider, Slider } from "@mantine/core";
@@ -12,6 +12,7 @@ import React, { useEffect, useState } from "react";
 import { Alert } from "react-bootstrap";
 import InfiniteScroll from "react-infinite-scroll-component";
 import { useRecoilState } from "recoil";
+import api from "../api";
 
 // export const metadata = {
 //   title: 'analytica | Courses',
@@ -23,11 +24,11 @@ function Courses() {
   const [Duration, setDuration] = useState();
   const [Level_id, setLevel_id] = useState([]);
   const [Topic, setTopic] = useState();
-  const [Page, setPage] = useState(0);
+  const [Page, setPage] = useState(1);
   const [Categories, setCategories] = useState([]);
   const [CategoriesID, setCategoriesID] = useState([]);
-  const [Language, setLanguage] = useState("en");
-  const [PriceType, setPriceType] = useState();
+  const [Language, setLanguage] = useState();
+  const [PriceType, setPriceType] = useState('');
   const [PriceFrom, setPriceFrom] = useState();
   const [PriceTo, setPriceTo] = useState();
   const [Price, setPrice] = useState();
@@ -35,23 +36,13 @@ function Courses() {
   const [show, setShow] = useState(false);
   const [UrlNew, setUerNew] = useState("");
   const [IsUser, setIsUser] = useRecoilState(navState);
+  const [Search, setSearch] = useRecoilState(StateSearch);
   const locale = useLocale();
   const router = useRouter();
   const [hasMore, setHasMore] = useState(true);
   const searchParams2 = useSearchParams();
   //console.log(searchParams.getAll());
   searchParams2.get("search");
-  const handleClick = () => {
-    const { pathname, query } = router;
-    const newQuery = { ...query, age: "20" };
-
-    router.push({
-      pathname,
-      query: newQuery,
-    });
-  };
-
-  console.log(CategoriesID);
   let headersToken = {
     Authorization: `Bearer ${Cookies.get("token")} `,
     "Content-Type": "application/json",
@@ -62,61 +53,14 @@ function Courses() {
     "Content-Type": "application/json",
     Accept: "application/json",
   };
+  
   useEffect(() => {
-    handelFilterCourses();
-  }, [UrlNew]);
-  useEffect(() => {
-    handelFilterCourses();
-    FetchDataOFHomePage();
-  }, []);
+    handellogin()
+    if(!Search){
+      FetchDataOFHomePage();
 
-  const handelFilterCourses = async () => {
-    try {
-      const url = new URL(`https://education.aquadic.com/api/v1/users/courses`);
-
-      const params = {
-        page: Page + 1,
-        language: Language,
-        price_from: PriceFrom,
-        price_to: PriceTo,
-        price_type: PriceType,
-        search:searchParams2.get("search")
-      };
-      console.log(params);
-      Object.keys(params).forEach((key) =>
-        url.searchParams.append(key, params[key])
-      );
-      
-      if (Level_id.length > 0) {
-        Level_id.map((item, i) => {
-          url.searchParams.append(`level_ids[${i}]`, item);
-        });
-      }
-      if (CategoriesID.length > 0) {
-        CategoriesID.map((item, i) => {
-          url.searchParams.append(`category_ids[${i}]`, item);
-        });
-      }
-
-      console.log(url.search);
-      router.push(`/courses${url.search}`);
-      const res = await fetch(url, {
-        method: "GET",
-        headers: IsUser ? headersToken : header,
-      });
-      setPage(Page + 1);
-      const data = await res.json();
-      if (data.data.length === 0) {
-        setHasMore(false);
-      }
-      setAllCourses((dataGet) => [...dataGet, ...data.data]);
-      console.log(data);
-    } catch (error) {
-      console.log("Error in Add New Category (service) =>", error);
     }
-  };
-  console.log(allCourses);
-
+  }, []);
   const FetchDataOFHomePage = async () => {
     const AllData = await getHomePage();
     if (!AllData) console.log(AllData?.message);
@@ -124,8 +68,61 @@ function Courses() {
     setCategories(AllData.categories);
     console.log(AllData);
   };
+console.log(Search?true:false);
 
+useEffect(()=>{
+if(Language||PriceFrom||PriceTo||PriceType||CategoriesID||Level_id||Search){
+setAllCourses([])
+handellogin(1)
+}
+
+
+},[Language,PriceFrom,PriceTo,PriceType,CategoriesID,Level_id,Search])
+
+
+
+  const handellogin = (id) => {
+    
+   const url = new URL(`https://education.aquadic.com/api/v1/users/courses?page=${id?id:Page}&price_type=${PriceType}&price_from=${PriceFrom}&price_to=${PriceTo}&price_type=${PriceType}&search=${Search}`);
+    
+    const body = new FormData();
+    
   
+    setPage(Page + 1);
+    if (Level_id.length > 0) {
+      Level_id.map((item, i) => {
+        url.searchParams.append(`level_ids[${i}]`, item);
+      });
+    }
+    
+    if (CategoriesID.length > 0) {
+      CategoriesID.map((item, i) => {
+        url.searchParams.append(`category_ids[${i}]`, item);
+      });
+    }
+   
+    const po = api
+      .get(url,  {
+        headers: IsUser ? headersToken : header,
+      })
+      .then((res) => {
+        
+        if (res.data.data.length === 0) {
+          setHasMore(false);
+        }else{
+          setAllCourses((dataGet) => [...dataGet, ...res.data.data]);
+
+        }
+       
+        console.log(res);
+        return res.data.data;
+      })
+      .catch((res) => {
+
+        console.log(res);
+      });
+  };
+
 
   return (
     <>
@@ -418,28 +415,20 @@ function Courses() {
             className="btn_page"
             onClick={(e) => {
               e.preventDefault();
-              handelFilterCourses();
+              handellogin();
             }}
           >
             Apply
           </button>
-          <button
-            className="btn_page"
-            onClick={(e) => {
-              e.preventDefault();
-              handelFilterCourses();
-            }}
-          >
-            Apply
-          </button>
+         
         </div>
         <div className="part2">
           {/* <h2  >User Experience Design Courses</h2> */}
           <div
             className="fillter_Courses"
-            id="scrollableDiv"
+           
             style={{
-              height: 700,
+              minHeight:"700px",
 
               overflow: "auto",
               display: "flex",
@@ -447,20 +436,19 @@ function Courses() {
           >
             <InfiniteScroll
               dataLength={allCourses.length}
-              next={handelFilterCourses}
-              style={{ display: "flex", flexDirection: "column" }}
+              next={handellogin}
+              style={{ display: "flex", flexDirection: "column" ,gap:"14px"}}
               hasMore={hasMore}
               loader={<h3> Loading...</h3>}
               endMessage={
                 <h4 style={{ textAlign: "center" }}>Nothing more to show</h4>
               }
-              scrollableTarget="scrollableDiv"
             >
               {allCourses?.map((course, i) => (
                 <ItemCourse2
                   key={i}
                   id={course.id}
-                  title={course.name.ar}
+                  title={course.name[locale]}
                   imageCourse={course.image.url}
                   is_purchased={course.is_purchased ? true : false}
                   star="4.8"

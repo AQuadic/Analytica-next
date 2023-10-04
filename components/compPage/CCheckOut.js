@@ -1,5 +1,5 @@
 "use client";
-import { useTranslations } from "next-intl";
+import { useLocale, useTranslations } from "next-intl";
 import React, { useEffect, useState } from "react";
 import { Group, Input, NumberInput, Radio, TextInput } from "@mantine/core";
 import { useRouter, useSearchParams } from "next/navigation";
@@ -12,6 +12,7 @@ import api from "../../app/[locale]/api";
 import { Alert } from "react-bootstrap";
 
 function CCheckOut() {
+  const locale = useLocale();
   const [IsUser, setIsUser] = useRecoilState(navState);
   const [show, setShow] = useState(false);
   const t = useTranslations("CheckOut");
@@ -174,7 +175,7 @@ function CCheckOut() {
                           <Radio
                             key={payment.id}
                             value={payment.id.toString()}
-                            label={payment.name.en}
+                            label={payment.name[locale]}
                           />
                         );
                       })}
@@ -224,7 +225,7 @@ function CCheckOut() {
             </div>
             <div className="part2">
               <h3>{t("summary")}</h3>
-              <h4>{course.name.en}</h4>
+              <h4>{course.name[locale]}</h4>
               <ul>
                 <li>
                   <h5>{t("originalPrice")}</h5>

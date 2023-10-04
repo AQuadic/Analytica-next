@@ -147,5 +147,12 @@
     "originalPrice": "Original Price:",
     "total": "Total",
     "discount": "Discount"
+  },
+  "Video":{
+    "assignments":"Assignments",
+    "next":"Next",
+    "previous":"Previous",
+    "content":"Course Content",
+    "back":"Back"
   }
 }

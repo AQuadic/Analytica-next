@@ -1,19 +1,20 @@
 "use client";
-import React, { useEffect, useState } from "react";
+import React, {  useEffect, useState } from "react";
 
 import { getHomePage, getUser } from "../useAPI/GetUser";
 import { usePathname, useRouter } from "next-intl/client";
 import { LogOut } from "../useAPI/Auth";
 import Cookies from "js-cookie";
 import { useRecoilState } from "recoil";
-import { MessagingFir, navState } from "@/atoms";
+import { MessagingFir, StateSearch, navState } from "@/atoms";
 import Link from "next-intl/link";
-import { useTranslations } from "next-intl";
+import { useLocale, useTranslations } from "next-intl";
 import { deleteToken } from "firebase/messaging";
+import { useSearchParams } from "next/navigation";
 
 function NavBar({ lang }) {
   const [userData, setUserData] = useState();
-  const [Search, setSearch] = useState("");
+  const [Search, setSearch] = useRecoilState(StateSearch);
   const [IsUser, setIsUser] = useRecoilState(navState);
   const [messagingFire, setMessagingFire] = useRecoilState(MessagingFir);
   const [Categories, setCategories] = useState([]);
@@ -21,7 +22,8 @@ function NavBar({ lang }) {
   const t2 = useTranslations("Account");
   const router = useRouter();
   const pathname = usePathname();
-
+  const locale = useLocale();
+  
   useEffect(() => {
     if (IsUser) {
       FetchDataOFUserData();
@@ -129,7 +131,7 @@ function NavBar({ lang }) {
         </button>
 
         <div className="right_nav ac_nav" id="">
-          <form action="" onSubmit={(e)=>{e.preventDefault();router.push(`/courses?search=${Search}`)}}>
+          <form action="" >
             <input type="text" onChange={(e)=>{e.preventDefault();setSearch(e.target.value)}} className="search" />
           </form>
           <div className="col-dec">
@@ -155,7 +157,7 @@ function NavBar({ lang }) {
                                 className="dropdown-item"
                                 href={`/courses?id=${item.id}`}
                               >
-                                {item.name.ar}
+                                {item.name[locale]}
                               </Link>
                             </li>
                           );
@@ -274,7 +276,7 @@ function NavBar({ lang }) {
                               className="dropdown-item"
                               href={`/courses?id=${item.id}`}
                             >
-                              {item.name.ar}
+                              {item.name[locale]}
                             </Link>
                           </li>
                         );
@@ -288,7 +290,7 @@ function NavBar({ lang }) {
         </div>
       </div>
       <form action="" id="form_nav" className="input_srearch">
-        <input type="search" placeholder="Search For ......."  onChange={(e)=>{e.preventDefault();console.log(e.target.value);}}/>
+        <input type="search" placeholder="Search For ......."  />
       </form>
     </nav>
   );

@@ -4,9 +4,11 @@ import ItemCourse from "@/components/ItemCourse";
 import Swiper1 from "@/components/Swiper1";
 import {getOneInstractor} from "@/components/useAPI/GetUser";
 import Cookies from "js-cookie";
+import { useLocale } from "next-intl";
 import React, {useEffect, useState} from "react";
 
 function page({params}) {
+    const locale = useLocale();
     Cookies.set("nameUrl", params.id)
     const [instractor, setInstractor] = useState([]);
     console.log(params);
@@ -21,7 +23,7 @@ function page({params}) {
     console.log(instractor);
 
 
-    const result = instractor?.courses && Object.groupBy(instractor?.courses, ({category}) => category?.name?.en ?? 'كورسات اخري');
+    const result = instractor?.courses && Object.groupBy(instractor?.courses, ({category}) => category?.name[locale] ?? 'كورسات اخري');
 
     console.log(result);
     if (result) {
@@ -56,7 +58,7 @@ console.log('====================================');
                     <div className="instructor_info">
                         <h3>INSTRUCTOR</h3>
                         <p>
-                            Hello ,i'm {instractor.name} ,{instractor?.about?.en}
+                            Hello ,i'm {instractor.name} ,{instractor?.about[locale]?instractor?.about[locale] :""}
                         </p>
                     </div>
                 </div>
@@ -131,7 +133,7 @@ console.log('====================================');
                                             <ItemCourse
                                             key={item.id}
                                                 link2={`/i/courseDetails/${item.id}`}
-                                                title={item.name.en}
+                                                title={item.name[locale]}
                                                 image="21"
                                                 imageCourse={item.image?.url}
                                                 star="4.8"

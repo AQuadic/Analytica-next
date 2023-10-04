@@ -1,7 +1,7 @@
 "use client";
 import ItemCourse from "@/components/ItemCourse";
 import {getMyCourses} from "@/components/useAPI/CorsesApi/GetCourses";
-import {useTranslations} from "next-intl";
+import {useLocale, useTranslations} from "next-intl";
 import React, {useEffect, useState} from "react";
 
 
@@ -10,6 +10,7 @@ function CMyCourses() {
     const [myCourses, setMyCourses] = useState([]);
     const ActiveBtn = (e) => [setActive(e)];
     const t = useTranslations("MyCourses");
+    const locale = useLocale();
     useEffect(() => {
         FetchDataOFMyCourses()
     }, [])
@@ -51,7 +52,7 @@ function CMyCourses() {
                             myCourses?.map((course) => {
                                 return (
                                     <ItemCourse
-                                        title={course.name.en}
+                                        title={course.name[locale]}
                                         dec={course.instructor.name}
                                         imageCourse={course.image.url}
                                         Myprogress={true}

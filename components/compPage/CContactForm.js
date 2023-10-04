@@ -1,6 +1,6 @@
 "use client";
 import {PasswordInput, Select, TextInput} from "@mantine/core";
-import {useTranslations} from "next-intl";
+import {useLocale, useTranslations} from "next-intl";
 import React, {useEffect, useState} from "react";
 import PhoneInput from "react-phone-number-input";
 import {getHomePage} from "../useAPI/GetUser";
@@ -9,6 +9,7 @@ import api from '../../app/[locale]/api';
 import { Alert } from "react-bootstrap";
 
 function CContactForm() {
+    const locale = useLocale();
     const t = useTranslations("Teach");
     const t2 = useTranslations("Sign");
     const [show, setShow] = useState(false);
@@ -54,7 +55,7 @@ function CContactForm() {
         const AllData = await getHomePage();
         if (!AllData) console.log(AllData?.message);
         AllData.categories.map((itemCategories) => {
-            const item = {value: itemCategories.id, label: itemCategories.name.en};
+            const item = {value: itemCategories.id, label: itemCategories.name[locale]};
             setCategories((current) => [...current, item]);
         });
 

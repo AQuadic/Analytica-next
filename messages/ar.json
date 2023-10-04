@@ -148,5 +148,11 @@
     "originalPrice": "السعر الأصلي:",
     "total": "المجموع",
     "discount": "خصم"
+  },
+  "Video":{
+    "assignments":"المهام",
+    "next":"التالي",
+    "previous":"السابق",
+    "content":" المحتوى الدراسي"
   }
 }

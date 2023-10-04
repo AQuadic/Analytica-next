@@ -2554,10 +2554,10 @@ html[dir="rtl"] .become2 .img_become {
     margin-bottom: 8px;
 }
 
-.rtl .PhoneInput {
-    flex-direction: row-reverse;
-}
 
+.PhoneInput {
+    direction: ltr;
+}
 .PhoneInputCountry {
     gap: 5px;
 }

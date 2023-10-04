@@ -34,7 +34,7 @@ function InstractorInfo({params}) {
                             <h2>INSTRUCTOR</h2>
                             <h3>{instractor?.name}</h3>
                             {
-                                instractor?.title?.en && <h4>{instractor?.title?.en}</h4>
+                                instractor?.title[locale] && <h4>{instractor.title[locale]}</h4>
                             }
                         </div>
                     </div>
@@ -59,10 +59,10 @@ function InstractorInfo({params}) {
                         </div>
                     </div>
                     {
-                        instractor?.about?.en && <div className="aboutME">
+                        instractor?.about[locale] && <div className="aboutME">
                             <h3>About me</h3>
                             <p>
-                                {instractor.about.en}
+                                {instractor.about[locale]}
                             </p>
                         </div>
                     }
@@ -115,7 +115,7 @@ function InstractorInfo({params}) {
                                     <ItemCourse
                                         key={course.id}
                                         id={course.id}
-                                        title={course.name.en}
+                                        title={course.name[locale]}
                                         imageCourse={course.image.url}
                                         star="4.8"
                                         is_purchased={course.is_purchased?true:false}

@@ -197,6 +197,7 @@ export default function Home({params: {locale}}) {
                                                         star="4.8"
                                                         is_purchased={course.is_purchased?true:false}
                                                         //dec={course.instructor?.name}
+                                                        last_watched={course.last_watched_lesson_id}
                                                         newsalary={
                                                             course.price ? "EG " + course.price : "free"
                                                         }

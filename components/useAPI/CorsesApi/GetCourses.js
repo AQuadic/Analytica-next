@@ -81,7 +81,11 @@ export const getOneCourse = async (e,IsUser) => {
             }
         );
         const data = await res.json();
+        console.log('====================================');
+        console.log(data);
+        console.log('====================================');
         return data;
+
     } catch (error) {
         console.log("Error in Add New Category (service) =>", error);
     }
