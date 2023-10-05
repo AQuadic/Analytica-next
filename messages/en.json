@@ -80,7 +80,8 @@
     "myCourses": " My Courses",
     "logIn": "Log In",
     "signUp": "Sign Up",
-    "categories": "Categories"
+    "categories": "Categories",
+    "search":"Search"
   },
   "Account": {
     "account": "Account",
@@ -154,5 +155,28 @@
     "previous":"Previous",
     "content":"Course Content",
     "back":"Back"
+  },
+  "course":{
+    "instructor":"Instructor",
+    "get":"Get started today",
+    "start":"Start your application or request more information.",
+    "learn":"What you'll learn",
+    "apply":"Apply Now",
+    "students":"Enrolled Students",
+    "videos":"videos",
+    "exams":"Count Exams",
+    "access":"Access on mobile and PC",
+    "certificate":"Certificate of completion",
+    "lifetime":"Full lifetime access",
+    "gain":"Skills you'll gain",
+    "content":"Course Content",
+    "requirements":"Requirements",
+    "continue":"Continue learning",
+    "free":"free",
+    "description":"Description",
+    "earn":"Earn a career certificate",
+    "resume":"Add this credential to your LinkedIn profile, resume, or CV Share it on social media and in your performance review",
+    "article":"article",
+    "hardCopy":"You can have a hard copy from the certificate when you need it"
   }
 }

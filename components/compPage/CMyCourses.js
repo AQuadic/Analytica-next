@@ -3,6 +3,7 @@ import ItemCourse from "@/components/ItemCourse";
 import {getMyCourses} from "@/components/useAPI/CorsesApi/GetCourses";
 import {useLocale, useTranslations} from "next-intl";
 import React, {useEffect, useState} from "react";
+import { getLocal } from "../useAPI/GetUser";
 
 
 function CMyCourses() {
@@ -53,7 +54,7 @@ function CMyCourses() {
                             myCourses.filter(item=>item.watch_progress!==1).map((course) => {
                                 return (
                                     <ItemCourse
-                                        title={course.name[locale]}
+                                        title={getLocal(course.name) }
                                         dec={course.instructor.name}
                                         imageCourse={course.image.url}
                                         Myprogress={true}
@@ -71,7 +72,7 @@ function CMyCourses() {
                             myCourses.filter(item=>item.watch_progress===1)?.map((course) => {
                                 return (
                                     <ItemCourse
-                                        title={course.name[locale]}
+                                        title={getLocal(course.name)}
                                         dec={course.instructor.name}
                                         imageCourse={course.image.url}
                                         Myprogress={true}

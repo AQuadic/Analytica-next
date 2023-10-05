@@ -11,6 +11,7 @@ import { useRecoilState } from "recoil";
 import api from "../../api";
 import Cookies from "js-cookie";
 import Thanks from "@/components/Thanks";
+import { getLocal } from "@/components/useAPI/GetUser";
 // export const metadata = {
 //   title: 'analytica | courseContent',
 // }
@@ -224,7 +225,7 @@ function page({ params }) {
                     <div
                       className="part2"
                       dangerouslySetInnerHTML={{
-                        __html: ContentChapter[locale],
+                        __html: getLocal(ContentChapter) ,
                       }}
                     ></div>
                   )}
@@ -257,7 +258,7 @@ function page({ params }) {
                             setContentID(item.id);
                           }}
                         >
-                          <h4>{item.name[locale]}</h4>
+                          <h4>{getLocal( item.name)}</h4>
                           <p>
                             0/{item.lessons.length} |{" "}
                             {convertMinutesToHours(getCount(item.lessons))}{" "}
@@ -274,7 +275,7 @@ function page({ params }) {
                     id="contantTwo"
                     style={{ display: content === "two" ? "block" : "none" }}
                   >
-                    <h3>{CurrentChapters?.name[locale]}</h3>
+                    <h3>{getLocal(CurrentChapters?.name) }</h3>
                     <button
                       className="back"
                       id="back"
@@ -301,7 +302,7 @@ function page({ params }) {
                                     className="form-check-label"
                                     htmlFor="flexCheckCheckedDisabled"
                                   >
-                                    {item.name[locale]}
+                                    {getLocal(item.name) }
                                   </label>
                                   <div className="clock">
                                     <img

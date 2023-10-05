@@ -1649,9 +1649,18 @@ html[dir="rtl"] .coursesDetails .part1 .content .contantCart {
 
 .course_Content .all_Course_Content ul li {
     display: flex;
+    justify-content: space-between;
+}
+.course_Content .all_Course_Content ul li div{
+    display: flex;
     gap: 8px;
 }
-
+.course_Content .all_Course_Content ul li  span{
+    font-size: 12px;
+    line-height: 18px;
+    font-family: "DM Sans3";
+    color: #686868;
+}
 .course_Content .all_Course_Content ul li img {
     width: 16px;
     height: 16px;
@@ -1668,7 +1677,7 @@ html[dir="rtl"] .coursesDetails .part1 .content .contantCart {
     position: relative;
     background: #a222b7;
     border-radius: 20px;
-    padding: 44px 54px;
+    padding: 30px 54px;
     z-index: 5;
     width: 96%;
 }
@@ -1701,7 +1710,31 @@ html[dir="rtl"] .coursesDetails .part3 .img_box {
 
     max-width: 530px;
 }
-
+.coursesDetails .part3 h3 {
+    font-size: 20px;
+    margin-top: 18px;
+    padding-left: 40px;
+    position: relative;
+}
+.rtl .coursesDetails .part3 h3 {
+    padding-right: 40px;
+    padding-left: 0px;
+}
+.coursesDetails .part3 h3::after {
+    position: absolute;
+    content: "";
+    width: 32px;
+    height: 2px;
+    border-radius: 22px;
+    background-color: white;
+    left: 0;
+    top: 12px;
+   
+}
+.rtl .coursesDetails .part3 h3::after {
+    right: 0;
+    left: auto;
+}
 @media (max-width: 1200px) {
     .coursesDetails .part1 .content .contantCart {
         position: relative;
@@ -1733,7 +1766,7 @@ html[dir="rtl"] .coursesDetails .part3 .img_box {
         left: -46px;
     }
 
-    .coursesDetails .part3 p {
+    .coursesDetails .part3 p ,.coursesDetails .part3 h3{
         font-size: 18px;
     }
 
@@ -1744,7 +1777,7 @@ html[dir="rtl"] .coursesDetails .part3 .img_box {
     }
 
     .coursesDetails .part3 {
-        padding: 22px;
+        padding: 20px;
     }
 
     .coursesDetails .part2 {
@@ -3281,7 +3314,10 @@ html[dir="rtl"] .Profile .btn_page {
 .navbar-toggler {
     border: 0 !important;
 }
-
+.rtl .navbar-brand{
+    margin-left: 18px;
+    margin-right: 0;
+}
 .index_nav {
     width: 100%;
     z-index: 1000;
@@ -3422,6 +3458,7 @@ html[dir="rtl"] .Profile .btn_page {
     position: relative;
     margin: auto 0px;
     flex: 1;
+    max-width: 540px;
 }
 
 .right_nav form::before {
@@ -3437,12 +3474,18 @@ html[dir="rtl"] .Profile .btn_page {
     background-image: url("/images/search.svg");
     z-index: 50;
 }
-
+.rtl .right_nav form::before {
+   
+    left: auto;
+    right: 16px;
+   
+}
 .ac_nav {
     display: flex;
     align-items: center;
     gap: 16px;
     flex: 1;
+    justify-content: space-around;
 }
 
 .ac_nav h4 {
@@ -3469,7 +3512,22 @@ html[dir="rtl"] .Profile .btn_page {
     background-color: transparent;
     border: none;
 }
-
+.ac_nav button.btnSearch {
+    background-color: #5f7f904f;
+    border: none;
+    color: #6b6a6a;
+    padding: 4px 8px;
+    border-radius: 8px;
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    right: 10px;
+    font-size: 14px;
+}
+.rtl .ac_nav button.btnSearch {
+    left: 10px;
+    right: auto;
+}
 .ac_nav a p {
     font-size: 14px;
     line-height: 18px;
@@ -3652,7 +3710,12 @@ nav .dropdown-menu a {
     font-size: 14px;
     text-align: center;
 }
-
+.rtl .navbar .btn_page2{
+   
+    width: 104px;
+    padding: 8px;
+    font-size: 12px;
+}
 .navbar-brand img {
     max-width: 160px;
 }

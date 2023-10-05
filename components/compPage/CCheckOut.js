@@ -4,7 +4,7 @@ import React, { useEffect, useState } from "react";
 import { Group, Input, NumberInput, Radio, TextInput } from "@mantine/core";
 import { useRouter, useSearchParams } from "next/navigation";
 import { getMyCourses, getOneCourse } from "../useAPI/CorsesApi/GetCourses";
-import { getHomePage } from "../useAPI/GetUser";
+import { getHomePage, getLocal } from "../useAPI/GetUser";
 import Cookies from "js-cookie";
 import { useRecoilState } from "recoil";
 import { navState } from "@/atoms";
@@ -175,7 +175,7 @@ function CCheckOut() {
                           <Radio
                             key={payment.id}
                             value={payment.id.toString()}
-                            label={payment.name[locale]}
+                            label={getLocal(payment.name) }
                           />
                         );
                       })}
@@ -225,7 +225,7 @@ function CCheckOut() {
             </div>
             <div className="part2">
               <h3>{t("summary")}</h3>
-              <h4>{course.name[locale]}</h4>
+              <h4>{getLocal( course.name)}</h4>
               <ul>
                 <li>
                   <h5>{t("originalPrice")}</h5>

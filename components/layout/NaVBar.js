@@ -1,7 +1,7 @@
 "use client";
-import React, {  useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 
-import { getHomePage, getUser } from "../useAPI/GetUser";
+import { getHomePage, getLocal, getUser } from "../useAPI/GetUser";
 import { usePathname, useRouter } from "next-intl/client";
 import { LogOut } from "../useAPI/Auth";
 import Cookies from "js-cookie";
@@ -14,6 +14,7 @@ import { useSearchParams } from "next/navigation";
 
 function NavBar({ lang }) {
   const [userData, setUserData] = useState();
+  const [TextSearch, setTextSearch] = useState("");
   const [Search, setSearch] = useRecoilState(StateSearch);
   const [IsUser, setIsUser] = useRecoilState(navState);
   const [messagingFire, setMessagingFire] = useRecoilState(MessagingFir);
@@ -23,7 +24,7 @@ function NavBar({ lang }) {
   const router = useRouter();
   const pathname = usePathname();
   const locale = useLocale();
-  
+
   useEffect(() => {
     if (IsUser) {
       FetchDataOFUserData();
@@ -48,9 +49,9 @@ function NavBar({ lang }) {
       deleteToken(messaging);
     }
   };
-console.log('====================================');
-console.log(pathname);
-console.log('====================================');
+  console.log("====================================");
+  console.log(pathname);
+  console.log("====================================");
   const FetchDataOFHomePage = async () => {
     const AllData = await getHomePage();
     if (!AllData) console.log(AllData?.message);
@@ -133,8 +134,20 @@ console.log('====================================');
         </button>
 
         <div className="right_nav ac_nav" id="">
-          <form onSubmit={(e)=>{e.preventDefault()}}>
-            <input type="text" onChange={(e)=>{e.preventDefault();setSearch(e.target.value)}} onClick={()=>{pathname!=="/courses"&&router.push('/courses')}} className="search" />
+          <form
+            onSubmit={(e) => {
+              e.preventDefault();
+            }}
+          >
+            <input
+              type="text"
+              onChange={(e) => {
+                e.preventDefault();
+                setTextSearch(e.target.value);
+              }}
+              className="search"
+            />
+            <button className="btnSearch" onClick={()=>{ setSearch(TextSearch); pathname !== "/courses" && router.push("/courses");}}>{t("search")}</button>
           </form>
           <div className="col-dec">
             <div className="navbar-nav">
@@ -159,7 +172,7 @@ console.log('====================================');
                                 className="dropdown-item"
                                 href={`/courses?id=${item.id}`}
                               >
-                                {item.name[locale]}
+                                {getLocal(item.name)}
                               </Link>
                             </li>
                           );
@@ -265,7 +278,7 @@ console.log('====================================');
                 data-bs-toggle="dropdown"
                 aria-expanded="false"
               >
-                Categories
+                {t("categories")}
               </a>
               <ul className="dropdown-menu">
                 <li>
@@ -278,7 +291,7 @@ console.log('====================================');
                               className="dropdown-item"
                               href={`/courses?id=${item.id}`}
                             >
-                              {item.name[locale]}
+                              {getLocal(item.name) }
                             </Link>
                           </li>
                         );
@@ -292,7 +305,7 @@ console.log('====================================');
         </div>
       </div>
       <form action="" id="form_nav" className="input_srearch">
-        <input type="search" placeholder="Search For ......."  />
+        <input type="search" placeholder="Search For ......." />
       </form>
     </nav>
   );

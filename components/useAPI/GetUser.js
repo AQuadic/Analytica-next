@@ -1,5 +1,6 @@
 import Cookies from "js-cookie";
 import {BASE_URL} from '../../app/[locale]/api';
+import { useLocale } from "next-intl";
 
 
 let headersToken = {
@@ -124,3 +125,11 @@ export const getOneInstractor = async (e) => {
         console.log('Error in Add New Category (service) =>', error);
     }
 }
+export const getLocal = (path) => {
+    const locale = useLocale()
+    if (path == null || path == undefined) return "";
+
+    if (path.hasOwnProperty(locale) && path[locale]) return path[locale];
+
+    return path[Object.keys(path)[0]];
+  };

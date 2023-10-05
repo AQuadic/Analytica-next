@@ -3,7 +3,7 @@ import React, {useEffect, useState} from 'react'
 import Link from 'next/link'
 import {usePathname, useRouter} from 'next-intl/client';
 import {useLocale, useTranslations} from 'next-intl';
-import {getHomePage} from '../useAPI/GetUser';
+import {getHomePage, getLocal} from '../useAPI/GetUser';
 
 function Footer({lang}) {
     const router = useRouter();
@@ -42,7 +42,7 @@ function Footer({lang}) {
                             {
                                 pages?.map((page) => {
                                     return (
-                                        <Link key={page.id} href={`/about?id=${page.id}`}>{page.title[locale]}</Link>
+                                        <Link key={page.id} href={`/about?id=${page.id}`}>{getLocal(page.title)}</Link>
                                     )
                                 })
                             }

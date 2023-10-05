@@ -3,7 +3,7 @@ import {PasswordInput, Select, TextInput} from "@mantine/core";
 import {useLocale, useTranslations} from "next-intl";
 import React, {useEffect, useState} from "react";
 import PhoneInput from "react-phone-number-input";
-import {getHomePage} from "../useAPI/GetUser";
+import {getHomePage, getLocal} from "../useAPI/GetUser";
 import {useRouter} from "next/navigation";
 import api from '../../app/[locale]/api';
 import { Alert } from "react-bootstrap";
@@ -55,7 +55,7 @@ function CContactForm() {
         const AllData = await getHomePage();
         if (!AllData) console.log(AllData?.message);
         AllData.categories.map((itemCategories) => {
-            const item = {value: itemCategories.id, label: itemCategories.name[locale]};
+            const item = {value: itemCategories.id, label: getLocal(itemCategories.name)};
             setCategories((current) => [...current, item]);
         });
 

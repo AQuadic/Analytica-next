@@ -1,6 +1,7 @@
 "use client";
 import FAQ from "@/components/FAQ";
 import {getOneCourse} from "@/components/useAPI/CorsesApi/GetCourses";
+import { getLocal } from "@/components/useAPI/GetUser";
 import Cookies from "js-cookie";
 import { useLocale } from "next-intl";
 import Link from "next/link";
@@ -29,8 +30,8 @@ function page({params}) {
                 <div className="part1">
                     <div className="content container">
                         <div className="contantAbout">
-                            <h2>{allCourses.name[locale]}</h2>
-                            {allCourses.short_description && <h3>{allCourses.short_description[locale]}</h3>}
+                            <h2> {getLocal(allCourses.name) }</h2>
+                            {allCourses.short_description && <h3>{getLocal(allCourses.short_description) }</h3>}
                             <p>
                                 Instructor:{" "}
                                 <Link
@@ -94,7 +95,7 @@ function page({params}) {
                                 <div className="learn">
                                     <ul className="row">
                                         {
-                                            allCourses.learn[locale].map((item, i) => {
+                                            getLocal(allCourses.learn).map((item, i) => {
                                                 return (
                                                     <li className="col-md-5" key={i}>
                                                         <img src="/images/instructorScreen/true.svg" alt="true"/>
@@ -126,7 +127,7 @@ function page({params}) {
                                 <div className="skills">
                                     <ul>
                                         {
-                                            allCourses.gain[locale].map((item, i) => {
+                                            getLocal(allCourses.gain).map((item, i) => {
                                                 return (
                                                     <li key={i}>{item}</li>
                                                 )
@@ -160,7 +161,7 @@ function page({params}) {
                                                                     aria-expanded="false"
                                                                     aria-controls={`flush-collapse${lesson.id}`}
                                                                 >
-                                                                    {lesson.name[locale]}
+                                                                    {getLocal(lesson.name) }
                                                                 </button>
 
                                                             </h2>
@@ -263,22 +264,22 @@ function page({params}) {
                                 </div>
                             </div>
                         </div>
-                        {allCourses.requirements[locale] && (
+                        {getLocal(allCourses.requirements)  && (
                             <div className="part">
                                 <div className="description">
                                     <h2 className="headDetails">Requirements</h2>
                                     <p>
-                                        {allCourses.requirements[locale]}
+                                        {getLocal(allCourses.requirements)}
                                     </p>
                                 </div>
                             </div>
                         )}
-                        {allCourses.description[locale] && (
+                        { getLocal(allCourses.description) && (
                             <div className="part">
                                 <div className="description">
                                     <h2 className="headDetails">Description</h2>
                                     <p>
-                                        {allCourses.description[locale]}
+                                        {getLocal(allCourses.description)}
                                     </p>
                                 </div>
                             </div>

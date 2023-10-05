@@ -1,5 +1,5 @@
 "use client"
-import {getHomePage} from '@/components/useAPI/GetUser';
+import {getHomePage, getLocal} from '@/components/useAPI/GetUser';
 import { useLocale } from 'next-intl';
 import {useSearchParams} from 'next/navigation';
 import React, {useEffect, useState} from 'react'
@@ -23,8 +23,8 @@ function page() {
         {
             page.id>0&&<div className="container m90">
             <div className='pageAbout'>
-                <h2>{page?.title[locale]}</h2>
-                <div className='decAbout' dangerouslySetInnerHTML={{__html: page?.description[locale]}}>
+                <h2>{getLocal( page?.title) }</h2>
+                <div className='decAbout' dangerouslySetInnerHTML={{__html:getLocal( page?.description)}}>
                     {/* <p dangerouslySetInnerHTML={createMarkup(data)} /> */}
                 </div>
             </div>

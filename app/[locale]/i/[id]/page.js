@@ -2,7 +2,7 @@
 import FAQ from "@/components/FAQ";
 import ItemCourse from "@/components/ItemCourse";
 import Swiper1 from "@/components/Swiper1";
-import {getOneInstractor} from "@/components/useAPI/GetUser";
+import {getLocal, getOneInstractor} from "@/components/useAPI/GetUser";
 import Cookies from "js-cookie";
 import { useLocale } from "next-intl";
 import React, {useEffect, useState} from "react";
@@ -23,7 +23,7 @@ function page({params}) {
     console.log(instractor);
 
 
-    const result = instractor?.courses && Object.groupBy(instractor?.courses, ({category}) => category?.name[locale] ?? 'كورسات اخري');
+    const result = instractor?.courses && Object.groupBy(instractor?.courses, ({category}) =>  getLocal(category?.name) ?? 'كورسات اخري');
 
     console.log(result);
     if (result) {
@@ -58,7 +58,7 @@ console.log('====================================');
                     <div className="instructor_info">
                         <h3>INSTRUCTOR</h3>
                         <p>
-                            Hello ,i'm {instractor.name} ,{instractor?.about[locale]?instractor?.about[locale] :""}
+                            Hello ,i'm {instractor.name} ,{getLocal(instractor?.about)}
                         </p>
                     </div>
                 </div>
@@ -133,7 +133,7 @@ console.log('====================================');
                                             <ItemCourse
                                             key={item.id}
                                                 link2={`/i/courseDetails/${item.id}`}
-                                                title={item.name[locale]}
+                                                title={getLocal( item.name)}
                                                 image="21"
                                                 imageCourse={item.image?.url}
                                                 star="4.8"

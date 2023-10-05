@@ -1,14 +1,14 @@
 "use client";
 import { StateSearch, navState } from "@/atoms";
 import ItemCourse2 from "@/components/ItemCourse2";
-import { getHomePage } from "@/components/useAPI/GetUser";
+import { getHomePage, getLocal } from "@/components/useAPI/GetUser";
 import { Checkbox, Group, Radio, RangeSlider, Slider } from "@mantine/core";
 import Cookies from "js-cookie";
-import { useLocale } from "next-intl";
+import { useLocale, useTranslations } from "next-intl";
 import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
 
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { Alert } from "react-bootstrap";
 import InfiniteScroll from "react-infinite-scroll-component";
 import { useRecoilState } from "recoil";
@@ -66,15 +66,27 @@ function Courses() {
 */
 
   useEffect(() => {
-      handellogin();
+      
     FetchDataOFHomePage();
   }, []);
   
   useEffect(() => {
-    if(allCourses.length){
+    console.log('====================================');
+    console.log(Search ? true : false);
+    console.log('====================================');
+    if(Search){
       setAllCourses([])
       handellogin(1);
+      setPage(1)
+      
+    }else{
+      if(allCourses.length){
+        setAllCourses([])
+      }
+      handellogin();
     }
+    const fullUrl = `/courses${UrlNew}`;
+    router.replace(fullUrl);
 }, [Search]);
   const FetchDataOFHomePage = async () => {
     const AllData = await getHomePage();
@@ -83,7 +95,7 @@ function Courses() {
     setCategories(AllData.categories);
     console.log(AllData);
   };
-  console.log(Search ? true : false);
+
 
 
   /*useEffect(() => {
@@ -105,7 +117,7 @@ function Courses() {
     const url = new URL(
       `https://education.aquadic.com/api/v1/users/courses?page=${
         id ? id : Page
-      }&price_type=${PriceType}&price_from=${PriceFrom}&price_to=${PriceTo}&price_type=${PriceType}&search=${Search}&language=${Language}`
+      }&price_type=${PriceType}&price_from=${PriceFrom}&price_to=${PriceTo}&price_type=${PriceType}&search=${Search===null?"":Search}&language=${Language}`
     );
 
     const body = new FormData();
@@ -122,9 +134,9 @@ function Courses() {
         url.searchParams.append(`category_ids[${i}]`, item);
       });
     }
-    
 console.log('====================================');
 console.log(url.search);
+setUerNew(url.search)
 console.log('====================================');
     const po = api
       .get(url, {
@@ -144,6 +156,58 @@ console.log('====================================');
         console.log(res);
       });
   };
+
+
+useEffect(()=>{
+// Function to extract query string parameters
+const getQueryParam = (url, param) => {
+  const regex = new RegExp(`${param}=([^&]+)`);
+  const match = url.match(regex);
+  return match ? match[1] : null;
+};
+// Extract the values
+setPage(getQueryParam(UrlNew, "page"))
+setPriceType(getQueryParam(UrlNew, "price_type"))
+setPriceFrom(getQueryParam(UrlNew, "price_from"))
+setPriceTo(getQueryParam(UrlNew, "price_to"))
+setSearch(getQueryParam(UrlNew, "search"))
+setLanguage(getQueryParam(UrlNew, "language"))
+
+// Extract level_ids values
+const levelIds = [];
+const levelIdsRegex = /level_ids%5B(\d+)%5D=([^&]+)/g;
+let levelIdsMatch;
+while ((levelIdsMatch = levelIdsRegex.exec(UrlNew))) {
+  levelIds.push(levelIdsMatch[2]);
+  setLevel_id(levelIds)
+}
+// Extract category_ids values
+const categoryIds = [];
+const categoryIdsRegex = /category_ids%5B(\d+)%5D=([^&]+)/g;
+let categoryIdsMatch;
+while ((categoryIdsMatch = categoryIdsRegex.exec(UrlNew))) {
+  categoryIds.push(categoryIdsMatch[2]);
+  setCategoriesID(categoryIds)
+}
+
+
+
+},[])
+
+
+
+// Output the values
+console.log("page:", Page);
+console.log("price_type:", PriceType);
+console.log("price_from:", PriceFrom);
+console.log("price_to:", PriceTo);
+console.log("search:", Search);
+console.log("language:", Language);
+console.log("level_ids:", Level_id);
+console.log("category_ids:", CategoriesID);
+
+
+
 
   return (
     <>
@@ -275,7 +339,7 @@ console.log('====================================');
                             key={item.id}
                             value={`${item.id}`}
                             color="indigo"
-                            label={item.name[locale]}
+                            label={getLocal(item.name)}
                           />
                         );
                       })}
@@ -315,7 +379,7 @@ console.log('====================================');
                             key={item.id}
                             value={`${item.id}`}
                             color="indigo"
-                            label={item.name[locale]}
+                            label={getLocal( item.name)}
                           />
                         );
                       })}
@@ -438,6 +502,8 @@ console.log('====================================');
               e.preventDefault();
               setAllCourses([])
               handellogin(1);
+              const fullUrl = `/courses${UrlNew}`;
+              router.replace(fullUrl);
             }}
           >
             Apply
@@ -468,7 +534,7 @@ console.log('====================================');
                 <ItemCourse2
                   key={i}
                   id={course.id}
-                  title={course.name[locale]}
+                  title={getLocal(course.name)}
                   imageCourse={course.image.url}
                   is_purchased={course.is_purchased ? true : false}
                   last_watched={course.last_watched_lesson_id}
