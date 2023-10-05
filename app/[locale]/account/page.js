@@ -52,7 +52,10 @@ function page() {
 
   const HandelLogOut = async () => {
     const UserLogOut = await LogOut(Cookies.get("AnalyticaToken"));
-    if (UserLogOut.message === "auth.logged_out") {
+    console.log('====================================');
+    console.log(UserLogOut);
+    console.log('====================================');
+    if (UserLogOut === 200) {
       console.log("done");
       setIsUser(false);
       Cookies.remove("AnalyticaToken");

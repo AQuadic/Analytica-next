@@ -28,7 +28,10 @@ export const LogOut = async (e) => {
       },
     })
     .then((res) => {
-      return res.data;
+      console.log('====================================');
+      console.log(res);
+      console.log('====================================');
+      return res.status;
     })
     .catch((error) => {
       return { error: error.message };

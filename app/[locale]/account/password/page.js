@@ -40,7 +40,7 @@ function page() {
             setErrorBloked(UserLogOut.error);
             setBloked(true);
           }
-        if (UserLogOut.message === "auth.logged_out") {
+          if (UserLogOut === 200) {
             console.log("done");
             setIsUser(false);
             Cookies.remove("AnalyticaToken");

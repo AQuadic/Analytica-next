@@ -47,7 +47,7 @@ function NavBar({ lang }) {
 console.log('====================================');
 console.log(UserLogOut);
 console.log('====================================');
-    if (UserLogOut.message === "auth.logged_out") {
+if (UserLogOut === 200) {
       setIsUser(false);
       Cookies.remove("AnalyticaToken");
       router.push("/signIn");
