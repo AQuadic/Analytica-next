@@ -190,9 +190,9 @@ function page({ params }) {
                   {Lessons?.id && (
                     <div className="part2">
                       <h1>
-                        Learn python: The Complete Python Programming Course
+                        { getLocal(Lessons?.chapter?.name) }
                       </h1>
-                      <h2>Gestalt Principles</h2>
+                      <h2>{ getLocal(Lessons?.name) }</h2>
                       <div className="boxVideo">
                         {Youtube ? (
                           <iframe
