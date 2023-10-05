@@ -11,7 +11,7 @@ import api from "../../app/[locale]/api";
 import { DeviceUUID } from "device-uuid";
 import platform from "platform";
 import { useRecoilState } from "recoil";
-import { tokenNotifiable } from "@/atoms";
+import { navState, tokenNotifiable } from "@/atoms";
 import { Alert } from "react-bootstrap";
 import Thanks from "../Thanks";
 

@@ -70,7 +70,15 @@ export const getAllCoursesWithUser = async () => {
 export const getOneCourse = (e, IsUser) => {
   const result = api
     .get(`/api/v1/users/courses/${e}`, {
-      headers: IsUser ? headersToken : header,
+      headers: IsUser ? {
+        Authorization: `Bearer ${Cookies.get("AnalyticaToken")} `,
+        "Content-Type": "application/json",
+        Accept: "application/json",
+      } : {
+       
+        "Content-Type": "application/json",
+        Accept: "application/json",
+      },
     })
     .then((res) => {
       return res.data;
