@@ -326,11 +326,14 @@ function page({ params }) {
               </div>
             </div>
             <div className="endVideo">
-              <a className="btn_page2" href={`/courseContent/${LessonsChapters[LessonsChapters?.map(e => e.id).indexOf(Lessons?.id) - 1]?.id ?? null}`}>
+              {/* JUST A WORK AROUND THIS NEEDS TO BE IMPLEMENTED !!!*/}
+              <a className="btn_page2" href={`/courseContent/${(Lessons?.id ?? 0) - 1}`}>
+                {/*${LessonsChapters[LessonsChapters?.map(e => e.id).indexOf(Lessons?.id) - 1]?.id ?? null}*/}
                 <img src="/images/icons/Arrow1.svg" alt="Arrow" />
                 <p>{t("previous")}</p>
               </a>
-              <a className="btn_page" href={`/courseContent/${LessonsChapters[LessonsChapters?.map(e => e.id).indexOf(Lessons?.id) + 1]?.id ?? null}`}>
+              <a className="btn_page" href={`/courseContent/${(Lessons?.id ?? 0) + 1}`}/>
+                {/*${LessonsChapters[LessonsChapters?.map(e => e.id).indexOf(Lessons?.id) + 1]?.id ?? null}*/}
                 <p>{t("next")}</p>
                 <img src="/images/icons/Arrow2.svg" alt="Arrow" />
               </a>
