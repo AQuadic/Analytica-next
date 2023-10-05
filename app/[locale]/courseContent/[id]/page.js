@@ -332,7 +332,7 @@ function page({ params }) {
                 <img src="/images/icons/Arrow1.svg" alt="Arrow" />
                 <p>{t("previous")}</p>
               </a>
-              <a className="btn_page" href={`/courseContent/${(Lessons?.id ?? 0) + 1}`}/>
+              <a className="btn_page" href={`/courseContent/${(Lessons?.id ?? 0) + 1}`}>
                 {/*${LessonsChapters[LessonsChapters?.map(e => e.id).indexOf(Lessons?.id) + 1]?.id ?? null}*/}
                 <p>{t("next")}</p>
                 <img src="/images/icons/Arrow2.svg" alt="Arrow" />
