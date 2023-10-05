@@ -12,6 +12,7 @@ function ItemCourse2({
   imageCourse,
   id,
   is_purchased,
+  last_watched
 }) {
   return (
     <div className="item">
@@ -53,7 +54,7 @@ function ItemCourse2({
         </Link>
 
         {is_purchased ? (
-          <Link href={`/courseContent/${id}`} className="btn_page">
+          <Link href={`/courseContent/${last_watched}`} className="btn_page">
             Continue learning
           </Link>
         ) : (

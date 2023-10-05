@@ -459,6 +459,7 @@ function Courses() {
                   title={course.name[locale]}
                   imageCourse={course.image.url}
                   is_purchased={course.is_purchased ? true : false}
+                  last_watched={course.last_watched_lesson_id}
                   star="4.8"
                   dec={course.instructor.name}
                   newsalary={course.price ? "EG " + course.price : "free"}
