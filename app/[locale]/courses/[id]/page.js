@@ -93,7 +93,7 @@ function CourseDetails({ params }) {
                     <h4>{t("start")}</h4>
                     <h5 style={{ fontWeight: "bold", marginBottom: "14px" }}>
                       {allCourses.price > 0
-                        ? "EG" + allCourses.price
+                        ? "EG " + allCourses.price
                         : t("free")}
                     </h5>
                     {allCourses.is_purchased ? (
