@@ -19,6 +19,7 @@ import api from "../api";
 // }
 
 function Courses() {
+  
   const [allCourses, setAllCourses] = useState([]);
   const [Rating, setRating] = useState(5);
   const [Duration, setDuration] = useState();
@@ -65,11 +66,16 @@ function Courses() {
 */
 
   useEffect(() => {
-    if (Search) {
       handellogin();
-    }
     FetchDataOFHomePage();
-  }, [Search]);
+  }, []);
+  
+  useEffect(() => {
+    if(allCourses.length){
+      setAllCourses([])
+      handellogin(1);
+    }
+}, [Search]);
   const FetchDataOFHomePage = async () => {
     const AllData = await getHomePage();
     if (!AllData) console.log(AllData?.message);
@@ -79,7 +85,8 @@ function Courses() {
   };
   console.log(Search ? true : false);
 
-  useEffect(() => {
+
+  /*useEffect(() => {
     if (
       Language ||
       PriceFrom ||
@@ -92,6 +99,7 @@ function Courses() {
       handellogin(1);
     }
   }, [Language, PriceFrom, PriceTo, PriceType, CategoriesID, Level_id]);
+  */
 
   const handellogin = (id) => {
     const url = new URL(
@@ -114,7 +122,10 @@ function Courses() {
         url.searchParams.append(`category_ids[${i}]`, item);
       });
     }
-
+    
+console.log('====================================');
+console.log(url.search);
+console.log('====================================');
     const po = api
       .get(url, {
         headers: IsUser ? headersToken : header,
@@ -425,7 +436,8 @@ function Courses() {
             className="btn_page"
             onClick={(e) => {
               e.preventDefault();
-              handellogin();
+              setAllCourses([])
+              handellogin(1);
             }}
           >
             Apply

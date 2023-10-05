@@ -48,7 +48,9 @@ function NavBar({ lang }) {
       deleteToken(messaging);
     }
   };
-
+console.log('====================================');
+console.log(pathname);
+console.log('====================================');
   const FetchDataOFHomePage = async () => {
     const AllData = await getHomePage();
     if (!AllData) console.log(AllData?.message);
@@ -131,8 +133,8 @@ function NavBar({ lang }) {
         </button>
 
         <div className="right_nav ac_nav" id="">
-          <form action="" >
-            <input type="text" onChange={(e)=>{e.preventDefault();setSearch(e.target.value)}} className="search" />
+          <form onSubmit={(e)=>{e.preventDefault()}}>
+            <input type="text" onChange={(e)=>{e.preventDefault();setSearch(e.target.value)}} onClick={()=>{pathname!=="/courses"&&router.push('/courses')}} className="search" />
           </form>
           <div className="col-dec">
             <div className="navbar-nav">

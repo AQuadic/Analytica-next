@@ -2,6 +2,7 @@
 import { navState } from "@/atoms";
 import ItemCourse from "@/components/ItemCourse";
 import {getInstractor} from "@/components/useAPI/GetUser";
+import { useLocale } from "next-intl";
 import React, {useEffect, useState} from "react";
 import { useRecoilState } from "recoil";
 
@@ -10,7 +11,7 @@ import { useRecoilState } from "recoil";
 //   title: 'analytica | INSTRUCTOR',
 // }
 function InstractorInfo({params}) {
-
+const locale = useLocale()
     const [IsUser, setIsUser] = useRecoilState(navState);
     const [instractor, setInstractor] = useState();
 
