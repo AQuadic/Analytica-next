@@ -1,5 +1,6 @@
 import React from "react";
 import Link from "next/link";
+import { useTranslations } from "next-intl";
 
 function ItemCourse2({
   title,
@@ -14,6 +15,8 @@ function ItemCourse2({
   is_purchased,
   last_watched
 }) {
+  const t = useTranslations("CompCourse");
+
   return (
     <div className="item">
       <Link href={`/courses/${id}`} className="imageLink">
@@ -55,11 +58,11 @@ function ItemCourse2({
 
         {is_purchased ? (
           <Link href={`/courseContent/${last_watched}`} className="btn_page">
-            Continue learning
+             {t("continue")}
           </Link>
         ) : (
           <Link href={`/checkOut?id=${id}`} className="btn_page2">
-            Enroll Now
+            {t("enroll")}
           </Link>
         )}
       </div>

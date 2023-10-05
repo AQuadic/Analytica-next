@@ -73,7 +73,8 @@
     "music": "موسيقى",
     "development": "التنمية",
     "marketing": "التسويق",
-    "followUs": "تابعنا"
+    "followUs": "تابعنا",
+    "reserved":"جميع الحقوق محفوظة"
   },
   "Nav": {
     "teach": " التدريس في Analytica",
@@ -81,7 +82,9 @@
     "logIn": "تسجيل الدخول",
     "signUp": "تسجيل",
     "categories": "الفئات",
-    "search":"بحث"
+    "search":"بحث",
+    "hi":"مرحبا"
+
   },
   "Account": {
     "account": "الحساب",
@@ -178,6 +181,20 @@
     "resume":"أضف أوراق الاعتماد هذه إلى ملفك الشخصي على LinkedIn أو استأنفها أو CV شاركها على وسائل التواصل الاجتماعي وفي مراجعة أدائك",
     "article":"مادة",
     "hardCopy":"يمكنك الحصول على نسخة ورقية من الشهادة عندما تحتاج إليها"
-
+  },
+  "instracto":{
+    "follow":"تابعني",
+    "instracto":"المدرب",
+    "aboutMe":"عني",
+    "myCourses":"دوراتي",
+    "trainees":"المتدربون",
+    "hours":"ساعات"
+  },
+  "CompCourse":{
+    "enroll":"قم بالتسجيل الآن",
+    "continue":"استمر في التعلم",
+    "completed":"مكتمل",
+    "certificate":"عرض الشهاده",
+    "free":"مجاني"
   }
 }

@@ -95,7 +95,7 @@ function CSignup() {
             )
             .then((res) => {
                 console.log(res);
-                Cookies.set("token", res.data.token);
+                Cookies.set("AnalyticaToken", res.data.token);
                 router.push("/");
             })
             .catch((res) => {
@@ -149,7 +149,7 @@ function CSignup() {
                 },
                 {
                     headers: {
-                        "Authorization": `Bearer ${Cookies.get("token")}`,
+                        "Authorization": `Bearer ${Cookies.get("AnalyticaToken")}`,
                         "Content-Type": "application/json",
                         "Accept": "application/json",
                     },
@@ -157,7 +157,7 @@ function CSignup() {
             )
             .then((res) => {
                 setIsUser(true)
-                Cookies.set("token", res.data.token);
+                Cookies.set("AnalyticaToken", res.data.token);
                 console.log(res);
                 router.push('/')
             })

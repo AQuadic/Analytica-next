@@ -19,7 +19,7 @@ import api from "../api";
 // }
 
 function Courses() {
-  
+  const t = useTranslations("CompCourse")
   const [allCourses, setAllCourses] = useState([]);
   const [Rating, setRating] = useState(5);
   const [Duration, setDuration] = useState();
@@ -45,7 +45,7 @@ function Courses() {
   //console.log(searchParams.getAll());
   searchParams2.get("search");
   let headersToken = {
-    Authorization: `Bearer ${Cookies.get("token")} `,
+    Authorization: `Bearer ${Cookies.get("AnalyticaToken")} `,
     "Content-Type": "application/json",
     Accept: "application/json",
   };
@@ -540,7 +540,7 @@ console.log("category_ids:", CategoriesID);
                   last_watched={course.last_watched_lesson_id}
                   star="4.8"
                   dec={course.instructor.name}
-                  newsalary={course.price ? "EG " + course.price : "free"}
+                  newsalary={course.price ? "EG " + course.price : t("free")}
                 />
               ))}
             </InfiniteScroll>

@@ -3,7 +3,7 @@ import api, { BASE_URL } from "../../../app/[locale]/api";
 import axios from "axios";
 
 let headersToken = {
-  Authorization: `Bearer ${Cookies.get("token")} `,
+  Authorization: `Bearer ${Cookies.get("AnalyticaToken")} `,
   "Content-Type": "application/json",
   Accept: "application/json",
 };
@@ -17,7 +17,7 @@ export const getMyCourses = async () => {
   const result = api
     .get(`/api/v1/users/courses/mine`, {
       headers: {
-        Authorization: `Bearer ${Cookies.get("token")} `,
+        Authorization: `Bearer ${Cookies.get("AnalyticaToken")} `,
         "Content-Type": "application/json",
         Accept: "application/json",
       },
@@ -53,7 +53,7 @@ export const getAllCoursesWithUser = async () => {
   const result = api
     .get(`/api/v1/users/courses`, {
       headers: {
-        Authorization: `Bearer ${Cookies.get("token")} `,
+        Authorization: `Bearer ${Cookies.get("AnalyticaToken")} `,
         "Content-Type": "application/json",
         Accept: "application/json",
       },

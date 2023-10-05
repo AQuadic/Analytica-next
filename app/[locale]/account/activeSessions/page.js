@@ -21,7 +21,7 @@ function page() {
     const [devices, setDevices] = useState([]);
 
     const HandelLogOut = async () => {
-        const UserLogOut = await LogOut(Cookies.get("token"));
+        const UserLogOut = await LogOut(Cookies.get("AnalyticaToken"));
         if (UserLogOut.message === "auth.logged_out") {
             console.log("done");
             setIsUser(false);

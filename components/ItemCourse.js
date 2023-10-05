@@ -1,5 +1,6 @@
 import React from "react";
 import Link from "next/link";
+import { useTranslations } from "next-intl";
 
 function ItemCourse({
   title,
@@ -18,6 +19,9 @@ function ItemCourse({
   NoPrice,
   last_watched
 }) {
+
+  const t = useTranslations("CompCourse");
+  
   return (
     <div className="service ">
       {best && <h5>{best}</h5>}
@@ -61,7 +65,7 @@ function ItemCourse({
               )}
             </div>
           ) : (
-            "free"
+          t("free")
           )
         }
          
@@ -72,11 +76,11 @@ function ItemCourse({
               <div className="numProgress">
                 <span style={{ width:`${numProgress}%`}}></span>
               </div>
-              <p className="dec_service">{numProgress} % Completed</p>
+              <p className="dec_service">{numProgress} % {t("completed")}</p>
             </div>
             {numProgress === 100 && (
               <Link href="/certificate" className="btn_page">
-                View Certificate
+                {t("certificate")}
               </Link>
             )}
           </>
@@ -84,11 +88,11 @@ function ItemCourse({
         {!Myprogress ? (
           is_purchased ? (
             <Link href={`/courseContent/${last_watched}`} className="btn_page">
-              Continue learning
+              {t("continue")}
             </Link>
           ) : (
             <Link href={`/checkOut?id=${id}`} className="btn_page2">
-              Enroll Now
+              {t("enroll")}
             </Link>
           )
         ) : null}

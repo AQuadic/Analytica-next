@@ -34,17 +34,17 @@ function NavBar({ lang }) {
     FetchDataOFHomePage();
   }, []);
   const FetchDataOFUserData = async () => {
-    const UserData = await getUser(Cookies.get("token"));
+    const UserData = await getUser(Cookies.get("AnalyticaToken"));
     if (!UserData) console.log(UserData?.message);
     setUserData(UserData);
   };
 
   const HandelLogOut = async () => {
-    const UserLogOut = await LogOut(Cookies.get("token"));
+    const UserLogOut = await LogOut(Cookies.get("AnalyticaToken"));
 
     if (UserLogOut.message === "auth.logged_out") {
       setIsUser(false);
-      Cookies.remove("token");
+      Cookies.remove("AnalyticaToken");
       router.push("/signIn");
       deleteToken(messaging);
     }
@@ -68,7 +68,7 @@ function NavBar({ lang }) {
                 data-bs-toggle="dropdown"
                 aria-expanded="false"
               >
-                Hi, {userData?.name}
+                {t("hi")}, {userData?.name}
               </h4>
 
               <ul className="dropdown-menu myAcc">
@@ -198,7 +198,7 @@ function NavBar({ lang }) {
                 data-bs-toggle="dropdown"
                 aria-expanded="false"
               >
-                Hi, {userData?.name}
+                {t("hi")}, {userData?.name}
               </h4>
 
               <ul className="dropdown-menu myAcc">

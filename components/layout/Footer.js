@@ -103,7 +103,7 @@ function Footer({lang}) {
                         </a>
                         , 2019-2022
                     </p>
-                    <p>All rights reserved.</p>
+                    <p>{t("reserved")}</p>
                 </div>
             </div>
         </footer>

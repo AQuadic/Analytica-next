@@ -15,8 +15,8 @@ function Layout({children, lang,href }) {
     const pathname = usePathname()
     
     const isClintUrl = pathname.split("/")[1] === 'i';
-    if (Cookies.get("token") == "undefined") {
-        Cookies.remove("token")
+    if (Cookies.get("AnalyticaToken") == "undefined") {
+        Cookies.remove("AnalyticaToken")
     }
    
     return (

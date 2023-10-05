@@ -73,7 +73,8 @@
     "music": "Music",
     "development": "Development",
     "marketing": "Marketing",
-    "followUs": "Follow Us"
+    "followUs": "Follow Us",
+    "reserved":"All rights reserved"
   },
   "Nav": {
     "teach": " Teach On Analytica",
@@ -81,7 +82,8 @@
     "logIn": "Log In",
     "signUp": "Sign Up",
     "categories": "Categories",
-    "search":"Search"
+    "search":"Search",
+    "hi":"Hi"
   },
   "Account": {
     "account": "Account",
@@ -178,5 +180,21 @@
     "resume":"Add this credential to your LinkedIn profile, resume, or CV Share it on social media and in your performance review",
     "article":"article",
     "hardCopy":"You can have a hard copy from the certificate when you need it"
+  },
+  "instracto":{
+    "follow":"Follow Me",
+    "instracto":"INSTRUCTOR",
+    "aboutMe":"About me",
+    "myCourses":"My Courses",
+    "trainees":"Trainees",
+    "hours":"Hours"
+  },
+  "CompCourse":{
+    "enroll":"Enroll Now",
+    "continue":"Continue learning",
+    "completed":"Completed",
+    "certificate":"View Certificate",
+    "free":"free"
   }
+
 }

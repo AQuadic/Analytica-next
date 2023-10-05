@@ -32,11 +32,11 @@ function page() {
     const [ErrorMessage, setErrorMessage] = useState("");
 
     const HandelLogOut = async () => {
-        const UserLogOut = await LogOut(Cookies.get("token"));
+        const UserLogOut = await LogOut(Cookies.get("AnalyticaToken"));
         if (UserLogOut.message === "auth.logged_out") {
             console.log("done");
             setIsUser(false);
-            Cookies.remove("token");
+            Cookies.remove("AnalyticaToken");
             router.push('/signIn')
         }
     };
@@ -52,7 +52,7 @@ function page() {
                 },
                 {
                     headers: {
-                        Authorization: `Bearer ${Cookies.get("token")}`,
+                        Authorization: `Bearer ${Cookies.get("AnalyticaToken")}`,
                         "Content-Type": "application/json",
                         Accept: "application/json",
                     },

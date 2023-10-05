@@ -147,7 +147,7 @@ function page({ params }) {
         {},
         {
           headers: {
-            Authorization: `Bearer ${Cookies.get("token")}`,
+            Authorization: `Bearer ${Cookies.get("AnalyticaToken")}`,
             "Content-Type": "application/json",
             Accept: "application/json",
           },

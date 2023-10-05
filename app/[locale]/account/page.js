@@ -49,7 +49,7 @@ function page() {
     };
 
     const HandelLogOut = async () => {
-        const UserLogOut = await LogOut(Cookies.get("token"));
+        const UserLogOut = await LogOut(Cookies.get("AnalyticaToken"));
         if (UserLogOut.message === "auth.logged_out") {
             console.log("done");
             setIsUser(false);
@@ -61,7 +61,7 @@ function page() {
         FetchDataOFUserData();
     }, []);
     const FetchDataOFUserData = async () => {
-        const UserData = await getUser(Cookies.get("token"));
+        const UserData = await getUser(Cookies.get("AnalyticaToken"));
         if (!UserData) console.log(UserData?.message);
         setUserData(UserData);
         setName(UserData.name)

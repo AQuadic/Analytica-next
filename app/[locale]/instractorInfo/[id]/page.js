@@ -2,7 +2,7 @@
 import { navState } from "@/atoms";
 import ItemCourse from "@/components/ItemCourse";
 import { getInstractor, getLocal } from "@/components/useAPI/GetUser";
-import { useLocale } from "next-intl";
+import { useLocale, useTranslations } from "next-intl";
 import numeral from "numeral";
 import React, { useEffect, useState } from "react";
 import { useRecoilState } from "recoil";
@@ -14,6 +14,7 @@ function InstractorInfo({ params }) {
   const locale = useLocale();
   const [IsUser, setIsUser] = useRecoilState(navState);
   const [instractor, setInstractor] = useState();
+  const t = useTranslations("instracto");
 
   useEffect(() => {
     FetchDataOFInstractorInfo();
@@ -40,7 +41,7 @@ function InstractorInfo({ params }) {
               alt="persone"
             />
             <div className="info_about">
-              <h2>INSTRUCTOR</h2>
+              <h2>{t("instracto")}</h2>
               <h3>{instractor?.name}</h3>
               {getLocal(instractor?.title) && (
                 <h4>{getLocal(instractor?.title)}</h4>
@@ -58,28 +59,28 @@ function InstractorInfo({ params }) {
             <div className="part">
               <img src="/images/icons/online-training1.webp" alt="training" />
               <h5>
-                {numeral(instractor?.counters?.trainees).format("0.0a")}{" "}
-                <span>Trainees</span>
+                {numeral(instractor?.counters?.trainees).format("0a")}{" "}
+                <span>{t("trainees")}</span>
               </h5>
             </div>
             <div className="part">
               <img src="/images/icons/clock.webp" alt="clock" />
               <h5>
                 {numeral(instractor?.counters?.hours).format("0.0a")}{" "}
-                <span>Hours</span>
+                <span>{t("hours")}</span>
               </h5>
             </div>
           </div>
           {getLocal(instractor?.about) && (
             <div className="aboutME">
-              <h3>About me</h3>
+              <h3>{t("aboutMe")}</h3>
               <p>{getLocal(instractor.about)}</p>
             </div>
           )}
         </div>
 
         <div className="part2">
-          <h3>Follow Me</h3>
+          <h3>{t("follow")}</h3>
           <ul>
             {instractor?.socials?.facebook && (
               <li>
@@ -128,7 +129,7 @@ function InstractorInfo({ params }) {
       {instractor?.courses && (
         <section className="services container m60">
           <h2 style={{ fontFamily: "DM Sans", fontSize: "20px" }}>
-            My Courses
+          {t("myCourses")}
           </h2>
 
           <div className="allServices" style={{ justifyContent: "flex-start" }}>

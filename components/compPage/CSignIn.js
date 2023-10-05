@@ -47,7 +47,7 @@ function CSignIn() {
             )
             .then((res) => {
                 setIsUser(true)
-                Cookies.set("token", res.data.token);
+                Cookies.set("AnalyticaToken", res.data.token);
                 handelAddDevices()
                 console.log(res);
                 router.push('/')
@@ -86,7 +86,7 @@ function CSignIn() {
                 },
                 {
                     headers: {
-                        "Authorization": `Bearer ${Cookies.get("token")}`,
+                        "Authorization": `Bearer ${Cookies.get("AnalyticaToken")}`,
                         "Content-Type": "application/json",
                         "Accept": "application/json",
                     },

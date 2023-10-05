@@ -18,6 +18,8 @@ export default function Home({ params: { locale } }) {
   const [homeData, setHomeData] = useState([]);
   const [IsUser, setIsUser] = useRecoilState(navState);
   const t = useTranslations("Index");
+  const t2 = useTranslations("CompCourse")
+
 
 
 
@@ -129,7 +131,7 @@ export default function Home({ params: { locale } }) {
                       dec={course.instructor?.name}
                       is_purchased={course.is_purchased ? true : false}
                       last_watched={course.last_watched_lesson_id}
-                      newsalary={course.price ? "EG " + course.price : "free"}
+                      newsalary={course.price ? "EG " + course.price : t2("free")}
                     />
                   );
                 })}
@@ -197,7 +199,7 @@ export default function Home({ params: { locale } }) {
                             dec={course.instructor?.name}
                             last_watched={course.last_watched_lesson_id}
                             newsalary={
-                              course.price ? "EG " + course.price : "free"
+                              course.price ? "EG " + course.price : t2("free")
                             }
                           />
                         );
