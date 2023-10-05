@@ -149,7 +149,9 @@
     "fundamentals": "Product Management Fundamentals",
     "originalPrice": "Original Price:",
     "total": "Total",
-    "discount": "Discount"
+    "discount": "Discount",
+    "mobile": "Mobile Number",
+    "enterNumber": "Enter Your Number"
   },
   "Video":{
     "assignments":"Assignments",

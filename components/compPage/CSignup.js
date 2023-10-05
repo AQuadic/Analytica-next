@@ -20,6 +20,7 @@ function CSignup() {
   const t = useTranslations("Sign");
   const t2 = useTranslations("Teach");
   const [tokenNOTF, setTokenNOTF] = useRecoilState(tokenNotifiable);
+  const [IsUser, setIsUser] = useRecoilState(navState);
   const [show, setShow] = useState(false);
 
   const [allCountries, setallCountries] = useState([]);
@@ -101,6 +102,7 @@ function CSignup() {
         }
       )
       .then((res) => {
+        setIsUser(true);
         console.log(res);
         Cookies.set("AnalyticaToken", res.data.token);
         router.push("/");

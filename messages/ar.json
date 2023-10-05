@@ -151,7 +151,9 @@
     "fundamentals": "أساسيات إدارة المنتج",
     "originalPrice": "السعر الأصلي:",
     "total": "المجموع",
-    "discount": "خصم"
+    "discount": "خصم",
+    "mobile": "رقم الهاتف ",
+    "enterNumber": "أدخل رقمك"
   },
   "Video":{
     "assignments":"المهام",

@@ -202,12 +202,12 @@ function CCheckOut() {
                   </Radio.Group>
                   {paymentValue === "10" && (
                     <TextInput
-                      label="Mobile Phone"
+                      label={t("mobile")}
                       onChange={(e) => {
                         setPhone(e.target.value);
                       }}
                       value={Phone}
-                      placeholder="Your Mobile Phone"
+                      placeholder={t("enterNumber")}
                     />
                   )}
                 </div>
