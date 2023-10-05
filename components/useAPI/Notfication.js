@@ -8,7 +8,7 @@ export const getNotifications = async () => {
     const result = api
     .get(`/api/v1/users/notifications`, {
       headers:{
-        Authorization: `Bearer ${Cookies.get('token')} `,
+        Authorization: `Bearer ${Cookies.get('AnalyticaToken')} `,
         "Content-Type": "application/json",
         Accept: "application/json",
     },
