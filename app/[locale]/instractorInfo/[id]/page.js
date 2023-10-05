@@ -1,6 +1,7 @@
 "use client";
 import { navState } from "@/atoms";
 import ItemCourse from "@/components/ItemCourse";
+import Thanks from "@/components/Thanks";
 import { getInstractor, getLocal } from "@/components/useAPI/GetUser";
 import { useLocale, useTranslations } from "next-intl";
 import numeral from "numeral";
@@ -15,19 +16,36 @@ function InstractorInfo({ params }) {
   const [IsUser, setIsUser] = useRecoilState(navState);
   const [instractor, setInstractor] = useState();
   const t = useTranslations("instracto");
-
+  const t2 = useTranslations("Teach");
+  const [Bloked, setBloked] = useState(false);
+  const [ErrorBloked, setErrorBloked] = useState("");
   useEffect(() => {
     FetchDataOFInstractorInfo();
   }, []);
   const FetchDataOFInstractorInfo = async () => {
     const InstractorInfo = await getInstractor(params.id, IsUser);
-    if (!InstractorInfo) console.log(InstractorInfo?.message);
+    if (InstractorInfo.error) {
+      setErrorBloked(InstractorInfo.error);
+      setBloked(true);
+    }
     setInstractor(InstractorInfo);
   };
   console.log(instractor);
  
   return (
     <>
+    {
+      Bloked ? (
+        <>
+          <Thanks
+            title={t2("noAccess")}
+            dec={ErrorBloked}
+            link={"/myCourses"}
+            title2={t2("backTo")}
+            Bloked={true}
+          />
+        </>
+      ) : <>
       <section className="InstractorInfo container">
         <div className="part1">
           <div className="info">
@@ -150,6 +168,9 @@ function InstractorInfo({ params }) {
         </section>
       )}
     </>
+    }
+    </>
+    
   );
 }
 

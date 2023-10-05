@@ -38,37 +38,40 @@ export const LogOut = async (e) => {
 
 }
 export const SignUP = async (formate) => {
-    try {
-        const res = await fetch(`${BASE_URL}/api/v1/users/auth/signup`, {
-            method: 'POST',
-            headers: {
-                "Content-Type": "application/json",
-                Accept: "application/json",
-            },
-            body,
-        },);
-        const data = await res.json();
-        return data;
-    } catch (error) {
-        console.log('Error in Add New Category (service) =>', error);
-    }
+
+    const result = api.post(`/api/v1/users/auth/signup`, body,{
+        headers: {
+            "Content-Type": "application/json",
+            Accept: "application/json",
+        },
+      })
+      .then((res) => {
+        return res.data;
+      })
+      .catch((error) => {
+        return { error: error.message };
+      });
+    console.log(result);
+    return result;
 }
 
 export const gethh = async () => {
-    try {
-        const res = await fetch(`${BASE_URL}/api/v1/users/notifications`, {
-            method: 'GET',
-            headers: {
-                Authorization: `Bearer ${Cookies.get('token')} `,
-                "Content-Type": "application/json",
-                Accept: "application/json",
 
-            },
-        },);
-        const data = await res.json();
-        return data;
-    } catch (error) {
-        console.log('Error in Add New Category (service) =>', error);
-    }
+    const result = api
+    .get(`/api/v1/users/notifications`, {
+      headers:  {
+        Authorization: `Bearer ${Cookies.get('token')} `,
+        "Content-Type": "application/json",
+        Accept: "application/json",
+    },
+    })
+    .then((res) => {
+      return res.data;
+    })
+    .catch((error) => {
+      return { error: error.message };
+    });
+  console.log(result);
+  return result;
 }
  

@@ -15,6 +15,7 @@ import { useRecoilState } from "recoil";
 function CourseDetails({ params }) {
   const [allCourses, setAllCourses] = useState();
   const [Bloked, setBloked] = useState(false);
+  const [ErrorBloked, setErrorBloked] = useState("");
   const [IsUser, setIsUser] = useRecoilState(navState);
   const t2 = useTranslations("Teach");
   const t = useTranslations("course");
@@ -26,8 +27,13 @@ function CourseDetails({ params }) {
   }, []);
   const FetchDataOFOneCourse = async () => {
     const AllCourses = await getOneCourse(params.id, IsUser);
-    if (!AllCourses) setBloked(true);
-
+    console.log('====================================');
+    console.log(AllCourses);
+    console.log('====================================');
+    if (AllCourses.error) {
+      setErrorBloked(AllCourses.error);
+      setBloked(true);
+    }
     setAllCourses(AllCourses);
   };
   console.log(allCourses);
@@ -54,7 +60,7 @@ function CourseDetails({ params }) {
         <>
           <Thanks
             title={t2("noAccess")}
-            dec={t2("blocked")}
+            dec={ErrorBloked}
             link={"/myCourses"}
             title2={t2("backTo")}
             Bloked={true}

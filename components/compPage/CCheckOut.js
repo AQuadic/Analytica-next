@@ -10,12 +10,14 @@ import { useRecoilState } from "recoil";
 import { navState } from "@/atoms";
 import api from "../../app/[locale]/api";
 import { Alert } from "react-bootstrap";
+import Thanks from "../Thanks";
 
 function CCheckOut() {
   const locale = useLocale();
   const [IsUser, setIsUser] = useRecoilState(navState);
   const [show, setShow] = useState(false);
   const t = useTranslations("CheckOut");
+  const t2 = useTranslations("Teach");
   const [paymentValue, setPayment] = useState("1");
   const [payment_methods, setPayment_methods] = useState([]);
   const [course, setCourse] = useState();
@@ -28,7 +30,8 @@ function CCheckOut() {
   const [ErrorMessage2, setErrorMessage2] = useState("");
   const SearchParams = useSearchParams();
   const [HaveMyCourses, setHaveMyCourses] = useState();
-
+  const [Bloked, setBloked] = useState(false);
+  const [ErrorBloked, setErrorBloked] = useState("");
   const router = useRouter();
   const CoursesID = SearchParams.get("id");
 
@@ -39,7 +42,11 @@ function CCheckOut() {
   }, []);
   const FetchDataOFOneCourse = async () => {
     const Courses = await getOneCourse(CoursesID);
-    if (!Courses) router.push("/courses");
+
+    if (Courses.error) {
+      setErrorBloked(Courses.error);
+      setBloked(true);
+    }
     if (!Courses.id) {
       router.push("/courses");
     } else {
@@ -51,7 +58,10 @@ function CCheckOut() {
 
   const FetchDataOFHomePage = async () => {
     const AllData = await getHomePage();
-    if (!AllData) console.log(AllData?.message);
+    if (AllData.error) {
+      setErrorBloked(AllData.error);
+      setBloked(true);
+    }
     setPayment_methods(AllData.payment_methods);
   };
   console.log(payment_methods);
@@ -78,7 +88,10 @@ function CCheckOut() {
       })
       .catch((res) => {
         /*  setLoading(false);*/
-        res.response.status === 500 && setShow(true);
+        if (res.response.status === 500) {
+          setErrorBloked(res.message);
+          setBloked(true);
+        }
 
         res.response.data.message
           ? setErrorMessage(res.response.data.message)
@@ -105,7 +118,6 @@ function CCheckOut() {
                 course_id: CoursesID,
                 payment_method_id: paymentValue,
                 coupon_id: discountID ? discountID : null,
-               
               },
           {
             headers: {
@@ -123,7 +135,10 @@ function CCheckOut() {
         })
         .catch((res) => {
           /*  setLoading(false);*/
-          res.response?.status === 500 && setShow(true);
+          if (res.response.status === 500) {
+            setErrorBloked(res.message);
+            setBloked(true);
+          }
           res.response.data.message
             ? setErrorMessage2(res.response.data.message)
             : setErrorMessage2("");
@@ -136,7 +151,11 @@ function CCheckOut() {
   console.log(Phone);
   const FetchDataOFMyCourses = async () => {
     const MyCourses = await getMyCourses();
-    if (!MyCourses) console.log(MyCourses?.message);
+    if (MyCourses.error) {
+      setErrorBloked(MyCourses.error);
+      setBloked(true);
+    }
+
     console.log(MyCourses);
     MyCourses.map((item) => {
       item.id === CoursesID ? setHaveMyCourses(true) : setHaveMyCourses(false);
@@ -145,17 +164,17 @@ function CCheckOut() {
   console.log(HaveMyCourses);
   return (
     <>
-      {show && (
-        <Alert variant="danger" onClose={() => setShow(false)} dismissible>
-          <Alert.Heading>Oh snap! You got an error!</Alert.Heading>
-          <p>
-            Change this and that and try again. Duis mollis, est non commodo
-            luctus, nisi erat porttitor ligula, eget lacinia odio sem nec elit.
-            Cras mattis consectetur purus sit amet fermentum.
-          </p>
-        </Alert>
-      )}
-      {course ? (
+      {Bloked ? (
+        <>
+          <Thanks
+            title={t2("noAccess")}
+            dec={ErrorBloked}
+            link={"/myCourses"}
+            title2={t2("backTo")}
+            Bloked={true}
+          />
+        </>
+      ) : course ? (
         <>
           <div className="checkOut container">
             <div className="part1">
@@ -175,7 +194,7 @@ function CCheckOut() {
                           <Radio
                             key={payment.id}
                             value={payment.id.toString()}
-                            label={getLocal(payment.name) }
+                            label={getLocal(payment.name)}
                           />
                         );
                       })}
@@ -225,7 +244,7 @@ function CCheckOut() {
             </div>
             <div className="part2">
               <h3>{t("summary")}</h3>
-              <h4>{getLocal( course.name)}</h4>
+              <h4>{getLocal(course.name)}</h4>
               <ul>
                 <li>
                   <h5>{t("originalPrice")}</h5>

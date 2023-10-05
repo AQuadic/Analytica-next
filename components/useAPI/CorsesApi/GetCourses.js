@@ -1,6 +1,6 @@
 import Cookies from "js-cookie";
 import api, { BASE_URL } from "../../../app/[locale]/api";
-import axios from "axios";
+
 
 let headersToken = {
   Authorization: `Bearer ${Cookies.get("AnalyticaToken")} `,
@@ -76,7 +76,9 @@ export const getOneCourse = (e, IsUser) => {
       return res.data;
     })
     .catch((error) => {
-      console.log("Error in Add New Category (service) =>", error);
+    
+      return { error: error.response.data.message};
+     
     });
   return result;
 };
@@ -90,7 +92,10 @@ export const getOneLessons = async (e, IsUser) => {
       return res.data;
     })
     .catch((error) => {
-      return { error: error.message };
+console.log('====================================');
+console.log(error);
+console.log('====================================');
+      return { error: error.response.data.message };
     });
   console.log(result);
   return result;

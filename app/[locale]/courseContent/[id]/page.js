@@ -51,7 +51,11 @@ function page({ params }) {
 
   const FetchDataOFOneCourse = async (e) => {
     const AllCourses = await getOneCourse(e, IsUser);
-    if (!AllCourses) console.log(AllCourses?.message);
+    if (AllCourses.error){
+     console.log('====================================');
+     console.log(AllCourses.error);
+     console.log('====================================');
+    } 
     console.log(AllCourses);
     setAllChapters(AllCourses.chapters);
     setLessonsChapters(

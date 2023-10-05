@@ -11,17 +11,17 @@ function Footer({lang}) {
     const t = useTranslations('Footer');
     const [pages, setPage] = useState([])
     const [social, setSocial] = useState([])
-    const locale = useLocale();
+
 
     useEffect(() => {
         FetchDataOFHomePage();
     }, []);
+
+
     const FetchDataOFHomePage = async () => {
         const AllData = await getHomePage();
         if (!AllData) console.log(AllData?.message)
         setPage(AllData.pages)
-     
-
     }
    
     return (
@@ -103,7 +103,7 @@ function Footer({lang}) {
                         </a>
                         , 2019-2022
                     </p>
-                    <p>{t("reserved")}</p>
+                   
                 </div>
             </div>
         </footer>

@@ -13,6 +13,8 @@ import { Alert } from "react-bootstrap";
 import InfiniteScroll from "react-infinite-scroll-component";
 import { useRecoilState } from "recoil";
 import api from "../api";
+import Thanks from "@/components/Thanks";
+
 
 // export const metadata = {
 //   title: 'analytica | Courses',
@@ -20,6 +22,7 @@ import api from "../api";
 
 function Courses() {
   const t = useTranslations("CompCourse")
+  const t2 = useTranslations("Teach");
   const [allCourses, setAllCourses] = useState([]);
   const [Rating, setRating] = useState(5);
   const [Duration, setDuration] = useState();
@@ -42,6 +45,8 @@ function Courses() {
   const router = useRouter();
   const [hasMore, setHasMore] = useState(true);
   const searchParams2 = useSearchParams();
+  const [Bloked, setBloked] = useState(false);
+  const [ErrorBloked, setErrorBloked] = useState("");
   //console.log(searchParams.getAll());
   searchParams2.get("search");
   let headersToken = {
@@ -90,7 +95,11 @@ function Courses() {
 }, [Search]);
   const FetchDataOFHomePage = async () => {
     const AllData = await getHomePage();
-    if (!AllData) console.log(AllData?.message);
+    if (AllData.error) {
+   
+      setErrorBloked(AllData.error);
+      setBloked(true);
+    }
     setAllTopic(AllData.levels);
     setCategories(AllData.categories);
     console.log(AllData);
@@ -153,6 +162,10 @@ console.log('====================================');
         return res.data.data;
       })
       .catch((res) => {
+        if (res.response.status === 500) {
+          setErrorBloked(res.message);
+          setBloked(true);
+        }
         console.log(res);
       });
   };
@@ -211,342 +224,342 @@ console.log("category_ids:", CategoriesID);
 
   return (
     <>
-      {show && (
-        <Alert variant="danger" onClose={() => setShow(false)} dismissible>
-          <Alert.Heading>Oh snap! You got an error!</Alert.Heading>
-          <p>
-            Change this and that and try again. Duis mollis, est non commodo
-            luctus, nisi erat porttitor ligula, eget lacinia odio sem nec elit.
-            Cras mattis consectetur purus sit amet fermentum.
-          </p>
-        </Alert>
-      )}
-      {/*  <Link href={{ pathname: '/courses', query: { name: ['566',"56565"], id: '11' } }}>
-      rthrt
-    </Link>
-      <button  onClick={handleClick}>rtgerththbtrh</button>*/}
-      <div className="courses container">
-        <div className="part1">
-          <div className="accordion accordion-flush" id="accordionFlushExample">
-            {/*  <div className="accordion-item">
-              <h2 className="accordion-header">
-                <button
-                  className="accordion-button collapsed"
-                  type="button"
-                  data-bs-toggle="collapse"
-                  data-bs-target="#flush-collapseOne"
-                  aria-expanded="false"
-                  aria-controls="flush-collapseOne"
-                >
-                  Rating
-                </button>
-              </h2>
-              <div
-                id="flush-collapseOne"
-                className="accordion-collapse collapse"
-                data-bs-parent="#accordionFlushExample"
+      {Bloked ? (
+        <>
+          <Thanks
+            title={t2("noAccess")}
+            dec={ErrorBloked}
+            link={"/myCourses"}
+            title2={t2("backTo")}
+            Bloked={true}
+          />
+        </>
+      ) : <div className="courses container">
+      <div className="part1">
+        <div className="accordion accordion-flush" id="accordionFlushExample">
+          {/*  <div className="accordion-item">
+            <h2 className="accordion-header">
+              <button
+                className="accordion-button collapsed"
+                type="button"
+                data-bs-toggle="collapse"
+                data-bs-target="#flush-collapseOne"
+                aria-expanded="false"
+                aria-controls="flush-collapseOne"
               >
-                <div className="accordion-body">
-                  <Radio.Group name="favoriteFramework" withAsterisk>
-                    <Group mt="xs">
-                      <Radio size="xs" value="react" label="React" />
-                      <Radio size="xs" value="svelte" label="Svelte" />
-                      <Radio size="xs" value="ng" label="Angular" />
-                      <Radio size="xs" value="vue" label="Vue" />
-                    </Group>
-                  </Radio.Group>
-                  <div className="form-check">
-                    <input
-                      className="form-check-input"
-                      type="radio"
-                      name="exampleRadios"
-                      id="exampleRadios1"
-                      value="option1"
-                    />
-                    <label
-                      className="form-check-label optionStar"
-                      htmlFor="exampleRadios1"
-                    >
-                      <img src="./images/star.svg" alt="star" />
-                      <p>4.5</p>
-                    </label>
-                  </div>
-                </div>
-              </div>
-      </div>*/}
-            <div className="accordion-item">
-              <h2 className="accordion-header">
-                <button
-                  className="accordion-button collapsed"
-                  type="button"
-                  data-bs-toggle="collapse"
-                  data-bs-target="#flush-collapsetwo"
-                  aria-expanded="false"
-                  aria-controls="flush-collapsetwo"
-                >
-                  Video Duration
-                </button>
-              </h2>
-              <div
-                id="flush-collapsetwo"
-                className="accordion-collapse collapse"
-                data-bs-parent="#accordionFlushExample"
-              >
-                <div className="accordion-body">
-                  <Checkbox.Group
-                    color="red"
-                    style={{ display: "flex", flexDirection: "column" }}
-                    onChange={setDuration}
-                  >
-                    <Group mt="xs">
-                      <Checkbox value="0-1" color="indigo" label="0-1 Hour" />
-                      <Checkbox value="2-4" color="indigo" label="2-4 Hour" />
-                      <Checkbox value="4-7" color="indigo" label="4-7 Hour" />
-                      <Checkbox value="7-17" color="indigo" label="7-17 Hour" />
-                    </Group>
-                  </Checkbox.Group>
-                </div>
-              </div>
-            </div>
-            <div className="accordion-item">
-              <h2 className="accordion-header">
-                <button
-                  className="accordion-button collapsed"
-                  type="button"
-                  data-bs-toggle="collapse"
-                  data-bs-target="#flush-collapsethree"
-                  aria-expanded="false"
-                  aria-controls="flush-collapsethree"
-                >
-                  Category
-                </button>
-              </h2>
-              <div
-                id="flush-collapsethree"
-                className="accordion-collapse collapse"
-                data-bs-parent="#accordionFlushExample"
-              >
-                <div className="accordion-body">
-                  <Checkbox.Group
-                    color="red"
-                    style={{ display: "flex", flexDirection: "column" }}
-                    onChange={setCategoriesID}
-                  >
-                    <Group mt="xs">
-                      {Categories.map((item) => {
-                        return (
-                          <Checkbox
-                            key={item.id}
-                            value={`${item.id}`}
-                            color="indigo"
-                            label={getLocal(item.name)}
-                          />
-                        );
-                      })}
-                    </Group>
-                  </Checkbox.Group>
-                </div>
-              </div>
-            </div>
-            <div className="accordion-item">
-              <h2 className="accordion-header">
-                <button
-                  className="accordion-button collapsed"
-                  type="button"
-                  data-bs-toggle="collapse"
-                  data-bs-target="#flush-collapsefour"
-                  aria-expanded="false"
-                  aria-controls="flush-collapsefour"
-                >
-                  Level
-                </button>
-              </h2>
-              <div
-                id="flush-collapsefour"
-                className="accordion-collapse collapse"
-                data-bs-parent="#accordionFlushExample"
-              >
-                <div className="accordion-body">
-                  <Checkbox.Group
-                    color="red"
-                    style={{ display: "flex", flexDirection: "column" }}
-                    onChange={setLevel_id}
-                  >
-                    <Group mt="xs">
-                      {AllTopic.map((item) => {
-                        return (
-                          <Checkbox
-                            key={item.id}
-                            value={`${item.id}`}
-                            color="indigo"
-                            label={getLocal( item.name)}
-                          />
-                        );
-                      })}
-                    </Group>
-                  </Checkbox.Group>
-                </div>
-              </div>
-            </div>
-            <div className="accordion-item">
-              <h2 className="accordion-header">
-                <button
-                  className="accordion-button collapsed"
-                  type="button"
-                  data-bs-toggle="collapse"
-                  data-bs-target="#flush-collapsefive"
-                  aria-expanded="false"
-                  aria-controls="flush-collapsefive"
-                >
-                  Language
-                </button>
-              </h2>
-              <div
-                id="flush-collapsefive"
-                className="accordion-collapse collapse"
-                data-bs-parent="#accordionFlushExample"
-              >
-                <div className="accordion-body">
-                  <Radio.Group
-                    name="favoriteFramework2"
-                    onChange={setLanguage}
-                    value={Language}
-                  >
-                    <Group mt="xs">
-                      <Radio size="xs" value="en" color="indigo" label="EN" />
-                      <Radio size="xs" value="ar" color="indigo" label="AR" />
-                    </Group>
-                  </Radio.Group>
-                </div>
-              </div>
-            </div>
-            <div className="accordion-item">
-              <h2 className="accordion-header">
-                <button
-                  className="accordion-button collapsed"
-                  type="button"
-                  data-bs-toggle="collapse"
-                  data-bs-target="#flush-collapsefive2"
-                  aria-expanded="false"
-                  aria-controls="flush-collapsefive2"
-                >
-                  Course Type
-                </button>
-              </h2>
-              <div
-                id="flush-collapsefive2"
-                className="accordion-collapse collapse"
-                data-bs-parent="#accordionFlushExample"
-              >
-                <div className="accordion-body">
-                  <Radio.Group
-                    name="favoriteFramework3"
-                    onChange={setPriceType}
-                    value={PriceType}
-                  >
-                    <Group mt="xs">
-                      <Radio
-                        size="xs"
-                        value="free"
-                        color="indigo"
-                        label="Free"
-                      />
-                      <Radio
-                        size="xs"
-                        value="paid"
-                        color="indigo"
-                        label="Paid"
-                      />
-                    </Group>
-                  </Radio.Group>
-                </div>
-              </div>
-            </div>
-            <div className="accordion-item">
-              <h2 className="accordion-header">
-                <button
-                  className="accordion-button collapsed"
-                  type="button"
-                  data-bs-toggle="collapse"
-                  data-bs-target="#flush-collapsesix"
-                  aria-expanded="false"
-                  aria-controls="flush-collapsesix"
-                >
-                  Price
-                </button>
-              </h2>
-              <div
-                id="flush-collapsesix"
-                className="accordion-collapse collapse"
-                data-bs-parent="#accordionFlushExample"
-              >
-                <div className="accordion-body">
-                  <RangeSlider
-                    min={0}
-                    color="indigo"
-                    onChange={(e) => {
-                      setPriceFrom(e[0]);
-                      setPriceTo(e[1]);
-                    }}
-                    thumbSize={22}
-                    max={1000}
-                    labelAlwaysOn
-                  />
-                </div>
-              </div>
-            </div>
-          </div>
-          <button
-            className="btn_page"
-            onClick={(e) => {
-              e.preventDefault();
-              setAllCourses([])
-              handellogin(1);
-              const fullUrl = `/courses${UrlNew}`;
-              router.replace(fullUrl);
-            }}
-          >
-            Apply
-          </button>
-        </div>
-        <div className="part2">
-          {/* <h2  >User Experience Design Courses</h2> */}
-          <div
-            className="fillter_Courses"
-            style={{
-              minHeight: "700px",
-
-              overflow: "auto",
-              display: "flex",
-            }}
-          >
-            <InfiniteScroll
-              dataLength={allCourses.length}
-              next={handellogin}
-              style={{ display: "flex", flexDirection: "column", gap: "14px" }}
-              hasMore={hasMore}
-              loader={<h3> Loading...</h3>}
-              endMessage={
-                <h4 style={{ textAlign: "center" }}>Nothing more to show</h4>
-              }
+                Rating
+              </button>
+            </h2>
+            <div
+              id="flush-collapseOne"
+              className="accordion-collapse collapse"
+              data-bs-parent="#accordionFlushExample"
             >
-              {allCourses?.map((course, i) => (
-                <ItemCourse2
-                  key={i}
-                  id={course.id}
-                  title={getLocal(course.name)}
-                  imageCourse={course.image.url}
-                  is_purchased={course.is_purchased ? true : false}
-                  last_watched={course.last_watched_lesson_id}
-                  star="4.8"
-                  dec={course.instructor.name}
-                  newsalary={course.price ? "EG " + course.price : t("free")}
-                />
-              ))}
-            </InfiniteScroll>
+              <div className="accordion-body">
+                <Radio.Group name="favoriteFramework" withAsterisk>
+                  <Group mt="xs">
+                    <Radio size="xs" value="react" label="React" />
+                    <Radio size="xs" value="svelte" label="Svelte" />
+                    <Radio size="xs" value="ng" label="Angular" />
+                    <Radio size="xs" value="vue" label="Vue" />
+                  </Group>
+                </Radio.Group>
+                <div className="form-check">
+                  <input
+                    className="form-check-input"
+                    type="radio"
+                    name="exampleRadios"
+                    id="exampleRadios1"
+                    value="option1"
+                  />
+                  <label
+                    className="form-check-label optionStar"
+                    htmlFor="exampleRadios1"
+                  >
+                    <img src="./images/star.svg" alt="star" />
+                    <p>4.5</p>
+                  </label>
+                </div>
+              </div>
+            </div>
+    </div>*/}
+          <div className="accordion-item">
+            <h2 className="accordion-header">
+              <button
+                className="accordion-button collapsed"
+                type="button"
+                data-bs-toggle="collapse"
+                data-bs-target="#flush-collapsetwo"
+                aria-expanded="false"
+                aria-controls="flush-collapsetwo"
+              >
+                Video Duration
+              </button>
+            </h2>
+            <div
+              id="flush-collapsetwo"
+              className="accordion-collapse collapse"
+              data-bs-parent="#accordionFlushExample"
+            >
+              <div className="accordion-body">
+                <Checkbox.Group
+                  color="red"
+                  style={{ display: "flex", flexDirection: "column" }}
+                  onChange={setDuration}
+                >
+                  <Group mt="xs">
+                    <Checkbox value="0-1" color="indigo" label="0-1 Hour" />
+                    <Checkbox value="2-4" color="indigo" label="2-4 Hour" />
+                    <Checkbox value="4-7" color="indigo" label="4-7 Hour" />
+                    <Checkbox value="7-17" color="indigo" label="7-17 Hour" />
+                  </Group>
+                </Checkbox.Group>
+              </div>
+            </div>
           </div>
+          <div className="accordion-item">
+            <h2 className="accordion-header">
+              <button
+                className="accordion-button collapsed"
+                type="button"
+                data-bs-toggle="collapse"
+                data-bs-target="#flush-collapsethree"
+                aria-expanded="false"
+                aria-controls="flush-collapsethree"
+              >
+                Category
+              </button>
+            </h2>
+            <div
+              id="flush-collapsethree"
+              className="accordion-collapse collapse"
+              data-bs-parent="#accordionFlushExample"
+            >
+              <div className="accordion-body">
+                <Checkbox.Group
+                  color="red"
+                  style={{ display: "flex", flexDirection: "column" }}
+                  onChange={setCategoriesID}
+                >
+                  <Group mt="xs">
+                    {Categories.map((item) => {
+                      return (
+                        <Checkbox
+                          key={item.id}
+                          value={`${item.id}`}
+                          color="indigo"
+                          label={getLocal(item.name)}
+                        />
+                      );
+                    })}
+                  </Group>
+                </Checkbox.Group>
+              </div>
+            </div>
+          </div>
+          <div className="accordion-item">
+            <h2 className="accordion-header">
+              <button
+                className="accordion-button collapsed"
+                type="button"
+                data-bs-toggle="collapse"
+                data-bs-target="#flush-collapsefour"
+                aria-expanded="false"
+                aria-controls="flush-collapsefour"
+              >
+                Level
+              </button>
+            </h2>
+            <div
+              id="flush-collapsefour"
+              className="accordion-collapse collapse"
+              data-bs-parent="#accordionFlushExample"
+            >
+              <div className="accordion-body">
+                <Checkbox.Group
+                  color="red"
+                  style={{ display: "flex", flexDirection: "column" }}
+                  onChange={setLevel_id}
+                >
+                  <Group mt="xs">
+                    {AllTopic.map((item) => {
+                      return (
+                        <Checkbox
+                          key={item.id}
+                          value={`${item.id}`}
+                          color="indigo"
+                          label={getLocal( item.name)}
+                        />
+                      );
+                    })}
+                  </Group>
+                </Checkbox.Group>
+              </div>
+            </div>
+          </div>
+          <div className="accordion-item">
+            <h2 className="accordion-header">
+              <button
+                className="accordion-button collapsed"
+                type="button"
+                data-bs-toggle="collapse"
+                data-bs-target="#flush-collapsefive"
+                aria-expanded="false"
+                aria-controls="flush-collapsefive"
+              >
+                Language
+              </button>
+            </h2>
+            <div
+              id="flush-collapsefive"
+              className="accordion-collapse collapse"
+              data-bs-parent="#accordionFlushExample"
+            >
+              <div className="accordion-body">
+                <Radio.Group
+                  name="favoriteFramework2"
+                  onChange={setLanguage}
+                  value={Language}
+                >
+                  <Group mt="xs">
+                    <Radio size="xs" value="en" color="indigo" label="EN" />
+                    <Radio size="xs" value="ar" color="indigo" label="AR" />
+                  </Group>
+                </Radio.Group>
+              </div>
+            </div>
+          </div>
+          <div className="accordion-item">
+            <h2 className="accordion-header">
+              <button
+                className="accordion-button collapsed"
+                type="button"
+                data-bs-toggle="collapse"
+                data-bs-target="#flush-collapsefive2"
+                aria-expanded="false"
+                aria-controls="flush-collapsefive2"
+              >
+                Course Type
+              </button>
+            </h2>
+            <div
+              id="flush-collapsefive2"
+              className="accordion-collapse collapse"
+              data-bs-parent="#accordionFlushExample"
+            >
+              <div className="accordion-body">
+                <Radio.Group
+                  name="favoriteFramework3"
+                  onChange={setPriceType}
+                  value={PriceType}
+                >
+                  <Group mt="xs">
+                    <Radio
+                      size="xs"
+                      value="free"
+                      color="indigo"
+                      label="Free"
+                    />
+                    <Radio
+                      size="xs"
+                      value="paid"
+                      color="indigo"
+                      label="Paid"
+                    />
+                  </Group>
+                </Radio.Group>
+              </div>
+            </div>
+          </div>
+          <div className="accordion-item">
+            <h2 className="accordion-header">
+              <button
+                className="accordion-button collapsed"
+                type="button"
+                data-bs-toggle="collapse"
+                data-bs-target="#flush-collapsesix"
+                aria-expanded="false"
+                aria-controls="flush-collapsesix"
+              >
+                Price
+              </button>
+            </h2>
+            <div
+              id="flush-collapsesix"
+              className="accordion-collapse collapse"
+              data-bs-parent="#accordionFlushExample"
+            >
+              <div className="accordion-body">
+                <RangeSlider
+                  min={0}
+                  color="indigo"
+                  onChange={(e) => {
+                    setPriceFrom(e[0]);
+                    setPriceTo(e[1]);
+                  }}
+                  thumbSize={22}
+                  max={1000}
+                  labelAlwaysOn
+                />
+              </div>
+            </div>
+          </div>
+        </div>
+        <button
+          className="btn_page"
+          onClick={(e) => {
+            e.preventDefault();
+            setAllCourses([])
+            handellogin(1);
+            const fullUrl = `/courses${UrlNew}`;
+            router.replace(fullUrl);
+          }}
+        >
+          Apply
+        </button>
+      </div>
+      <div className="part2">
+        {/* <h2  >User Experience Design Courses</h2> */}
+        <div
+          className="fillter_Courses"
+          style={{
+            minHeight: "700px",
+
+            overflow: "auto",
+            display: "flex",
+          }}
+        >
+          <InfiniteScroll
+            dataLength={allCourses.length}
+            next={handellogin}
+            style={{ display: "flex", flexDirection: "column", gap: "14px" }}
+            hasMore={hasMore}
+            loader={<h3> Loading...</h3>}
+            endMessage={
+              <h4 style={{ textAlign: "center" }}>Nothing more to show</h4>
+            }
+          >
+            {allCourses?.map((course, i) => (
+              <ItemCourse2
+                key={i}
+                id={course.id}
+                title={getLocal(course.name)}
+                imageCourse={course.image.url}
+                is_purchased={course.is_purchased ? true : false}
+                last_watched={course.last_watched_lesson_id}
+                star="4.8"
+                dec={course.instructor.name}
+                newsalary={course.price ? "EG " + course.price : t("free")}
+              />
+            ))}
+          </InfiniteScroll>
         </div>
       </div>
+    </div>
+      
+      }
+
+     
     </>
   );
 }

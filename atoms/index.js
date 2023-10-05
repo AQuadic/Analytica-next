@@ -4,7 +4,7 @@ import {atom} from "recoil";
 //Navbar state
 export const navState = atom({
     key: "nav_state",
-    default: Cookies.get('token') ? true : false,
+    default: Cookies.get('AnalyticaToken') ? true : false,
 });
 
 // Language State

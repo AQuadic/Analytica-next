@@ -36,12 +36,17 @@ function NavBar({ lang }) {
   const FetchDataOFUserData = async () => {
     const UserData = await getUser(Cookies.get("AnalyticaToken"));
     if (!UserData) console.log(UserData?.message);
+    console.log('====================================');
+    console.log(UserData);
+    console.log('====================================');
     setUserData(UserData);
   };
 
   const HandelLogOut = async () => {
     const UserLogOut = await LogOut(Cookies.get("AnalyticaToken"));
-
+console.log('====================================');
+console.log(UserLogOut);
+console.log('====================================');
     if (UserLogOut.message === "auth.logged_out") {
       setIsUser(false);
       Cookies.remove("AnalyticaToken");
