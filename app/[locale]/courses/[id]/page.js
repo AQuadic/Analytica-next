@@ -98,7 +98,7 @@ function CourseDetails({ params }) {
                     </h5>
                     {allCourses.is_purchased ? (
                       <Link
-                        href={`/courseContent/${allCourses.last_watched_lesson_id?allCourses.last_watched_lesson_id:allCourses.lessons[0].id}`}
+                        href={`/courseContent/${allCourses.last_watched_lesson_id ? allCourses.last_watched_lesson_id : allCourses.chapters[0]?.lessons[0]?.id ?? null}`}
                         className="btn_page"
                       >
                         {t("continue")}
