@@ -6,7 +6,7 @@ import { Checkbox, Group, Radio, RangeSlider, Slider } from "@mantine/core";
 import Cookies from "js-cookie";
 import { useLocale, useTranslations } from "next-intl";
 import Link from "next/link";
-import { useRouter, useSearchParams } from "next/navigation";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
 
 import React, { useCallback, useEffect, useState } from "react";
 import { Alert } from "react-bootstrap";
@@ -14,27 +14,63 @@ import InfiniteScroll from "react-infinite-scroll-component";
 import { useRecoilState } from "recoil";
 import api from "../api";
 import Thanks from "@/components/Thanks";
-
+import { fetchServerResponse } from "next/dist/client/components/router-reducer/fetch-server-response";
 
 // export const metadata = {
 //   title: 'analytica | Courses',
 // }
 
+/*const searchParams = {
+  id,
+  age,
+  all your params
+  };
+  const queryParams = new URLSearchParams(searchParams).toString();
+    router.push(`/signI?${queryParams}`);
+  */
+
 function Courses() {
-  const t = useTranslations("CompCourse")
+  useEffect(() => {
+    // Function to extract query string parameters
+    
+    // Extract the values
+    setPage(getQueryParam(UrlNew, "page"));
+   
+    setSearch(getQueryParam(UrlNew, "search"));
+ 
+
+  
+    // Extract category_ids values
+    const categoryIds = [];
+    const categoryIdsRegex = /category_ids%5B(\d+)%5D=([^&]+)/g;
+    let categoryIdsMatch;
+    while ((categoryIdsMatch = categoryIdsRegex.exec(UrlNew))) {
+      categoryIds.push(categoryIdsMatch[2]);
+      setCategoriesID(categoryIds);
+    }
+  }, []); 
+  const pathname = usePathname();
+  const searchParams = useSearchParams();
+  const getQueryParam = (url, param) => {
+    const regex = new RegExp(`${param}=([^&]+)`);
+    const match = url.match(regex);
+    return match ? match[1] : null;
+  };
+
+  const t = useTranslations("CompCourse");
   const t2 = useTranslations("Teach");
   const [allCourses, setAllCourses] = useState([]);
   const [Rating, setRating] = useState(5);
   const [Duration, setDuration] = useState();
-  const [Level_id, setLevel_id] = useState([]);
+  const [Level_id, setLevel_id] = useState(searchParams.getAll('level_ids')?searchParams.getAll('level_ids'):[]);
   const [Topic, setTopic] = useState();
-  const [Page, setPage] = useState(1);
+  const [Page, setPage] = useState(0);
   const [Categories, setCategories] = useState([]);
-  const [CategoriesID, setCategoriesID] = useState([]);
-  const [Language, setLanguage] = useState();
-  const [PriceType, setPriceType] = useState("");
-  const [PriceFrom, setPriceFrom] = useState();
-  const [PriceTo, setPriceTo] = useState();
+  const [CategoriesID, setCategoriesID] = useState(searchParams.getAll('category_ids')?searchParams.getAll('category_ids'):[]);
+  const [Language, setLanguage] = useState(searchParams.get('language'));
+  const [PriceType, setPriceType] = useState(searchParams.get('price_type')?searchParams.get('price_type'):"");
+  const [PriceFrom, setPriceFrom] = useState(searchParams.get('price_from')?+searchParams.get('price_from'):0);
+  const [PriceTo, setPriceTo] = useState(+searchParams.get('price_to')?+searchParams.get('price_to'):1000);
   const [Price, setPrice] = useState();
   const [AllTopic, setAllTopic] = useState([]);
   const [show, setShow] = useState(false);
@@ -47,8 +83,9 @@ function Courses() {
   const searchParams2 = useSearchParams();
   const [Bloked, setBloked] = useState(false);
   const [ErrorBloked, setErrorBloked] = useState("");
-  //console.log(searchParams.getAll());
-  searchParams2.get("search");
+  console.log('====================================');
+  console.log(searchParams.getAll('level_ids'));
+  console.log('====================================');
   let headersToken = {
     Authorization: `Bearer ${Cookies.get("AnalyticaToken")} `,
     "Content-Type": "application/json",
@@ -60,43 +97,9 @@ function Courses() {
     Accept: "application/json",
   };
 
-  //to get value in params
-  /*
-  const url2 = "level_ids%5B0%5D=1&level_ids%5B1%5D=7&level_ids%5B2%5D=8&level_ids%5B3%5D=13";
-  const valueString = url2.replace(/level_ids%5B\d+%5D=/g, ''); 
-  console.log(valueString);
-  const values = valueString.split("&");
-  const result = values.map(value => parseInt(value, 10));
-    console.log(result);
-*/
-
-  useEffect(() => {
-      
-    FetchDataOFHomePage();
-  }, []);
-  
-  useEffect(() => {
-    console.log('====================================');
-    console.log(Search ? true : false);
-    console.log('====================================');
-    if(Search){
-      setAllCourses([])
-      handellogin(1);
-      setPage(1)
-      
-    }else{
-      if(allCourses.length){
-        setAllCourses([])
-      }
-      handellogin();
-    }
-    const fullUrl = `/courses${UrlNew}`;
-    router.replace(fullUrl);
-}, [Search]);
   const FetchDataOFHomePage = async () => {
     const AllData = await getHomePage();
     if (AllData.error) {
-   
       setErrorBloked(AllData.error);
       setBloked(true);
     }
@@ -104,49 +107,74 @@ function Courses() {
     setCategories(AllData.categories);
     console.log(AllData);
   };
+ 
 
+ 
+  useEffect(() => {
+    
+    FetchDataOFHomePage();
+    handelFilter();
+  }, []);
 
-
-  /*useEffect(() => {
-    if (
-      Language ||
-      PriceFrom ||
-      PriceTo ||
-      PriceType ||
-      CategoriesID ||
-      Level_id
-    ) {
+  useEffect(() => {
+    if (Search) {
       setAllCourses([]);
-      handellogin(1);
+      handelFilter(1);
+      setPage(1);
+    } else {
+      if (allCourses.length) {
+        setAllCourses([]);
+      }
     }
-  }, [Language, PriceFrom, PriceTo, PriceType, CategoriesID, Level_id]);
-  */
+  }, [Search]);
+  
+  const handelFilter = (id) => {
+    
+   
 
-  const handellogin = (id) => {
-    const url = new URL(
+    const url =  new URL(
       `https://education.aquadic.com/api/v1/users/courses?page=${
-        id ? id : Page
-      }&price_type=${PriceType}&price_from=${PriceFrom}&price_to=${PriceTo}&price_type=${PriceType}&search=${Search===null?"":Search}&language=${Language}`
+        id ? id : Page+1
+      }&price_type=${PriceType}&price_from=${PriceFrom}&price_to=${PriceTo}&search=${
+        Search === null ? "" : Search
+      }&language=${Language}`
     );
-
-    const body = new FormData();
-
-    setPage(Page + 1);
-    if (Level_id.length > 0) {
+    const url2 =  new URL(
+      `https://education.aquadic.com/api/v1/users/courses?page=${
+        id ? id : Page+1
+      }&price_type=${PriceType}&price_from=${PriceFrom}&price_to=${PriceTo}&search=${
+        Search === null ? "" : Search
+      }&language=${Language}`
+    );
+    if ([searchParams.getAll('level_ids')[0]].length > 0) {
+      Level_id.map((item) => {
+        url2.searchParams.append(`level_ids`, item);
+      });
+    }
+    if ([searchParams.getAll('category_ids')[0]].length > 0) {
+      CategoriesID.map((item) => {
+        url2.searchParams.append(`category_ids`, item);
+      });
+    }
+    if ([searchParams.getAll('level_ids')[0]].length > 0) {
       Level_id.map((item, i) => {
         url.searchParams.append(`level_ids[${i}]`, item);
       });
     }
-
     if (CategoriesID.length > 0) {
       CategoriesID.map((item, i) => {
         url.searchParams.append(`category_ids[${i}]`, item);
       });
     }
+    console.log(url.search);
+    setUerNew(url2.search)
+   
 console.log('====================================');
-console.log(url.search);
-setUerNew(url.search)
+console.log(url2.search);
 console.log('====================================');
+ 
+    router.replace(pathname+url2.search);
+
     const po = api
       .get(url, {
         headers: IsUser ? headersToken : header,
@@ -155,6 +183,7 @@ console.log('====================================');
         if (res.data.data.length === 0) {
           setHasMore(false);
         } else {
+          setPage(Page + 1);
           setAllCourses((dataGet) => [...dataGet, ...res.data.data]);
         }
 
@@ -169,58 +198,32 @@ console.log('====================================');
         console.log(res);
       });
   };
+  
+
+  const createQueryString = useCallback(
+    (name, value) => {
+      const params = new URLSearchParams(searchParams);
+      params.set(name, value);
+
+      return params.toString();
+    },
+    [searchParams]
+  );
 
 
-useEffect(()=>{
-// Function to extract query string parameters
-const getQueryParam = (url, param) => {
-  const regex = new RegExp(`${param}=([^&]+)`);
-  const match = url.match(regex);
-  return match ? match[1] : null;
-};
-// Extract the values
-setPage(getQueryParam(UrlNew, "page"))
-setPriceType(getQueryParam(UrlNew, "price_type"))
-setPriceFrom(getQueryParam(UrlNew, "price_from"))
-setPriceTo(getQueryParam(UrlNew, "price_to"))
-setSearch(getQueryParam(UrlNew, "search"))
-setLanguage(getQueryParam(UrlNew, "language"))
+  
+  // Output the values
+  console.log("page:", Page);
+  console.log("price_type:", PriceType);
+  console.log("price_from:", PriceFrom);
+  console.log("price_to:", PriceTo);
+  console.log("search:", Search);
+  console.log("language:", Language);
 
-// Extract level_ids values
-const levelIds = [];
-const levelIdsRegex = /level_ids%5B(\d+)%5D=([^&]+)/g;
-let levelIdsMatch;
-while ((levelIdsMatch = levelIdsRegex.exec(UrlNew))) {
-  levelIds.push(levelIdsMatch[2]);
-  setLevel_id(levelIds)
-}
-// Extract category_ids values
-const categoryIds = [];
-const categoryIdsRegex = /category_ids%5B(\d+)%5D=([^&]+)/g;
-let categoryIdsMatch;
-while ((categoryIdsMatch = categoryIdsRegex.exec(UrlNew))) {
-  categoryIds.push(categoryIdsMatch[2]);
-  setCategoriesID(categoryIds)
-}
+  console.log("category_ids:", CategoriesID);
 
 
-
-},[])
-
-
-
-// Output the values
-console.log("page:", Page);
-console.log("price_type:", PriceType);
-console.log("price_from:", PriceFrom);
-console.log("price_to:", PriceTo);
-console.log("search:", Search);
-console.log("language:", Language);
-console.log("level_ids:", Level_id);
-console.log("category_ids:", CategoriesID);
-
-
-
+ 
 
   return (
     <>
@@ -234,10 +237,14 @@ console.log("category_ids:", CategoriesID);
             Bloked={true}
           />
         </>
-      ) : <div className="courses container">
-      <div className="part1">
-        <div className="accordion accordion-flush" id="accordionFlushExample">
-          {/*  <div className="accordion-item">
+      ) : (
+        <div className="courses container">
+          <div className="part1">
+            <div
+              className="accordion accordion-flush"
+              id="accordionFlushExample"
+            >
+              {/*  <div className="accordion-item">
             <h2 className="accordion-header">
               <button
                 className="accordion-button collapsed"
@@ -283,283 +290,291 @@ console.log("category_ids:", CategoriesID);
               </div>
             </div>
     </div>*/}
-          <div className="accordion-item">
-            <h2 className="accordion-header">
-              <button
-                className="accordion-button collapsed"
-                type="button"
-                data-bs-toggle="collapse"
-                data-bs-target="#flush-collapsetwo"
-                aria-expanded="false"
-                aria-controls="flush-collapsetwo"
-              >
-                Video Duration
-              </button>
-            </h2>
-            <div
-              id="flush-collapsetwo"
-              className="accordion-collapse collapse"
-              data-bs-parent="#accordionFlushExample"
-            >
-              <div className="accordion-body">
-                <Checkbox.Group
-                  color="red"
-                  style={{ display: "flex", flexDirection: "column" }}
-                  onChange={setDuration}
+              <div className="accordion-item">
+                <h2 className="accordion-header">
+                  <button
+                    className="accordion-button collapsed"
+                    type="button"
+                    data-bs-toggle="collapse"
+                    data-bs-target="#flush-collapsetwo"
+                    aria-expanded="false"
+                    aria-controls="flush-collapsetwo"
+                  >
+                    Video Duration
+                  </button>
+                </h2>
+                <div
+                  id="flush-collapsetwo"
+                  className="accordion-collapse collapse"
+                  data-bs-parent="#accordionFlushExample"
                 >
-                  <Group mt="xs">
-                    <Checkbox value="0-1" color="indigo" label="0-1 Hour" />
-                    <Checkbox value="2-4" color="indigo" label="2-4 Hour" />
-                    <Checkbox value="4-7" color="indigo" label="4-7 Hour" />
-                    <Checkbox value="7-17" color="indigo" label="7-17 Hour" />
-                  </Group>
-                </Checkbox.Group>
-              </div>
-            </div>
-          </div>
-          <div className="accordion-item">
-            <h2 className="accordion-header">
-              <button
-                className="accordion-button collapsed"
-                type="button"
-                data-bs-toggle="collapse"
-                data-bs-target="#flush-collapsethree"
-                aria-expanded="false"
-                aria-controls="flush-collapsethree"
-              >
-                Category
-              </button>
-            </h2>
-            <div
-              id="flush-collapsethree"
-              className="accordion-collapse collapse"
-              data-bs-parent="#accordionFlushExample"
-            >
-              <div className="accordion-body">
-                <Checkbox.Group
-                  color="red"
-                  style={{ display: "flex", flexDirection: "column" }}
-                  onChange={setCategoriesID}
-                >
-                  <Group mt="xs">
-                    {Categories.map((item) => {
-                      return (
+                  <div className="accordion-body">
+                    <Checkbox.Group
+                      color="red"
+                      style={{ display: "flex", flexDirection: "column" }}
+                      onChange={setDuration}
+                    >
+                      <Group mt="xs">
+                        <Checkbox value="0-1" color="indigo" label="0-1 Hour" />
+                        <Checkbox value="2-4" color="indigo" label="2-4 Hour" />
+                        <Checkbox value="4-7" color="indigo" label="4-7 Hour" />
                         <Checkbox
-                          key={item.id}
-                          value={`${item.id}`}
+                          value="7-17"
                           color="indigo"
-                          label={getLocal(locale,item.name)}
+                          label="7-17 Hour"
                         />
-                      );
-                    })}
-                  </Group>
-                </Checkbox.Group>
+                      </Group>
+                    </Checkbox.Group>
+                  </div>
+                </div>
               </div>
-            </div>
-          </div>
-          <div className="accordion-item">
-            <h2 className="accordion-header">
-              <button
-                className="accordion-button collapsed"
-                type="button"
-                data-bs-toggle="collapse"
-                data-bs-target="#flush-collapsefour"
-                aria-expanded="false"
-                aria-controls="flush-collapsefour"
-              >
-                Level
-              </button>
-            </h2>
-            <div
-              id="flush-collapsefour"
-              className="accordion-collapse collapse"
-              data-bs-parent="#accordionFlushExample"
-            >
-              <div className="accordion-body">
-                <Checkbox.Group
-                  color="red"
-                  style={{ display: "flex", flexDirection: "column" }}
-                  onChange={setLevel_id}
+              <div className="accordion-item">
+                <h2 className="accordion-header">
+                  <button
+                    className="accordion-button collapsed"
+                    type="button"
+                    data-bs-toggle="collapse"
+                    data-bs-target="#flush-collapsethree"
+                    aria-expanded="false"
+                    aria-controls="flush-collapsethree"
+                  >
+                    Category
+                  </button>
+                </h2>
+                <div
+                  id="flush-collapsethree"
+                  className="accordion-collapse collapse"
+                  data-bs-parent="#accordionFlushExample"
                 >
-                  <Group mt="xs">
-                    {AllTopic.map((item) => {
-                      return (
-                        <Checkbox
-                          key={item.id}
-                          value={`${item.id}`}
+                  <div className="accordion-body">
+                    <Checkbox.Group
+                      color="red"
+                      style={{ display: "flex", flexDirection: "column" }}
+                      onChange={setCategoriesID}
+                      value={CategoriesID}
+                    >
+                      <Group mt="xs">
+                        {Categories.map((item) => {
+                          return (
+                            <Checkbox
+                              key={item.id}
+                              value={`${item.id}`}
+                              color="indigo"
+                              label={getLocal(locale, item.name)}
+                            />
+                          );
+                        })}
+                      </Group>
+                    </Checkbox.Group>
+                  </div>
+                </div>
+              </div>
+              <div className="accordion-item">
+                <h2 className="accordion-header">
+                  <button
+                    className="accordion-button collapsed"
+                    type="button"
+                    data-bs-toggle="collapse"
+                    data-bs-target="#flush-collapsefour"
+                    aria-expanded="false"
+                    aria-controls="flush-collapsefour"
+                  >
+                    Level
+                  </button>
+                </h2>
+                <div
+                  id="flush-collapsefour"
+                  className="accordion-collapse collapse"
+                  data-bs-parent="#accordionFlushExample"
+                >
+                  <div className="accordion-body">
+                    <Checkbox.Group
+                      color="red"
+                      style={{ display: "flex", flexDirection: "column" }}
+                      onChange={setLevel_id}
+                      value={Level_id}
+                    >
+                      <Group mt="xs">
+                        {AllTopic.map((item) => {
+                          return (
+                            <Checkbox
+                              key={item.id}
+                              value={`${item.id}`}
+                              color="indigo"
+                              label={getLocal(locale, item.name)}
+                            />
+                          );
+                        })}
+                      </Group>
+                    </Checkbox.Group>
+                  </div>
+                </div>
+              </div>
+              <div className="accordion-item">
+                <h2 className="accordion-header">
+                  <button
+                    className="accordion-button collapsed"
+                    type="button"
+                    data-bs-toggle="collapse"
+                    data-bs-target="#flush-collapsefive"
+                    aria-expanded="false"
+                    aria-controls="flush-collapsefive"
+                  >
+                    Language
+                  </button>
+                </h2>
+                <div
+                  id="flush-collapsefive"
+                  className="accordion-collapse collapse"
+                  data-bs-parent="#accordionFlushExample"
+                >
+                  <div className="accordion-body">
+                    <Radio.Group
+                      name="favoriteFramework2"
+                      onChange={setLanguage}
+                      value={Language}
+                    >
+                      <Group mt="xs">
+                        <Radio size="xs" value="en" color="indigo" label="EN" />
+                        <Radio size="xs" value="ar" color="indigo" label="AR" />
+                      </Group>
+                    </Radio.Group>
+                  </div>
+                </div>
+              </div>
+              <div className="accordion-item">
+                <h2 className="accordion-header">
+                  <button
+                    className="accordion-button collapsed"
+                    type="button"
+                    data-bs-toggle="collapse"
+                    data-bs-target="#flush-collapsefive2"
+                    aria-expanded="false"
+                    aria-controls="flush-collapsefive2"
+                  >
+                    Course Type
+                  </button>
+                </h2>
+                <div
+                  id="flush-collapsefive2"
+                  className="accordion-collapse collapse"
+                  data-bs-parent="#accordionFlushExample"
+                >
+                  <div className="accordion-body">
+                    <Radio.Group
+                      name="favoriteFramework3"
+                      onChange={setPriceType}
+                      value={PriceType}
+                    >
+                      <Group mt="xs">
+                        <Radio
+                          size="xs"
+                          value="free"
                           color="indigo"
-                          label={getLocal(locale, item.name)}
+                          label="Free"
                         />
-                      );
-                    })}
-                  </Group>
-                </Checkbox.Group>
+                        <Radio
+                          size="xs"
+                          value="paid"
+                          color="indigo"
+                          label="Paid"
+                        />
+                      </Group>
+                    </Radio.Group>
+                  </div>
+                </div>
               </div>
-            </div>
-          </div>
-          <div className="accordion-item">
-            <h2 className="accordion-header">
-              <button
-                className="accordion-button collapsed"
-                type="button"
-                data-bs-toggle="collapse"
-                data-bs-target="#flush-collapsefive"
-                aria-expanded="false"
-                aria-controls="flush-collapsefive"
-              >
-                Language
-              </button>
-            </h2>
-            <div
-              id="flush-collapsefive"
-              className="accordion-collapse collapse"
-              data-bs-parent="#accordionFlushExample"
-            >
-              <div className="accordion-body">
-                <Radio.Group
-                  name="favoriteFramework2"
-                  onChange={setLanguage}
-                  value={Language}
+              <div className="accordion-item">
+                <h2 className="accordion-header">
+                  <button
+                    className="accordion-button collapsed"
+                    type="button"
+                    data-bs-toggle="collapse"
+                    data-bs-target="#flush-collapsesix"
+                    aria-expanded="false"
+                    aria-controls="flush-collapsesix"
+                  >
+                    Price
+                  </button>
+                </h2>
+                <div
+                  id="flush-collapsesix"
+                  className="accordion-collapse collapse"
+                  data-bs-parent="#accordionFlushExample"
                 >
-                  <Group mt="xs">
-                    <Radio size="xs" value="en" color="indigo" label="EN" />
-                    <Radio size="xs" value="ar" color="indigo" label="AR" />
-                  </Group>
-                </Radio.Group>
+                  <div className="accordion-body">
+                    <RangeSlider
+                      min={0}
+                      color="indigo"
+                      value={[PriceFrom,PriceTo]}
+                      onChange={(e) => {
+                        setPriceFrom(e[0]);
+                        setPriceTo(e[1]);
+                      }}
+                      thumbSize={22}
+                      max={1000}
+                      labelAlwaysOn
+                    />
+                  </div>
+                </div>
               </div>
             </div>
-          </div>
-          <div className="accordion-item">
-            <h2 className="accordion-header">
-              <button
-                className="accordion-button collapsed"
-                type="button"
-                data-bs-toggle="collapse"
-                data-bs-target="#flush-collapsefive2"
-                aria-expanded="false"
-                aria-controls="flush-collapsefive2"
-              >
-                Course Type
-              </button>
-            </h2>
-            <div
-              id="flush-collapsefive2"
-              className="accordion-collapse collapse"
-              data-bs-parent="#accordionFlushExample"
+            <button
+              className="btn_page"
+              onClick={(e) =>  {
+                e.preventDefault();
+                setAllCourses([]);
+                 handelFilter(1);
+                  
+             
+              }}
             >
-              <div className="accordion-body">
-                <Radio.Group
-                  name="favoriteFramework3"
-                  onChange={setPriceType}
-                  value={PriceType}
-                >
-                  <Group mt="xs">
-                    <Radio
-                      size="xs"
-                      value="free"
-                      color="indigo"
-                      label="Free"
-                    />
-                    <Radio
-                      size="xs"
-                      value="paid"
-                      color="indigo"
-                      label="Paid"
-                    />
-                  </Group>
-                </Radio.Group>
-              </div>
-            </div>
+              Apply
+            </button>
           </div>
-          <div className="accordion-item">
-            <h2 className="accordion-header">
-              <button
-                className="accordion-button collapsed"
-                type="button"
-                data-bs-toggle="collapse"
-                data-bs-target="#flush-collapsesix"
-                aria-expanded="false"
-                aria-controls="flush-collapsesix"
-              >
-                Price
-              </button>
-            </h2>
+          <div className="part2">
+            {/* <h2  >User Experience Design Courses</h2> */}
             <div
-              id="flush-collapsesix"
-              className="accordion-collapse collapse"
-              data-bs-parent="#accordionFlushExample"
+              className="fillter_Courses"
+              style={{
+                minHeight: "700px",
+
+                overflow: "auto",
+                display: "flex",
+              }}
             >
-              <div className="accordion-body">
-                <RangeSlider
-                  min={0}
-                  color="indigo"
-                  onChange={(e) => {
-                    setPriceFrom(e[0]);
-                    setPriceTo(e[1]);
-                  }}
-                  thumbSize={22}
-                  max={1000}
-                  labelAlwaysOn
-                />
-              </div>
+              <InfiniteScroll
+                dataLength={allCourses.length}
+                next={handelFilter}
+                style={{
+                  display: "flex",
+                  flexDirection: "column",
+                  gap: "14px",
+                }}
+                hasMore={hasMore}
+                loader={<h3> Loading...</h3>}
+                endMessage={
+                  <h4 style={{ textAlign: "center" }}>Nothing more to show</h4>
+                }
+              >
+                {allCourses?.map((course, i) => (
+                  <ItemCourse2
+                    key={i}
+                    id={course.id}
+                    title={getLocal(locale, course.name)}
+                    imageCourse={course.image.url}
+                    is_purchased={course.is_purchased ? true : false}
+                    last_watched={course.last_watched_lesson_id}
+                    star="4.8"
+                    dec={course.instructor.name}
+                    newsalary={course.price ? "EG " + course.price : t("free")}
+                  />
+                ))}
+              </InfiniteScroll>
             </div>
           </div>
         </div>
-        <button
-          className="btn_page"
-          onClick={(e) => {
-            e.preventDefault();
-            setAllCourses([])
-            handellogin(1);
-            const fullUrl = `/courses${UrlNew}`;
-            router.replace(fullUrl);
-          }}
-        >
-          Apply
-        </button>
-      </div>
-      <div className="part2">
-        {/* <h2  >User Experience Design Courses</h2> */}
-        <div
-          className="fillter_Courses"
-          style={{
-            minHeight: "700px",
-
-            overflow: "auto",
-            display: "flex",
-          }}
-        >
-          <InfiniteScroll
-            dataLength={allCourses.length}
-            next={handellogin}
-            style={{ display: "flex", flexDirection: "column", gap: "14px" }}
-            hasMore={hasMore}
-            loader={<h3> Loading...</h3>}
-            endMessage={
-              <h4 style={{ textAlign: "center" }}>Nothing more to show</h4>
-            }
-          >
-            {allCourses?.map((course, i) => (
-              <ItemCourse2
-                key={i}
-                id={course.id}
-                title={getLocal(locale,course.name)}
-                imageCourse={course.image.url}
-                is_purchased={course.is_purchased ? true : false}
-                last_watched={course.last_watched_lesson_id}
-                star="4.8"
-                dec={course.instructor.name}
-                newsalary={course.price ? "EG " + course.price : t("free")}
-              />
-            ))}
-          </InfiniteScroll>
-        </div>
-      </div>
-    </div>
-      
-      }
-
-     
+      )}
     </>
   );
 }
