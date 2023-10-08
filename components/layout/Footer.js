@@ -11,7 +11,7 @@ function Footer({lang}) {
     const t = useTranslations('Footer');
     const [pages, setPage] = useState([])
     const [social, setSocial] = useState([])
-
+const locale = useLocale()
 
     useEffect(() => {
         FetchDataOFHomePage();
@@ -42,7 +42,7 @@ function Footer({lang}) {
                             {
                                 pages?.map((page) => {
                                     return (
-                                        <Link key={page.id} href={`/about?id=${page.id}`}>{getLocal(page.title)}</Link>
+                                        <Link key={page.id} href={`/about?id=${page.id}`}>{getLocal(locale,page.title)}</Link>
                                     )
                                 })
                             }

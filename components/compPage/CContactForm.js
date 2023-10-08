@@ -62,7 +62,7 @@ function CContactForm() {
     AllData.categories.map((itemCategories) => {
       const item = {
         value: itemCategories.id,
-        label: getLocal(itemCategories.name),
+        label: getLocal(locale,itemCategories.name),
       };
       setCategories((current) => [...current, item]);
     });

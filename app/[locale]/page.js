@@ -146,7 +146,7 @@ export default function Home({ params: { locale } }) {
                   <ItemCourse
                     key={course.id}
                     id={course.id}
-                    title={getLocal(course.name)}
+                    title={getLocal(locale,course.name)}
                     imageCourse={course.image?.url}
                     star="4.8"
                     dec={course.instructor?.name}
@@ -200,10 +200,10 @@ export default function Home({ params: { locale } }) {
                 key={part.id}
               >
                 <h2 className="headtitle wow fadeInDown">
-                  {getLocal(part.name)}
+                  {getLocal(locale,part.name)}
                 </h2>
                 <p className="p_page wow fadeInUp">
-                  {getLocal(part.description) && getLocal(part.description)}
+                  {getLocal(locale,part.description) && getLocal(locale,part.description)}
                 </p>
                 <div className="allServices">
                   {part.courses
@@ -213,7 +213,7 @@ export default function Home({ params: { locale } }) {
                         <ItemCourse
                           key={course.id}
                           id={course.id}
-                          title={getLocal(course.name)}
+                          title={getLocal(locale,course.name)}
                           imageCourse={course.image.url}
                           star="4.8"
                           is_purchased={course.is_purchased ? true : false}

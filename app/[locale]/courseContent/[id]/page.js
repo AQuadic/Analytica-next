@@ -190,9 +190,9 @@ function page({ params }) {
                   {Lessons?.id && (
                     <div className="part2">
                       <h1>
-                        { getLocal(Lessons?.chapter?.name) }
+                        { getLocal(locale,Lessons?.chapter?.name) }
                       </h1>
-                      <h2>{ getLocal(Lessons?.name) }</h2>
+                      <h2>{ getLocal(locale,Lessons?.name) }</h2>
                       <div className="boxVideo">
                         {Youtube ? (
                           <iframe
@@ -229,7 +229,7 @@ function page({ params }) {
                     <div
                       className="part2"
                       dangerouslySetInnerHTML={{
-                        __html: getLocal(ContentChapter) ,
+                        __html: getLocal(locale,ContentChapter) ,
                       }}
                     ></div>
                   )}
@@ -262,7 +262,7 @@ function page({ params }) {
                             setContentID(item.id);
                           }}
                         >
-                          <h4>{getLocal( item.name)}</h4>
+                          <h4>{getLocal(locale, item.name)}</h4>
                           <p>
                             0/{item.lessons.length} |{" "}
                             {convertMinutesToHours(getCount(item.lessons))}{" "}
@@ -279,7 +279,7 @@ function page({ params }) {
                     id="contantTwo"
                     style={{ display: content === "two" ? "block" : "none" }}
                   >
-                    <h3>{getLocal(CurrentChapters?.name) }</h3>
+                    <h3>{getLocal(locale,CurrentChapters?.name) }</h3>
                     <button
                       className="back"
                       id="back"
@@ -306,7 +306,7 @@ function page({ params }) {
                                     className="form-check-label"
                                     htmlFor="flexCheckCheckedDisabled"
                                   >
-                                    {getLocal(item.name) }
+                                    {getLocal(locale,item.name) }
                                   </label>
                                   <div className="clock">
                                     <img

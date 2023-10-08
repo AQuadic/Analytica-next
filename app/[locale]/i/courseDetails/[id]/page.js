@@ -45,9 +45,9 @@ function page({ params }) {
               <div className="part1">
                 <div className="content container">
                   <div className="contantAbout">
-                    <h2> {getLocal(allCourses.name)}</h2>
+                    <h2> {getLocal(locale,allCourses.name)}</h2>
                     {allCourses.short_description && (
-                      <h3>{getLocal(allCourses.short_description)}</h3>
+                      <h3>{getLocal(locale,allCourses.short_description)}</h3>
                     )}
                     <p>
                       Instructor:{" "}
@@ -123,7 +123,7 @@ function page({ params }) {
                       <h2 className="headDetails">What you'll learn</h2>
                       <div className="learn">
                         <ul className="row">
-                          {getLocal(allCourses.learn).map((item, i) => {
+                          {getLocal(locale,allCourses.learn).map((item, i) => {
                             return (
                               <li className="col-md-5" key={i}>
                                 <img
@@ -152,7 +152,7 @@ function page({ params }) {
                       <h2 className="headDetails">What you'll learn</h2>
                       <div className="skills">
                         <ul>
-                          {getLocal(allCourses.gain).map((item, i) => {
+                          {getLocal(locale,allCourses.gain).map((item, i) => {
                             return <li key={i}>{item}</li>;
                           })}
                         </ul>
@@ -182,7 +182,7 @@ function page({ params }) {
                                       aria-expanded="false"
                                       aria-controls={`flush-collapse${lesson.id}`}
                                     >
-                                      {getLocal(lesson.name)}
+                                      {getLocal(locale,lesson.name)}
                                     </button>
                                   </h2>
                                   <div
@@ -290,19 +290,19 @@ function page({ params }) {
                       </div>
                     </div>
                   </div>
-                  {getLocal(allCourses.requirements) && (
+                  {getLocal(locale,allCourses.requirements) && (
                     <div className="part">
                       <div className="description">
                         <h2 className="headDetails">Requirements</h2>
-                        <p>{getLocal(allCourses.requirements)}</p>
+                        <p>{getLocal(locale,allCourses.requirements)}</p>
                       </div>
                     </div>
                   )}
-                  {getLocal(allCourses.description) && (
+                  {getLocal(locale,allCourses.description) && (
                     <div className="part">
                       <div className="description">
                         <h2 className="headDetails">Description</h2>
-                        <p>{getLocal(allCourses.description)}</p>
+                        <p>{getLocal(locale,allCourses.description)}</p>
                       </div>
                     </div>
                   )}

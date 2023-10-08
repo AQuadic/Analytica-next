@@ -194,7 +194,7 @@ function CCheckOut() {
                           <Radio
                             key={payment.id}
                             value={payment.id.toString()}
-                            label={getLocal(payment.name)}
+                            label={getLocal(locale,payment.name)}
                           />
                         );
                       })}
@@ -244,7 +244,7 @@ function CCheckOut() {
             </div>
             <div className="part2">
               <h3>{t("summary")}</h3>
-              <h4>{getLocal(course.name)}</h4>
+              <h4>{getLocal(locale,course.name)}</h4>
               <ul>
                 <li>
                   <h5>{t("originalPrice")}</h5>

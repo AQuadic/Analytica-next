@@ -42,11 +42,11 @@ function page() {
         page.id > 0 && (
           <div className="container m90">
             <div className="pageAbout">
-              <h2>{getLocal(page?.title)}</h2>
+              <h2>{getLocal(locale,page?.title)}</h2>
               <div
                 className="decAbout"
                 dangerouslySetInnerHTML={{
-                  __html: getLocal(page?.description),
+                  __html: getLocal(locale,page?.description),
                 }}
               >
                 {/* <p dangerouslySetInnerHTML={createMarkup(data)} /> */}

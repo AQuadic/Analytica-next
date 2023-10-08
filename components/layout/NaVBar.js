@@ -177,7 +177,7 @@ if (UserLogOut === 200) {
                                 className="dropdown-item"
                                 href={`/courses?id=${item.id}`}
                               >
-                                {getLocal(item.name)}
+                                {getLocal(locale,item.name)}
                               </Link>
                             </li>
                           );
@@ -296,7 +296,7 @@ if (UserLogOut === 200) {
                               className="dropdown-item"
                               href={`/courses?id=${item.id}`}
                             >
-                              {getLocal(item.name) }
+                              {getLocal(locale,item.name) }
                             </Link>
                           </li>
                         );

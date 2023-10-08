@@ -348,7 +348,7 @@ console.log("category_ids:", CategoriesID);
                           key={item.id}
                           value={`${item.id}`}
                           color="indigo"
-                          label={getLocal(item.name)}
+                          label={getLocal(locale,item.name)}
                         />
                       );
                     })}
@@ -388,7 +388,7 @@ console.log("category_ids:", CategoriesID);
                           key={item.id}
                           value={`${item.id}`}
                           color="indigo"
-                          label={getLocal( item.name)}
+                          label={getLocal(locale, item.name)}
                         />
                       );
                     })}
@@ -543,7 +543,7 @@ console.log("category_ids:", CategoriesID);
               <ItemCourse2
                 key={i}
                 id={course.id}
-                title={getLocal(course.name)}
+                title={getLocal(locale,course.name)}
                 imageCourse={course.image.url}
                 is_purchased={course.is_purchased ? true : false}
                 last_watched={course.last_watched_lesson_id}

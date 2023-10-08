@@ -72,7 +72,7 @@ function CMyCourses() {
                   myCourses.filter(item=>item.watch_progress!==1).map((course) => {
                       return (
                           <ItemCourse
-                              title={getLocal(course.name) }
+                              title={getLocal(locale,course.name) }
                               dec={course.instructor.name}
                               imageCourse={course.image.url}
                               Myprogress={true}
@@ -90,7 +90,7 @@ function CMyCourses() {
                   myCourses.filter(item=>item.watch_progress===1)?.map((course) => {
                       return (
                           <ItemCourse
-                              title={getLocal(course.name)}
+                              title={getLocal(locale,course.name)}
                               dec={course.instructor.name}
                               imageCourse={course.image.url}
                               Myprogress={true}

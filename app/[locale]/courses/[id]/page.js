@@ -73,9 +73,9 @@ function CourseDetails({ params }) {
               <div className="part1">
                 <div className="content container">
                   <div className="contantAbout">
-                    <h2>{getLocal(allCourses.name) }</h2>
+                    <h2>{getLocal(locale,allCourses.name) }</h2>
                     {allCourses.short_description && (
-                      <h3>{ getLocal(allCourses.short_description) }</h3>
+                      <h3>{ getLocal(locale,allCourses.short_description) }</h3>
                     )}
                     <p>
                       {t("instructor")}:{" "}
@@ -183,7 +183,7 @@ function CourseDetails({ params }) {
                       <h2 className="headDetails">{t("learn")}</h2>
                       <div className="learn">
                         <ul className="row">
-                          {getLocal(allCourses.learn)?.map((item, i) => {
+                          {getLocal(locale,allCourses.learn)?.map((item, i) => {
                             return (
                               <li className="col-md-5" key={i}>
                                 <img
@@ -205,7 +205,7 @@ function CourseDetails({ params }) {
                       <h2 className="headDetails">{t("gain")}</h2>
                       <div className="skills">
                         <ul>
-                          {getLocal(allCourses.gain)?.map((item, i) => {
+                          {getLocal(locale,allCourses.gain)?.map((item, i) => {
                             return <li key={i}>{item}</li>;
                           })}
                         </ul>
@@ -234,7 +234,7 @@ function CourseDetails({ params }) {
                                     aria-expanded="false"
                                     aria-controls={`flush-collapse${chapter.id}`}
                                   >
-                                    {getLocal(chapter.name) }
+                                    {getLocal(locale,chapter.name) }
                                   </button>
                                   <p>
                                     {chapter.lessons.length} lectures •{" "}
@@ -262,7 +262,7 @@ function CourseDetails({ params }) {
                                                 }`}
                                                 alt={lesson.type}
                                               />
-                                              <p>{getLocal(lesson.name) }</p>
+                                              <p>{getLocal(locale,lesson.name) }</p>
                                             </div>
                                             <span>
                                               {" "}
@@ -287,7 +287,7 @@ function CourseDetails({ params }) {
                     <div className="part">
                       <div className="description">
                         <h2 className="headDetails">{t("requirements")}</h2>
-                        <p>{ getLocal(allCourses.requirements) }</p>
+                        <p>{ getLocal(locale,allCourses.requirements) }</p>
                       </div>
                     </div>
                   )}
@@ -295,7 +295,7 @@ function CourseDetails({ params }) {
                     <div className="part">
                       <div className="description">
                         <h2 className="headDetails">{t("description")}</h2>
-                        <p>{getLocal(allCourses.description) }</p>
+                        <p>{getLocal(locale,allCourses.description) }</p>
                       </div>
                     </div>
                   )}

@@ -1,6 +1,5 @@
 import Cookies from "js-cookie";
 import api, { BASE_URL } from "../../app/[locale]/api";
-import { useLocale } from "next-intl";
 
 let headersToken = {
   Authorization: `Bearer ${Cookies.get("AnalyticaToken")} `,
@@ -136,8 +135,7 @@ export const getOneInstractor = async (e) => {
   console.log(result);
   return result;
 };
-export function getLocal (path) {
-  const locale = useLocale();
+export function getLocal (locale,path) {
   if (path == null || path == undefined) return "";
 
   if (path.hasOwnProperty(locale) && path[locale]) return path[locale];

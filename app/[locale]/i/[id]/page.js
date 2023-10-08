@@ -33,7 +33,7 @@ function page({ params }) {
     instractor?.courses &&
     Object.groupBy(
       instractor?.courses,
-      ({ category }) => getLocal(category?.name) ?? "كورسات اخري"
+      ({ category }) => getLocal(locale,category?.name) ?? "كورسات اخري"
     );
 
   console.log(result);
@@ -85,7 +85,7 @@ function page({ params }) {
                 <div className="instructor_info">
                   <h3>INSTRUCTOR</h3>
                   <p>
-                    Hello ,i'm {instractor.name} ,{getLocal(instractor?.about)}
+                    Hello ,i'm {instractor.name} ,{getLocal(locale,instractor?.about)}
                   </p>
                 </div>
               </div>
@@ -164,7 +164,7 @@ function page({ params }) {
                           <ItemCourse
                             key={item.id}
                             link2={`/i/courseDetails/${item.id}`}
-                            title={getLocal(item.name)}
+                            title={getLocal(locale,item.name)}
                             image="21"
                             imageCourse={item.image?.url}
                             star="4.8"

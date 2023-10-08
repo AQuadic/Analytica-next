@@ -61,8 +61,8 @@ function InstractorInfo({ params }) {
             <div className="info_about">
               <h2>{t("instracto")}</h2>
               <h3>{instractor?.name}</h3>
-              {getLocal(instractor?.title) && (
-                <h4>{getLocal(instractor?.title)}</h4>
+              {getLocal(locale,instractor?.title) && (
+                <h4>{getLocal(locale,instractor?.title)}</h4>
               )}
             </div>
           </div>
@@ -89,10 +89,10 @@ function InstractorInfo({ params }) {
               </h5>
             </div>
           </div>
-          {getLocal(instractor?.about) && (
+          {getLocal(locale,instractor?.about) && (
             <div className="aboutME">
               <h3>{t("aboutMe")}</h3>
-              <p>{getLocal(instractor.about)}</p>
+              <p>{getLocal(locale,instractor.about)}</p>
             </div>
           )}
         </div>
@@ -156,7 +156,7 @@ function InstractorInfo({ params }) {
                 <ItemCourse
                   key={course.id}
                   id={course.id}
-                  title={getLocal(course.name)}
+                  title={getLocal(locale,course.name)}
                   imageCourse={course.image.url}
                   star="4.8"
                   is_purchased={course.is_purchased ? true : false}
