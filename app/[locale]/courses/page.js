@@ -83,9 +83,7 @@ function Courses() {
   const searchParams2 = useSearchParams();
   const [Bloked, setBloked] = useState(false);
   const [ErrorBloked, setErrorBloked] = useState("");
-  console.log('====================================');
-  console.log(searchParams.getAll('level_ids'));
-  console.log('====================================');
+
   let headersToken = {
     Authorization: `Bearer ${Cookies.get("AnalyticaToken")} `,
     "Content-Type": "application/json",
@@ -198,32 +196,7 @@ console.log('====================================');
         console.log(res);
       });
   };
-  
 
-  const createQueryString = useCallback(
-    (name, value) => {
-      const params = new URLSearchParams(searchParams);
-      params.set(name, value);
-
-      return params.toString();
-    },
-    [searchParams]
-  );
-
-
-  
-  // Output the values
-  console.log("page:", Page);
-  console.log("price_type:", PriceType);
-  console.log("price_from:", PriceFrom);
-  console.log("price_to:", PriceTo);
-  console.log("search:", Search);
-  console.log("language:", Language);
-
-  console.log("category_ids:", CategoriesID);
-
-
- 
 
   return (
     <>
