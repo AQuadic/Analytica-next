@@ -2199,7 +2199,12 @@ html[dir="rtl"] .coursesDetails .part3 .img_box {
 
 .InstractorInfo .part1 .aboutME {
 }
-
+.InstractorInfo .part1 .boxVideo{
+    height: 320px;
+    border-radius: 16px;
+    overflow: hidden;
+    margin-top: 14px;
+}
 .InstractorInfo .part1 .aboutME h3 {
     font-size: 20px;
     font-family: "DM Sans";
@@ -2259,7 +2264,9 @@ html[dir="rtl"] .coursesDetails .part3 .img_box {
         width: 28px;
         height: 28px;
     }
-
+    .InstractorInfo{
+        flex-direction: column;
+    }
     .InstractorInfo .achievement .part h5 {
         font-size: 18px;
     }
@@ -2317,6 +2324,10 @@ html[dir="rtl"] .coursesDetails .part3 .img_box {
     .InstractorInfo .part2 ul li a img {
         width: 24px;
         height: 24px;
+    }
+    .InstractorInfo .part1 .boxVideo{
+        height: 290px;
+       
     }
 }
 
@@ -5208,10 +5219,12 @@ html[dir="rtl"] .faq .accordion .accordion-button::before {
 .photosSection .allPhoto {
 }
 .photosSection .videoAbout {
-    height: 340px;
-    max-width: 1000px;
+    height: 360px;
+    max-width: 800px;
 }
-
+.photosSection .videoAbout iframe{
+    border-radius: 18px;
+}
 .photosSection .allPhoto .responsive {
 }
 
