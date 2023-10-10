@@ -19,7 +19,9 @@ function CourseDetails({ params }) {
   const [IsUser, setIsUser] = useRecoilState(navState);
   const t2 = useTranslations("Teach");
   const t = useTranslations("course");
-
+  const [Video, setVideo] = useState();
+  const [Youtube, setYoutube] = useState(false);
+  const [IDYoutube, setIDYoutube] = useState("");
   const locale = useLocale();
 
   useEffect(() => {
@@ -35,6 +37,7 @@ function CourseDetails({ params }) {
       setBloked(true);
     }
     setAllCourses(AllCourses);
+    setVideo(AllCourses.introduction_video);
   };
   console.log(allCourses);
 
@@ -54,6 +57,27 @@ function CourseDetails({ params }) {
       return ` ${minutes} min`;
     }
   }
+useEffect(()=>{
+  getVideo()
+},[Video])
+  const getVideo = () => {
+    if (Video) {
+      const url = new URL(Video);
+      const baseDomain = "https://www.youtube.com";
+      if (url.origin === baseDomain) {
+        setYoutube(true);
+        const regexPattern =
+          /(?:\/|\=|youtu\.be\/|embed\/|watch\?v=|&v=|youtu\.be\/|\/v\/|\/e\/|\.be\/)([a-zA-Z0-9_-]{11})/;
+        const match = Video.match(regexPattern);
+        if (match) {
+          setIDYoutube(match[1]);
+          return match[1];
+        }
+      } else {
+        setYoutube(false);
+      }
+    }
+  };
   return (
     <>
       {Bloked ? (
@@ -198,7 +222,27 @@ function CourseDetails({ params }) {
                       </div>
                     </div>
                   )}
-
+ <div className="part">
+ <div className="boxVideo">
+                        {Youtube ? (
+                          <iframe
+                            style={{ width: "100%", height: "100%" }}
+                            src={`https://www.youtube-nocookie.com/embed/${IDYoutube}`}
+                            title="YouTube video player"
+                            frameBorder="0"
+                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                            allowFullScreen
+                          ></iframe>
+                        ) : (
+                          <iframe
+                            style={{ width: "100%", height: "100%" }}
+                            src={Video}
+                            frameBorder="0"
+                            allowFullScreen
+                          ></iframe>
+                        )}
+                      </div>
+                        </div>
                   {/*TODO*/}
                   {allCourses.gain && (
                     <div className="part">

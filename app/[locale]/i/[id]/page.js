@@ -15,6 +15,9 @@ function page({ params }) {
   const [Bloked, setBloked] = useState(false);
   const [ErrorBloked, setErrorBloked] = useState("");
   const t2 = useTranslations("Teach");
+  const [Video, setVideo] = useState();
+  const [Youtube, setYoutube] = useState(false);
+  const [IDYoutube, setIDYoutube] = useState("");
   console.log(params);
   useEffect(() => {
     FetchDataOFInstractorInfo();
@@ -26,6 +29,8 @@ function page({ params }) {
       setBloked(true);
     }
     setInstractor(InstractorInfo);
+    setVideo(InstractorInfo.introduction_video);
+
   };
   console.log(instractor);
 
@@ -42,7 +47,27 @@ function page({ params }) {
       console.log(key, value);
     }
   }
-
+  useEffect(()=>{
+    getVideo()
+  },[Video])
+    const getVideo = () => {
+      if (Video) {
+        const url = new URL(Video);
+        const baseDomain = "https://www.youtube.com";
+        if (url.origin === baseDomain) {
+          setYoutube(true);
+          const regexPattern =
+            /(?:\/|\=|youtu\.be\/|embed\/|watch\?v=|&v=|youtu\.be\/|\/v\/|\/e\/|\.be\/)([a-zA-Z0-9_-]{11})/;
+          const match = Video.match(regexPattern);
+          if (match) {
+            setIDYoutube(match[1]);
+            return match[1];
+          }
+        } else {
+          setYoutube(false);
+        }
+      }
+    };
   return (
     <>
       {Bloked ? (
@@ -89,6 +114,31 @@ function page({ params }) {
                   </p>
                 </div>
               </div>
+            </section>
+            <section className="photosSection m80">
+                <h2>About Instructor</h2>
+                <div className="videoAbout container">
+                   
+                    {Youtube ? (
+                          <iframe
+                            style={{ width: "100%", height: "100%" }}
+                            src={`https://www.youtube-nocookie.com/embed/${IDYoutube}`}
+                            title="YouTube video player"
+                            frameBorder="0"
+                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                            allowFullScreen
+                          ></iframe>
+                        ) : (
+                          <iframe
+                            style={{ width: "100%", height: "100%" }}
+                            src={Video}
+                            frameBorder="0"
+                            allowFullScreen
+                          ></iframe>
+                        )}
+
+                   
+                </div>
             </section>
             <section className="instructor_about instructor_about2 m80">
               <div className="container">

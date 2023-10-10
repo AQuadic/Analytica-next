@@ -35,8 +35,7 @@ function Courses() {
     
     // Extract the values
     setPage(getQueryParam(UrlNew, "page"));
-   
-    setSearch(getQueryParam(UrlNew, "search"));
+  
  
 
   
@@ -56,7 +55,8 @@ function Courses() {
     const match = url.match(regex);
     return match ? match[1] : null;
   };
-
+ 
+  
   const t = useTranslations("CompCourse");
   const t2 = useTranslations("Teach");
   const [allCourses, setAllCourses] = useState([]);
@@ -109,26 +109,25 @@ function Courses() {
 
  
   useEffect(() => {
-    
     FetchDataOFHomePage();
-    handelFilter();
   }, []);
 
+
   useEffect(() => {
+    
     if (Search) {
-      setAllCourses([]);
       handelFilter(1);
       setPage(1);
     } else {
-      if (allCourses.length) {
-        setAllCourses([]);
-      }
+    handelFilter();
     }
   }, [Search]);
   
   const handelFilter = (id) => {
     
-   
+   if(id===1||Page===0){
+    setAllCourses([])
+   }
 
     const url =  new URL(
       `https://education.aquadic.com/api/v1/users/courses?page=${

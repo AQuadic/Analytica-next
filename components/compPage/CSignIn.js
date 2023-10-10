@@ -12,7 +12,7 @@ import { DeviceUUID } from "device-uuid";
 import platform from "platform";
 import { Alert } from "react-bootstrap";
 import Thanks from "../Thanks";
-
+import { useSession, signIn, signOut } from "next-auth/react"
 function CSignIn() {
   const [show, setShow] = useState(false);
   const router = useRouter();
@@ -73,7 +73,30 @@ function CSignIn() {
       });
   };
 
-  const handelAddDevices = () => {
+
+
+
+
+
+
+  const handelloginSocial = async () => {
+    try{
+     await signIn('google',{redirect:true,callbackUrl:'http://localhost:3000'})
+    } catch(error){
+      console.log('====================================');
+      console.log(error);
+      console.log('====================================');
+    }
+  
+  
+  };
+
+
+
+
+
+
+  const handelAddDevices =  () => {
     setErroremail("");
     setErrorpassword("");
     setErrorMessage("");
@@ -137,16 +160,16 @@ function CSignIn() {
             <div className="signWith">
               <ul>
                 <li>
-                  <a href="" className="google">
+                  <button  className="google">
                     <img src="/images/media/google2.svg" alt="google" />
                     <p>{t("gmail")}</p>
-                  </a>
+                  </button>
                 </li>
                 <li>
-                  <a href="" className="facebook">
+                  <button  className="facebook"onClick={() => handelloginSocial()}>
                     <img src="/images/media/face2.svg" alt="facebook" />
                     <p>{t("facebook")}</p>
-                  </a>
+                  </button>
                 </li>
               </ul>
             </div>

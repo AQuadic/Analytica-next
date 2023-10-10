@@ -1,6 +1,5 @@
 import Cookies from "js-cookie";
 import {atom} from "recoil";
-
 //Navbar state
 export const navState = atom({
     key: "nav_state",
@@ -20,7 +19,9 @@ export const MessagingFir = atom({
     key: "MessagingFir",
     default: "",
 });
+let params = new URLSearchParams(window.location.search);
+let search = params.get("search");
 export const StateSearch = atom({
     key: "StateSearch",
-    default: "",
+    default: search,
 });

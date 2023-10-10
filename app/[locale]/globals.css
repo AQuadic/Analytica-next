@@ -1544,7 +1544,11 @@ html[dir="rtl"] .coursesDetails .part1 .content .contantCart {
 
 .coursesDetails .part2 .part {
 }
-
+.coursesDetails .part2 .part .boxVideo{
+    height: 320px;
+    border-radius: 16px;
+    overflow: hidden;
+}
 .coursesDetails .part2 .part .headDetails {
     font-size: 20px;
     line-height: 26px;
@@ -1805,6 +1809,10 @@ html[dir="rtl"] .coursesDetails .part3 .img_box {
         font-size: 18px;
 
         margin-bottom: 8px;
+    }
+    .coursesDetails .part2 .part .boxVideo{
+        height: 290px;
+      
     }
 }
 
@@ -3189,7 +3197,7 @@ html[dir="rtl"] .Profile .btn_page {
     flex: 1;
 }
 
-.sign .signWith ul li a {
+.sign .signWith ul li button {
     width: 100%;
     padding: 14px;
     border-radius: 10px;
@@ -3197,20 +3205,21 @@ html[dir="rtl"] .Profile .btn_page {
     gap: 8px;
     justify-content: center;
     align-items: center;
+    border: none;
 }
 
-.sign .signWith ul li a.google {
+.sign .signWith ul li button.google {
     background: #ea4335;
 }
 
-.sign .signWith ul li a.facebook {
+.sign .signWith ul li button.facebook {
     background: #0b619f;
 }
 
-.sign .signWith ul li a img {
+.sign .signWith ul li button img {
 }
 
-.sign .signWith ul li a p {
+.sign .signWith ul li button p {
     font-size: 16px;
     line-height: 21px;
     color: #ffffff;
@@ -3287,11 +3296,11 @@ html[dir="rtl"] .Profile .btn_page {
 }
 
 @media (max-width: 500px) {
-    .sign .signWith ul li a p {
+    .sign .signWith ul li button p {
         font-size: 12px;
     }
 
-    .sign .signWith ul li a {
+    .sign .signWith ul li button {
         padding: 10px;
     }
 
@@ -5198,6 +5207,10 @@ html[dir="rtl"] .faq .accordion .accordion-button::before {
 
 .photosSection .allPhoto {
 }
+.photosSection .videoAbout {
+    height: 340px;
+    max-width: 1000px;
+}
 
 .photosSection .allPhoto .responsive {
 }
@@ -5413,6 +5426,11 @@ html[dir="rtl"] .faq .accordion .accordion-button::before {
         height: 56px;
         bottom: -14px;
     }
+    .photosSection .videoAbout {
+        height: 300px;
+       
+    }
+    
 }
 
 /*end  testimonials*/
@@ -5607,6 +5625,11 @@ p {
     .course_Content2 .headDetails {
         font-size: 20px;
         margin-bottom: 12px;
+    }
+    .coursesDetails2 .video-wrapper {
+      
+        height: 290px;
+        
     }
 }
 
