@@ -23,7 +23,7 @@ function CourseDetails({ params }) {
   const [Youtube, setYoutube] = useState(false);
   const [IDYoutube, setIDYoutube] = useState("");
   const locale = useLocale();
-
+console.log(Video);
   useEffect(() => {
     FetchDataOFOneCourse();
   }, []);
@@ -222,27 +222,30 @@ useEffect(()=>{
                       </div>
                     </div>
                   )}
- <div className="part">
- <div className="boxVideo">
-                        {Youtube ? (
-                          <iframe
-                            style={{ width: "100%", height: "100%" }}
-                            src={`https://www.youtube-nocookie.com/embed/${IDYoutube}`}
-                            title="YouTube video player"
-                            frameBorder="0"
-                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                            allowFullScreen
-                          ></iframe>
-                        ) : (
-                          <iframe
-                            style={{ width: "100%", height: "100%" }}
-                            src={Video}
-                            frameBorder="0"
-                            allowFullScreen
-                          ></iframe>
-                        )}
-                      </div>
-                        </div>
+                  {
+                    Video&& <div className="part">
+                    <div className="boxVideo">
+                                           {Youtube ? (
+                                             <iframe
+                                               style={{ width: "100%", height: "100%" }}
+                                               src={`https://www.youtube-nocookie.com/embed/${IDYoutube}`}
+                                               title="YouTube video player"
+                                               frameBorder="0"
+                                               allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                                               allowFullScreen
+                                             ></iframe>
+                                           ) : (
+                                             <iframe
+                                               style={{ width: "100%", height: "100%" }}
+                                               src={Video}
+                                               frameBorder="0"
+                                               allowFullScreen
+                                             ></iframe>
+                                           )}
+                                         </div>
+                                           </div>
+                  }
+
                   {/*TODO*/}
                   {allCourses.gain && (
                     <div className="part">

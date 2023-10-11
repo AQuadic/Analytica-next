@@ -28,31 +28,30 @@ function page({ params }) {
     }
     setAllCourses(AllCourses);
     setVideo(AllCourses.introduction_video);
-
   };
   console.log(allCourses);
 
-  useEffect(()=>{
-    getVideo()
-  },[Video])
-    const getVideo = () => {
-      if (Video) {
-        const url = new URL(Video);
-        const baseDomain = "https://www.youtube.com";
-        if (url.origin === baseDomain) {
-          setYoutube(true);
-          const regexPattern =
-            /(?:\/|\=|youtu\.be\/|embed\/|watch\?v=|&v=|youtu\.be\/|\/v\/|\/e\/|\.be\/)([a-zA-Z0-9_-]{11})/;
-          const match = Video.match(regexPattern);
-          if (match) {
-            setIDYoutube(match[1]);
-            return match[1];
-          }
-        } else {
-          setYoutube(false);
+  useEffect(() => {
+    getVideo();
+  }, [Video]);
+  const getVideo = () => {
+    if (Video) {
+      const url = new URL(Video);
+      const baseDomain = "https://www.youtube.com";
+      if (url.origin === baseDomain) {
+        setYoutube(true);
+        const regexPattern =
+          /(?:\/|\=|youtu\.be\/|embed\/|watch\?v=|&v=|youtu\.be\/|\/v\/|\/e\/|\.be\/)([a-zA-Z0-9_-]{11})/;
+        const match = Video.match(regexPattern);
+        if (match) {
+          setIDYoutube(match[1]);
+          return match[1];
         }
+      } else {
+        setYoutube(false);
       }
-    };
+    }
+  };
   return (
     <>
       {Bloked ? (
@@ -72,9 +71,9 @@ function page({ params }) {
               <div className="part1">
                 <div className="content container">
                   <div className="contantAbout">
-                    <h2> {getLocal(locale,allCourses.name)}</h2>
+                    <h2> {getLocal(locale, allCourses.name)}</h2>
                     {allCourses.short_description && (
-                      <h3>{getLocal(locale,allCourses.short_description)}</h3>
+                      <h3>{getLocal(locale, allCourses.short_description)}</h3>
                     )}
                     <p>
                       Instructor:{" "}
@@ -150,7 +149,7 @@ function page({ params }) {
                       <h2 className="headDetails">What you'll learn</h2>
                       <div className="learn">
                         <ul className="row">
-                          {getLocal(locale,allCourses.learn).map((item, i) => {
+                          {getLocal(locale, allCourses.learn).map((item, i) => {
                             return (
                               <li className="col-md-5" key={i}>
                                 <img
@@ -165,10 +164,10 @@ function page({ params }) {
                       </div>
                     </div>
                   )}
-
-                  <div className="part">
-                    <div className="video-wrapper">
-                    {Youtube ? (
+                  {Video && (
+                    <div className="part">
+                      <div className="video-wrapper">
+                        {Youtube ? (
                           <iframe
                             style={{ width: "100%", height: "100%" }}
                             src={`https://www.youtube-nocookie.com/embed/${IDYoutube}`}
@@ -185,14 +184,16 @@ function page({ params }) {
                             allowFullScreen
                           ></iframe>
                         )}
+                      </div>
                     </div>
-                  </div>
+                  )}
+
                   {allCourses.gain && (
                     <div className="part">
                       <h2 className="headDetails">What you'll learn</h2>
                       <div className="skills">
                         <ul>
-                          {getLocal(locale,allCourses.gain).map((item, i) => {
+                          {getLocal(locale, allCourses.gain).map((item, i) => {
                             return <li key={i}>{item}</li>;
                           })}
                         </ul>
@@ -222,7 +223,7 @@ function page({ params }) {
                                       aria-expanded="false"
                                       aria-controls={`flush-collapse${lesson.id}`}
                                     >
-                                      {getLocal(locale,lesson.name)}
+                                      {getLocal(locale, lesson.name)}
                                     </button>
                                   </h2>
                                   <div
@@ -330,19 +331,19 @@ function page({ params }) {
                       </div>
                     </div>
                   </div>
-                  {getLocal(locale,allCourses.requirements) && (
+                  {getLocal(locale, allCourses.requirements) && (
                     <div className="part">
                       <div className="description">
                         <h2 className="headDetails">Requirements</h2>
-                        <p>{getLocal(locale,allCourses.requirements)}</p>
+                        <p>{getLocal(locale, allCourses.requirements)}</p>
                       </div>
                     </div>
                   )}
-                  {getLocal(locale,allCourses.description) && (
+                  {getLocal(locale, allCourses.description) && (
                     <div className="part">
                       <div className="description">
                         <h2 className="headDetails">Description</h2>
-                        <p>{getLocal(locale,allCourses.description)}</p>
+                        <p>{getLocal(locale, allCourses.description)}</p>
                       </div>
                     </div>
                   )}

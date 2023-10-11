@@ -30,7 +30,6 @@ function page({ params }) {
     }
     setInstractor(InstractorInfo);
     setVideo(InstractorInfo.introduction_video);
-
   };
   console.log(instractor);
 
@@ -38,7 +37,7 @@ function page({ params }) {
     instractor?.courses &&
     Object.groupBy(
       instractor?.courses,
-      ({ category }) => getLocal(locale,category?.name) ?? "كورسات اخري"
+      ({ category }) => getLocal(locale, category?.name) ?? "كورسات اخري"
     );
 
   console.log(result);
@@ -47,27 +46,27 @@ function page({ params }) {
       console.log(key, value);
     }
   }
-  useEffect(()=>{
-    getVideo()
-  },[Video])
-    const getVideo = () => {
-      if (Video) {
-        const url = new URL(Video);
-        const baseDomain = "https://www.youtube.com";
-        if (url.origin === baseDomain) {
-          setYoutube(true);
-          const regexPattern =
-            /(?:\/|\=|youtu\.be\/|embed\/|watch\?v=|&v=|youtu\.be\/|\/v\/|\/e\/|\.be\/)([a-zA-Z0-9_-]{11})/;
-          const match = Video.match(regexPattern);
-          if (match) {
-            setIDYoutube(match[1]);
-            return match[1];
-          }
-        } else {
-          setYoutube(false);
+  useEffect(() => {
+    getVideo();
+  }, [Video]);
+  const getVideo = () => {
+    if (Video) {
+      const url = new URL(Video);
+      const baseDomain = "https://www.youtube.com";
+      if (url.origin === baseDomain) {
+        setYoutube(true);
+        const regexPattern =
+          /(?:\/|\=|youtu\.be\/|embed\/|watch\?v=|&v=|youtu\.be\/|\/v\/|\/e\/|\.be\/)([a-zA-Z0-9_-]{11})/;
+        const match = Video.match(regexPattern);
+        if (match) {
+          setIDYoutube(match[1]);
+          return match[1];
         }
+      } else {
+        setYoutube(false);
       }
-    };
+    }
+  };
   return (
     <>
       {Bloked ? (
@@ -110,36 +109,37 @@ function page({ params }) {
                 <div className="instructor_info">
                   <h3>INSTRUCTOR</h3>
                   <p>
-                    Hello ,i'm {instractor.name} ,{getLocal(locale,instractor?.about)}
+                    Hello ,i'm {instractor.name} ,
+                    {getLocal(locale, instractor?.about)}
                   </p>
                 </div>
               </div>
             </section>
-            <section className="photosSection m80">
+            {Video && (
+              <section className="photosSection m80">
                 <h2>About Instructor</h2>
                 <div className="videoAbout container">
-                   
-                    {Youtube ? (
-                          <iframe
-                            style={{ width: "100%", height: "100%" }}
-                            src={`https://www.youtube-nocookie.com/embed/${IDYoutube}`}
-                            title="YouTube video player"
-                            frameBorder="0"
-                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                            allowFullScreen
-                          ></iframe>
-                        ) : (
-                          <iframe
-                            style={{ width: "100%", height: "100%" }}
-                            src={Video}
-                            frameBorder="0"
-                            allowFullScreen
-                          ></iframe>
-                        )}
-
-                   
+                  {Youtube ? (
+                    <iframe
+                      style={{ width: "100%", height: "100%" }}
+                      src={`https://www.youtube-nocookie.com/embed/${IDYoutube}`}
+                      title="YouTube video player"
+                      frameBorder="0"
+                      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                      allowFullScreen
+                    ></iframe>
+                  ) : (
+                    <iframe
+                      style={{ width: "100%", height: "100%" }}
+                      src={Video}
+                      frameBorder="0"
+                      allowFullScreen
+                    ></iframe>
+                  )}
                 </div>
-            </section>
+              </section>
+            )}
+
             <section className="instructor_about instructor_about2 m80">
               <div className="container">
                 <div className="content">
@@ -214,7 +214,7 @@ function page({ params }) {
                           <ItemCourse
                             key={item.id}
                             link2={`/i/courseDetails/${item.id}`}
-                            title={getLocal(locale,item.name)}
+                            title={getLocal(locale, item.name)}
                             image="21"
                             imageCourse={item.image?.url}
                             star="4.8"
