@@ -1,5 +1,4 @@
 "use client";
-import styles from "./page.module.css";
 import React, { useEffect, useState } from "react";
 import Link from "next/link";
 import ItemCourse from "@/components/ItemCourse";
@@ -15,9 +14,9 @@ import {
 import { useRecoilState } from "recoil";
 import { navState } from "@/atoms";
 import { useTranslations } from "next-intl";
-import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import Thanks from "@/components/Thanks";
 import Cookies from "js-cookie";
+
 
 export default function Home({ params: { locale } }) {
   const [allCourses, setAllCourses] = useState([]);
@@ -80,7 +79,7 @@ export default function Home({ params: { locale } }) {
     console.log(AllData);
   };
 
-  const [show, setShow] = useState(true);
+
 
   return (
     <>

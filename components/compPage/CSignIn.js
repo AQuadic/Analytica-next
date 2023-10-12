@@ -12,7 +12,8 @@ import { DeviceUUID } from "device-uuid";
 import platform from "platform";
 import { Alert } from "react-bootstrap";
 import Thanks from "../Thanks";
-import { useSession, signIn, signOut } from "next-auth/react"
+import { useSession, signIn, signOut, getSession } from "next-auth/react"
+import { getToken } from "next-auth/jwt";
 function CSignIn() {
   const [show, setShow] = useState(false);
   const router = useRouter();
@@ -74,27 +75,9 @@ function CSignIn() {
   };
 
 
-
-
-
-
-
-  const handelloginSocial = async () => {
-    try{
-     await signIn('google',{redirect:true,callbackUrl:'http://localhost:3000'})
-    } catch(error){
-      console.log('====================================');
-      console.log(error);
-      console.log('====================================');
-    }
   
-  
-  };
-
-
-
-
-
+  const { data: session } = useSession()
+  console.log(session)
 
   const handelAddDevices =  () => {
     setErroremail("");
@@ -127,7 +110,6 @@ function CSignIn() {
           setErrorBloked(res.message);
           setBloked(true);
         }
-
         res.response.data.errors?.email
           ? setErroremail(res.response.data.errors.email[0])
           : setErroremail("");
@@ -140,7 +122,8 @@ function CSignIn() {
         console.log(res);
       });
   };
-  console.log(tokenNOTF);
+
+
   return (
     <>
       {Bloked ? (
@@ -160,13 +143,13 @@ function CSignIn() {
             <div className="signWith">
               <ul>
                 <li>
-                  <button  className="google">
+                  <button  className="google" onClick={() =>  signIn('google')}>
                     <img src="/images/media/google2.svg" alt="google" />
                     <p>{t("gmail")}</p>
                   </button>
                 </li>
                 <li>
-                  <button  className="facebook"onClick={() => handelloginSocial()}>
+                  <button  className="facebook" onClick={() =>  signIn('facebook')}>
                     <img src="/images/media/face2.svg" alt="facebook" />
                     <p>{t("facebook")}</p>
                   </button>
