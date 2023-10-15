@@ -12,9 +12,9 @@ import { DeviceUUID } from "device-uuid";
 import platform from "platform";
 import { Alert } from "react-bootstrap";
 import Thanks from "../Thanks";
-import { useSession, signIn,  getSession } from "next-auth/react"
+import { useSession, signIn, getSession } from "next-auth/react";
 import { auth } from "@/utils/firebase";
-import  GoogleLogin from  "@stack-pulse/next-google-login"
+import GoogleLogin from "@stack-pulse/next-google-login";
 import { FacebookProvider, LoginButton } from "react-facebook";
 
 function CSignIn() {
@@ -32,8 +32,7 @@ function CSignIn() {
   const t = useTranslations("Sign");
   const t2 = useTranslations("Teach");
   var uuid = new DeviceUUID().get();
- const [tokenUser,setTokenUser] = useState()
-
+  const [tokenUser, setTokenUser] = useState();
 
   const handellogin = () => {
     setErroremail("");
@@ -79,8 +78,7 @@ function CSignIn() {
       });
   };
 
-
-  const handelAddDevices =  () => {
+  const handelAddDevices = () => {
     setErroremail("");
     setErrorpassword("");
     setErrorMessage("");
@@ -124,65 +122,54 @@ function CSignIn() {
       });
   };
 
+  console.log(tokenUser);
 
-
- console.log(tokenUser);
-
-
-
- const handelloginGoogle = (token) => {
-  
-  const po = api
-    .post(
-      "/api/v1/users/auth/social",
-      {
-        "provider": "google",
-        "access_token": token,
-        
-      },
-      {
-        headers: {
-          "Content-Type": "application/json",
-          Accept: "application/json",
+  const handelloginGoogle = (token) => {
+    const po = api
+      .post(
+        "/api/v1/users/auth/social",
+        {
+          provider: "google",
+          access_token: token,
         },
-      }
-    )
-    .then((res) => {
-      console.log(res);
-  
-    })
-    .catch((res) => {
-      console.log(res);
-    });
-};
+        {
+          headers: {
+            "Content-Type": "application/json",
+            Accept: "application/json",
+          },
+        }
+      )
+      .then((res) => {
+        console.log(res);
+      })
+      .catch((res) => {
+        console.log(res);
+      });
+  };
 
-
-
-
-
- /*signOut(auth).then(() => {
+  /*signOut(auth).then(() => {
   console.log('done out');
 }).catch((error) => {
   console.log('noooooooooooo out');
 
 });
 */
-const responseGoogleDone = (response) => {
-  console.log("dsdsdsdsdasdasdas");
-  console.log(response);
-  handelloginGoogle(response.tokenObj.id_token)
-}
-const responseGoogleFaild = (response) => {
-  console.log(response);
-}
+  const responseGoogleDone = (response) => {
+    console.log("dsdsdsdsdasdasdas");
+    console.log(response);
+    handelloginGoogle(response.tokenObj.id_token);
+  };
+  const responseGoogleFaild = (response) => {
+    console.log(response);
+  };
 
-function handleSuccess(response) {
-  console.log(response);
-}
+  function handleSuccess(response) {
+    console.log(response);
+  }
 
-function handleError(error) {
-  console.log(error);
-}
+  function handleError(error) {
+    console.log(error);
+  }
   return (
     <>
       {Bloked ? (
@@ -196,46 +183,42 @@ function handleError(error) {
           />
         </>
       ) : (
-       
-
         <section className="sign container">
           <div className="box_sign">
             <h2 className="title_sign">{t("in")}</h2>
             <div className="signWith">
               <ul>
                 <li>
-                <GoogleLogin
-                redirectUri="'http://education.aquadic.com/auth/google/callback'"
-    clientId="408685117985-pprk98oi8ol1cdsmu7bl0noa8hsa58cf.apps.googleusercontent.com"
-    buttonText={t("gmail")}
-    onSuccess={responseGoogleDone}
-    onFailure={responseGoogleFaild}
-style={{backgroundColor:"#ea4335",color:"white"}}
-className="google"
-icon={false}
-
->
-<button  className="google" onClick={() =>  handelGoogleSignIN()}>
-                    <img src="/images/media/google2.svg" alt="google" />
-                    <p>{t("gmail")}</p>
-                  </button>
-</GoogleLogin>
+                  <GoogleLogin
+                    redirectUri="'http://education.aquadic.com/auth/google/callback'"
+                    clientId="408685117985-pprk98oi8ol1cdsmu7bl0noa8hsa58cf.apps.googleusercontent.com"
+                    buttonText={t("gmail")}
+                    onSuccess={responseGoogleDone}
+                    onFailure={responseGoogleFaild}
+                    style={{ backgroundColor: "#ea4335", color: "white" }}
+                    className="google"
+                    icon={false}
+                  >
+                    <button className="google">
+                      <img src="/images/media/google2.svg" alt="google" />
+                      <p>{t("gmail")}</p>
+                    </button>
+                  </GoogleLogin>
                 </li>
-               
+
                 <li>
-                <FacebookProvider  appId="193434177039802">
-      <LoginButton
-        scope="email"
-        onError={handleError}
-        onSuccess={handleSuccess}
-      
-      >
-           <button  className="facebook" onClick={() =>  signIn('facebook')}>
-                    <img src="/images/media/face2.svg" alt="facebook" />
-                    <p>{t("facebook")}</p>
-                  </button>
-      </LoginButton>
-    </FacebookProvider>
+                  <FacebookProvider appId="193434177039802">
+                    <LoginButton
+                      scope="email"
+                      onError={handleError}
+                      onSuccess={handleSuccess}
+                    >
+                      <button className="facebook">
+                        <img src="/images/media/face2.svg" alt="facebook" />
+                        <p>{t("facebook")}</p>
+                      </button>
+                    </LoginButton>
+                  </FacebookProvider>
                 </li>
               </ul>
             </div>
@@ -292,8 +275,6 @@ icon={false}
             </div>
           </div>
         </section>
-      
-
       )}
     </>
   );
