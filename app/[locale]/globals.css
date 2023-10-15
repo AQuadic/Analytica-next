@@ -1897,12 +1897,13 @@ html[dir="rtl"] .coursesDetails .part3 .img_box {
     height: 0.44rem;
     top: 50%;
     left: 50%;
-    transform: translate(-50%, -50%) !important;
+    transform: translate(-50%,-50%) !important;
+    border-radius: 50%;
 }
 
 .mantine-Radio-radio:checked {
-    background-color: #1f2265;
-    border-color: #1f2265;
+    background-color: #1f2265 !important;
+    border-color: #1f2265 !important;
 }
 
 .checkOut .part1 form .form-check-label {
@@ -4636,7 +4637,17 @@ img {
 .videoCourse .headVideo .part2 .questions .question .titleQuestion {
     padding: 0px 18px;
 }
+.videoCourse .headVideo .part2 .questions .question .titleQuestion .imgQue{
+    max-width: 100%;
+    max-height: 280px;
 
+}
+.mantine-Textarea-root textarea{
+    min-height: 110px;
+}
+.mantine-Textarea-root{
+    padding: 12px 18px;
+}
 .videoCourse .headVideo .part2 .questions .question h3 {
     font-size: 16px;
     line-height: 21px;
@@ -4689,7 +4700,62 @@ img {
     width: 18px;
     height: 18px;
 }
+.questions .mantine-CheckboxGroup-root{}
+.questions .mantine-CheckboxGroup-root .mantine-Group-root{
+    padding: 0;
+    gap: 0;
+}
+.questions .mantine-CheckboxGroup-root .mantine-Checkbox-label{}
 
+.questions .mantine-RadioGroup-root .mantine-Checkbox-root{
+    width: 100%;
+    padding: 16px 18px;
+    border-top: 1px solid #d1d1d1;
+}
+.questions .mantine-RadioGroup-root .mantine-Group-root{
+    padding: 0;
+    gap: 0;
+}
+.questions .mantine-RadioGroup-root .mantine-Radio-root{
+    width: 100%;
+    padding: 16px 18px;
+    border-top: 1px solid #d1d1d1;
+}
+.questions .mantine-RadioGroup-root .mantine-Radio-root.true, .question .mantine-Checkbox-root.true{
+    border: 1px solid #018d29;
+   background-image: url("/images/quiz/true2.svg");
+    background-size: 24px;
+    background-repeat: no-repeat;
+    background-position: center right 30px;
+}
+.questions .mantine-RadioGroup-root .mantine-Radio-root.false, .question .mantine-Checkbox-root.false{
+    border: 1px solid #d70808;
+     background-image: url("/images/quiz/false.svg");
+    background-size: 24px;
+    background-repeat: no-repeat;
+    background-position: center right 30px;
+}
+.questions .mantine-RadioGroup-root .mantine-Radio-root.true,.questions .mantine-RadioGroup-root .mantine-Radio-root.false,.question .mantine-Checkbox-root.true,.question .mantine-Checkbox-root.false{
+    background-position: center left 30px;
+}
+.questions .mantine-Radio-labelWrapper{
+    max-width: 96%;
+}
+.questions .mantine-RadioGroup-root .mantine-Radio-root .mantine-Radio-radio{
+    width: 18px;
+    height: 18px;
+}
+.questions  label{
+    font-size: 16px;
+    font-family: "DM Sans3";
+    line-height: 21px;
+    padding-left: 0.75rem;
+   
+}
+.rtl .questions  label{
+    padding-left: 0rem;
+    padding-right: 0.75rem;
+}
 @media (max-width: 992px) {
     .videoCourse .headVideo.open {
         padding: 0px 0px 0px 0px;
@@ -5696,4 +5762,10 @@ a.ytp-youtube-button.ytp-button.yt-uix-sessionlink {
  
     display: none;
    
+}
+.mantine-yxmaw9 {
+    width: 100%;
+    /* padding: 14px; */
+    padding: 16px 18px;
+    border-top: 1px solid #d1d1d1;
 }

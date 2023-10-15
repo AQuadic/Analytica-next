@@ -108,3 +108,23 @@ console.log('====================================');
   console.log(result);
   return result;
 };
+
+
+export const getExams = async (id) => {
+  const result = api
+  .get(`/api/v1/users/lessons/${id}`, {
+      headers: {
+        Authorization: `Bearer ${Cookies.get("AnalyticaToken")} `,
+        "Content-Type": "application/json",
+        Accept: "application/json",
+      },
+    })
+    .then((res) => {
+      return res.data.lesson.exams[0];
+    })
+    .catch((error) => {
+      return { error:  error.response.data.message };
+    });
+  console.log(result);
+  return result;
+};

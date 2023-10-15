@@ -12,7 +12,7 @@ import { DeviceUUID } from "device-uuid";
 import platform from "platform";
 import { Alert } from "react-bootstrap";
 import Thanks from "../Thanks";
-import { useSession, signIn, signOut, getSession } from "next-auth/react"
+import { useSession, signIn, signOut, getSession } from "next-auth/react";
 import { getToken } from "next-auth/jwt";
 import { FacebookProvider, LoginButton } from "react-facebook";
 function CSignIn() {
@@ -75,12 +75,10 @@ function CSignIn() {
       });
   };
 
+  const { data: session } = useSession();
+  console.log(session);
 
-  
-  const { data: session } = useSession()
-  console.log(session)
-
-  const handelAddDevices =  () => {
+  const handelAddDevices = () => {
     setErroremail("");
     setErrorpassword("");
     setErrorMessage("");
@@ -150,24 +148,24 @@ function CSignIn() {
             <div className="signWith">
               <ul>
                 <li>
-                  <button  className="google" onClick={() =>  signIn('google')}>
+                  <button className="google" onClick={() => signIn("google")}>
                     <img src="/images/media/google2.svg" alt="google" />
                     <p>{t("gmail")}</p>
                   </button>
                 </li>
                 <li>
-                <FacebookProvider appId="193434177039802">
-      <LoginButton
-        scope="email"
-        onError={handleError}
-        onSuccess={handleSuccess}
-      >
-       {t("facebook")}
-      </LoginButton>
-    </FacebookProvider>
+                  <FacebookProvider appId="193434177039802">
+                    <LoginButton
+                      scope="email"
+                      onError={handleError}
+                      onSuccess={handleSuccess}
+                    >
+                      {t("facebook")}
+                    </LoginButton>
+                  </FacebookProvider>
                 </li>
                 <li>
-                  <button  className="facebook" >
+                  <button className="facebook">
                     <img src="/images/media/face2.svg" alt="facebook" />
                     <p>{t("facebook")}</p>
                   </button>
