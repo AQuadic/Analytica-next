@@ -14,6 +14,7 @@ import { Alert } from "react-bootstrap";
 import Thanks from "../Thanks";
 import { useSession, signIn, signOut, getSession } from "next-auth/react"
 import { getToken } from "next-auth/jwt";
+import { FacebookProvider, LoginButton } from "react-facebook";
 function CSignIn() {
   const [show, setShow] = useState(false);
   const router = useRouter();
@@ -122,7 +123,13 @@ function CSignIn() {
         console.log(res);
       });
   };
+  function handleSuccess(response) {
+    console.log(response.status);
+  }
 
+  function handleError(error) {
+    console.log(error);
+  }
 
   return (
     <>
@@ -149,7 +156,18 @@ function CSignIn() {
                   </button>
                 </li>
                 <li>
-                  <button  className="facebook" onClick={() =>  signIn('facebook')}>
+                <FacebookProvider appId="193434177039802">
+      <LoginButton
+        scope="email"
+        onError={handleError}
+        onSuccess={handleSuccess}
+      >
+       {t("facebook")}
+      </LoginButton>
+    </FacebookProvider>
+                </li>
+                <li>
+                  <button  className="facebook" >
                     <img src="/images/media/face2.svg" alt="facebook" />
                     <p>{t("facebook")}</p>
                   </button>
