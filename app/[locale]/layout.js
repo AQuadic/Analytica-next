@@ -12,7 +12,6 @@ import { notFound } from "next/navigation";
 import PushNotificationLayout from "@/components/PushNotificationLayout";
 import Provider from "@/components/Provider";
 
-
 export const metadata = {
   title: "analytica",
   description: "analytica is a...",
@@ -47,11 +46,7 @@ export default async function RootLayout({ children, params }) {
         <NextIntlClientProvider locale={locale} messages={messages}>
           <Layout lang={locale}>
             <PushNotificationLayout>
-              <Provider>
-             
-                <main>{children}</main>
-                
-              </Provider>
+              <main>{children}</main>
             </PushNotificationLayout>
           </Layout>
         </NextIntlClientProvider>

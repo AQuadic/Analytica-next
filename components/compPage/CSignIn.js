@@ -10,10 +10,7 @@ import { useTranslations } from "next-intl";
 import api from "../../app/[locale]/api";
 import { DeviceUUID } from "device-uuid";
 import platform from "platform";
-import { Alert } from "react-bootstrap";
 import Thanks from "../Thanks";
-import { useSession, signIn, getSession } from "next-auth/react";
-import { auth } from "@/utils/firebase";
 import GoogleLogin from "@stack-pulse/next-google-login";
 import { FacebookProvider, LoginButton } from "react-facebook";
 
