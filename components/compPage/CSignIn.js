@@ -11,7 +11,7 @@ import api from "../../app/[locale]/api";
 import { DeviceUUID } from "device-uuid";
 import platform from "platform";
 import Thanks from "../Thanks";
-import GoogleLogin from "@stack-pulse/next-google-login";
+
 import { FacebookProvider, LoginButton } from "react-facebook";
 
 function CSignIn() {
@@ -186,21 +186,12 @@ function CSignIn() {
             <div className="signWith">
               <ul>
                 <li>
-                  <GoogleLogin
-                    redirectUri="'http://education.aquadic.com/auth/google/callback'"
-                    clientId="408685117985-pprk98oi8ol1cdsmu7bl0noa8hsa58cf.apps.googleusercontent.com"
-                    buttonText={t("gmail")}
-                    onSuccess={responseGoogleDone}
-                    onFailure={responseGoogleFaild}
-                    style={{ backgroundColor: "#ea4335", color: "white" }}
-                    className="google"
-                    icon={false}
-                  >
+                 
                     <button className="google">
                       <img src="/images/media/google2.svg" alt="google" />
                       <p>{t("gmail")}</p>
                     </button>
-                  </GoogleLogin>
+
                 </li>
 
                 <li>
