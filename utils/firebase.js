@@ -1,23 +1,24 @@
 import {initializeApp} from "firebase/app";
 import localforage from "localforage";
 import {getMessaging, getToken} from "firebase/messaging";
-
+import { getAuth } from "firebase/auth";
+const firebaseConfig = {
+    apiKey: "AIzaSyBwFec3Xhm0iqfi_sbfznE2FRsGmzzyQRM",
+  authDomain: "analytica-edu.firebaseapp.com",
+  projectId: "analytica-edu",
+  storageBucket: "analytica-edu.appspot.com",
+  messagingSenderId: "408685117985",
+  appId: "1:408685117985:web:dd3f2aba29a45bf1bb1960",
+  measurementId: "G-H1EGZDEL7Q"
+};
+const app = initializeApp(firebaseConfig);
+export const auth = getAuth(app)
 const firebaseCloudMessaging = {
     init: async () => {
         // Initialize the Firebase app with the credentials
-        const firebaseConfig = {
-            apiKey: "AIzaSyAsZ4wefuNU3MnFXezUt4c9F6bPus_5h8s",
-            authDomain: "mnjz-learn.firebaseapp.com",
-            databaseURL: "https://mnjz-learn-default-rtdb.firebaseio.com",
-            projectId: "mnjz-learn",
-            storageBucket: "mnjz-learn.appspot.com",
-            messagingSenderId: "212347192722",
-            appId: "1:212347192722:web:f578fe9307134c6ef92d4b",
-            measurementId: "G-42LXRJ6N1B"
-        };
+    
 
-        const app = initializeApp(firebaseConfig);
-
+       
         try {
             const messaging = getMessaging(app);
             //console.log(messaging);

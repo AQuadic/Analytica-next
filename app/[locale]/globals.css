@@ -3210,8 +3210,8 @@ html[dir="rtl"] .Profile .btn_page {
 
 .sign .signWith ul li button {
     width: 100%;
-    padding: 14px;
-    border-radius: 10px;
+    padding: 14px ;
+    border-radius: 10px !important;
     display: flex;
     gap: 8px;
     justify-content: center;
@@ -3220,9 +3220,14 @@ html[dir="rtl"] .Profile .btn_page {
 }
 
 .sign .signWith ul li button.google {
-    background: #ea4335;
+    background: #ea4335 !important;
 }
-
+.sign .signWith ul li button span{
+    font-size: 16px;
+    line-height: 21px;
+    color: #ffffff;
+    min-width: fit-content;
+}
 .sign .signWith ul li button.facebook {
     background: #0b619f;
 }
@@ -3307,7 +3312,7 @@ html[dir="rtl"] .Profile .btn_page {
 }
 
 @media (max-width: 500px) {
-    .sign .signWith ul li button p {
+    .sign .signWith ul li button p,.sign .signWith ul li button span {
         font-size: 12px;
     }
 
