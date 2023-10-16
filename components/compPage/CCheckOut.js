@@ -11,6 +11,7 @@ import { navState } from "@/atoms";
 import api from "../../app/[locale]/api";
 import { Alert } from "react-bootstrap";
 import Thanks from "../Thanks";
+import { ColorRing } from "react-loader-spinner";
 
 function CCheckOut() {
   const locale = useLocale();
@@ -34,6 +35,8 @@ function CCheckOut() {
   const [ErrorBloked, setErrorBloked] = useState("");
   const router = useRouter();
   const CoursesID = SearchParams.get("id");
+  const [Loading, setLoading] = useState(false);
+
 
   useEffect(() => {
     FetchDataOFHomePage();
@@ -66,6 +69,8 @@ function CCheckOut() {
   };
   console.log(payment_methods);
   const handelCoupons = () => {
+    setLoading(true)
+
     const po = api
       .post(
         "/api/v1/users/coupons/check",
@@ -82,11 +87,15 @@ function CCheckOut() {
         }
       )
       .then((res) => {
+    setLoading(false)
+
         console.log(res);
         setDiscountID(res.data.coupon.id);
         setDiscount(res.data.coupon.value);
       })
       .catch((res) => {
+    setLoading(false)
+
         /*  setLoading(false);*/
         if (res.response.status === 500) {
           setErrorBloked(res.message);
@@ -101,6 +110,8 @@ function CCheckOut() {
   };
 
   const handelCheckOut = () => {
+    setLoading(true)
+
     if (!IsUser) {
       router.push("/signIn");
     } else {
@@ -128,12 +139,16 @@ function CCheckOut() {
           }
         )
         .then((res) => {
+    setLoading(false)
+
           console.log(res);
           res.data.payment_link
             ? router.push(res.data.payment_link)
             : router.push("/checkOut/successfull");
         })
         .catch((res) => {
+    setLoading(false)
+
           /*  setLoading(false);*/
           if (res.response.status === 500) {
             setErrorBloked(res.message);
@@ -176,6 +191,20 @@ function CCheckOut() {
         </>
       ) : course ? (
         <>
+         <div className="load" style={{ display: Loading ? "flex" : "none" }}>
+        <ColorRing
+      height={120}
+      width={120}
+      colors={['#3682b6', '#1f2265', '#8a20a7', '#1f2265', '#8a20a7']}
+      wrapperStyle={{}}
+      wrapperClass=""
+      visible={true}
+      ariaLabel="oval-loading"
+      secondaryColor="#fff"
+      strokeWidth={1}
+      strokeWidthSecondary={1}
+    />
+        </div>
           <div className="checkOut container">
             <div className="part1">
               <h2>{t("title")}</h2>

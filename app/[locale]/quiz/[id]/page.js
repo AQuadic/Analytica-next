@@ -1,10 +1,15 @@
 "use client";
+import { navState } from "@/atoms";
 import Thanks from "@/components/Thanks";
-import { getExams } from "@/components/useAPI/CorsesApi/GetCourses";
+import { getExams, getOneCourse } from "@/components/useAPI/CorsesApi/GetCourses";
 import { getLocal } from "@/components/useAPI/GetUser";
 import { Checkbox, Group, Radio, Textarea } from "@mantine/core";
 import { useLocale, useTranslations } from "next-intl";
 import React, { useEffect, useState } from "react";
+import { ColorRing } from "react-loader-spinner";
+import { useRecoilState } from "recoil";
+import api from "../../api";
+import Cookies from "js-cookie";
 
 // export const metadata = {
 //   title: 'analytica | QUIZ',
@@ -13,34 +18,125 @@ import React, { useEffect, useState } from "react";
 function page({ params }) {
   const [openClose, setOpenClose] = useState(false);
   const [content, setContent] = useState("one");
+  const [contentID, setContentID] = useState(1);
+  const [ChaptersID, setChaptersID] = useState();
+  const [allChapters, setAllChapters] = useState([]);
+  const [LessonsChapters, setLessonsChapters] = useState([]);
+  const [CurrentChapters, setCurrentChapters] = useState([]);
   const [Exams, setExams] = useState([]);
   const [Bloked, setBloked] = useState(false);
   const [ErrorBloked, setErrorBloked] = useState("");
   const locale = useLocale();
   const t2 = useTranslations("Teach");
-
+  const t = useTranslations("Video");
+  const [IsUser, setIsUser] = useRecoilState(navState);
+  const [Loading, setLoading] = useState(false);
+  const [Answers, setAnswers] = useState([]);
+  const [result, setResult] = useState(0);
+console.log('====================================');
+console.log(Answers);
+console.log('====================================');
   const HandelContent = (e) => {
     setContent(e);
   };
+  useEffect(() => {
+    FetchDataOFOneCourse(ChaptersID);
+  }, [contentID, ChaptersID]);
 
+  const FetchDataOFOneCourse = async (e) => {
+    const AllCourses = await getOneCourse(e, IsUser);
+    if (AllCourses.error){
+     console.log(AllCourses.error);
+    } 
+    console.log(AllCourses);
+    setAllChapters(AllCourses.chapters);
+    setLessonsChapters(
+      AllCourses.chapters?.filter((item) => item.id === +contentID)[0].lessons
+    );
+    setCurrentChapters(
+      AllCourses.chapters?.filter((item) => item.id === +contentID)[0]
+    );
+    console.log(
+      AllCourses.chapters?.filter((item) => item.id === +contentID)[0]
+    );
+  };
+ // Function to update the data
+ // Function to update the data based on inputs
+// Function to update the data based on inputs
+const handleInputChange = (index,id, value) => {
+  setAnswers(prevData => {
+    const newData = [...prevData]; // Create a copy of the data array
+    newData[index] = { ...newData[index], 'question_id':id, 'answer': value }; // Update the 'ans' field of the item
+    return newData; // Return the updated data
+  });
+};
   useEffect(() => {
     FetchDataOFExams();
   }, []);
 
   const FetchDataOFExams = async () => {
     const Exams = await getExams(params.id);
-
+console.log('====================================');
+console.log(Exams);
+console.log('====================================');
     if (Exams.error) {
       setErrorBloked(Exams.error);
       setBloked(true);
     }
 
-    setExams(Exams);
+    setExams(Exams.exams[0]);
+    setChaptersID(Exams.course_id);
+    setContentID(Exams.chapter_id);
   };
 
   console.log("====================================");
   console.log(Exams);
   console.log("====================================");
+  function convertMinutesToHours(minutes) {
+    const hours = Math.floor(minutes / 60); // Calculate the whole number of hours
+    const remainingMinutes = minutes % 60; // Calculate the remaining minutes
+    if (minutes >= 60) {
+      return `${hours} h ${remainingMinutes} min`;
+    } else {
+      return ` ${minutes} min`;
+    }
+  }
+  const getCount = (num) => {
+    const allcount = num.reduce(
+      (accumulator, currentValue) => accumulator + currentValue.duration,
+      0
+    );
+    return allcount;
+  };
+  const handelQuiz = () => {
+    setLoading(true)
+   
+    const po = api
+      .post(
+        `/api/v1/users/exams/${Exams.id}`,
+        {
+          "answers":Answers.filter((ans)=>ans!==undefined)
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${Cookies.get('AnalyticaToken')} `,
+            "Content-Type": "application/json",
+            Accept: "application/json",
+          },
+        }
+      )
+      .then((res) => {
+    setLoading(false)
+    setResult(res.data.result.score)
+        console.log(res);
+       
+      })
+      .catch((res) => {
+    setLoading(false)
+        console.log(res);
+      });
+  };
+  console.log(Answers.filter((ans)=>ans!==undefined));
   return (
     <>
       {Bloked ? (
@@ -53,15 +149,29 @@ function page({ params }) {
         />
       ) : (
         <>
-          {Exams.id && (
+          <div className="load" style={{ display: Loading ? "flex" : "none" }}>
+        <ColorRing
+      height={120}
+      width={120}
+      colors={['#3682b6', '#1f2265', '#8a20a7', '#1f2265', '#8a20a7']}
+      wrapperStyle={{}}
+      wrapperClass=""
+      visible={true}
+      ariaLabel="oval-loading"
+      secondaryColor="#fff"
+      strokeWidth={1}
+      strokeWidthSecondary={1}
+    />
+        </div>
             <section className="videoCourse container">
               <div
                 className={`headVideo  ${openClose ? "open" : ""} `}
                 id="headVideo"
               >
+                 {Exams?.id && (
                 <div className="part2">
                   <h1>Learn python: The Complete Python Programming Course</h1>
-                  <h2>Quiz: {getLocal(locale, Exams.name)}</h2>
+                  <h2>{t('quiz')} : {getLocal(locale, Exams.name)}</h2>
                   <div className="score">
                     <img
                       src="/images/quiz/exam-results.webp"
@@ -69,17 +179,16 @@ function page({ params }) {
                       alt="exam-results"
                     />
                     <div className="your_score">
-                      <h3>Your Score</h3>
+                      <h3>{t('score')}</h3>
                       <h4>
-                        15/ <span>20</span>
+                      {result}
                       </h4>
                       <h5>
-                        Great job,
+                      {t('great')},
                         <img src="/images/quiz/confetti.svg" alt="confetti" />
                       </h5>
                       <p>
-                        Next time try to focus more and read the question
-                        carefully twice.
+                      {t('carefully')}
                       </p>
                     </div>
                   </div>
@@ -134,7 +243,7 @@ function page({ params }) {
                       return (
                         <div className="question">
                           <div className="titleQuestion">
-                            <h3> Question #{i + 1} </h3>
+                            <h3> {t('question')} #{i + 1} </h3>
                             <h4>{getLocal(locale, question.name)}</h4>
                             {question.image && (
                               <img
@@ -145,10 +254,12 @@ function page({ params }) {
                             )}
                           </div>
                           {question.type == "textarea" && (
-                            <Textarea placeholder="Enter Yout Answer" />
+                            <Textarea placeholder={t('EnterAnswer')}  onChange={(e) => handleInputChange(i,question.id,e.target.value)} />
                           )}
                           {question.type == "boolean" && (
-                            <Radio.Group name={`favoriteFramework${i}`}>
+                            <Radio.Group name={`favoriteFramework${i}`}
+                            onChange={(e) => handleInputChange(i,question.id,e)}
+                            >
                               <Group mt="xs">
                                 {question.answers.map((answer) => {
                                   return (
@@ -179,7 +290,7 @@ function page({ params }) {
                             </Radio.Group>
                           )}
                           {question.type == "select" && (
-                            <Checkbox.Group>
+                            <Checkbox.Group onChange={(e) => handleInputChange(i,question.id,e.toString())}>
                               <Group mt="xs">
                                 {question.answers.map((answer) => {
                                   return (
@@ -200,266 +311,115 @@ function page({ params }) {
                     <input
                       type="button"
                       className="btn_page"
-                      value="Submit"
-                      data-bs-toggle="modal"
-                      data-bs-target="#exampleModal"
+                      value={t('Submit')}
+                      //data-bs-toggle="modal"
+                      //data-bs-target="#exampleModal"
+                      onClick={()=>{handelQuiz()}}
                     />
                   </div>
                 </div>
-
+                )}
                 <div className="part1 ">
-                  <button
-                    className="arrowVideo"
-                    id="openClose"
-                    onClick={() => setOpenClose(!openClose)}
-                  >
-                    {" "}
-                    <img src="/images/icons/arrowVideo.svg" alt="arrowVideo" />
-                  </button>
-                  <div
-                    className="contantOne"
-                    style={{ display: content === "one" ? "block" : "none" }}
-                    id="contantOne"
-                  >
-                    <h3>Course Content</h3>
-                    <ul>
-                      <li
-                        className="lecture"
-                        onClick={() => {
-                          HandelContent("two");
-                        }}
-                      >
-                        <h4>Introduction</h4>
-                        <p>0/2 | 5min</p>
-                      </li>
-                      <li
-                        className="lecture"
-                        onClick={() => {
-                          HandelContent("two");
-                        }}
-                      >
-                        <h4>Chapter 1 - Basics of UX</h4>
-                        <p>0/10 | 2hr 35min</p>
-                      </li>
-                      <li
-                        className="lecture"
-                        onClick={() => {
-                          HandelContent("two");
-                        }}
-                      >
-                        <h4>Chapter 1 - Basics of UX</h4>
-                        <p>0/10 | 2hr 35min</p>
-                      </li>
-                      <li
-                        className="lecture"
-                        onClick={() => {
-                          HandelContent("two");
-                        }}
-                      >
-                        <h4>Chapter 1 - Basics of UX</h4>
-                        <p>0/10 | 2hr 35min</p>
-                      </li>
-                      <li
-                        className="lecture"
-                        onClick={() => {
-                          HandelContent("two");
-                        }}
-                      >
-                        <h4>Chapter 1 - Basics of UX</h4>
-                        <p>0/10 | 2hr 35min</p>
-                      </li>
-                      <li
-                        className="lecture"
-                        onClick={() => {
-                          HandelContent("two");
-                        }}
-                      >
-                        <h4>Chapter 1 - Basics of UX</h4>
-                        <p>0/10 | 2hr 35min</p>
-                      </li>
-                    </ul>
-                  </div>
+                <button
+                  className="arrowVideo"
+                  id="openClose"
+                  onClick={() => setOpenClose(!openClose)}
+                >
+                  {" "}
+                  <img src="/images/icons/arrowVideo.svg" alt="arrowVideo" />
+                </button>
+                <div
+                  className="contantOne"
+                  style={{ display: content === "one" ? "block" : "none" }}
+                  id="contantOne"
+                >
+                  <h3>{t("content")}</h3>
+                  <ul>
+                    {allChapters?.map((item) => {
+                      return (
+                        <li
+                          key={item.id}
+                          className="lecture"
+                          onClick={() => {
+                            HandelContent("two");
+                            setContentID(item.id);
+                          }}
+                        >
+                          <h4>{getLocal(locale, item.name)}</h4>
+                          <p>
+                            0/{item.lessons.length} |{" "}
+                            {convertMinutesToHours(getCount(item.lessons))}{" "}
+                          </p>
+                        </li>
+                      );
+                    })}
+                  </ul>
+                </div>
+
+                {allChapters?.length > 0 && (
                   <div
                     className="contantTwo"
                     id="contantTwo"
                     style={{ display: content === "two" ? "block" : "none" }}
                   >
-                    <h3>Chapter 1 - Basics of UX</h3>
+                    <h3>{getLocal(locale,CurrentChapters?.name) }</h3>
                     <button
                       className="back"
                       id="back"
                       onClick={() => HandelContent("one")}
                     >
-                      <img src="./images/icons/ArrowBack.svg" alt="ArrowBack" />
-                      <p>Back</p>
+                      <img src="/images/icons/ArrowBack.svg" alt="ArrowBack" />
+                      <p>{t("back")}</p>
                     </button>
                     <ul>
-                      <li>
-                        <form className="infoChapter">
-                          <div className="form-check">
-                            <input
-                              className="form-check-input"
-                              type="checkbox"
-                              value=""
-                              id="flexCheckCheckedDisabled"
-                              disabled
-                            />
-                            <label
-                              className="form-check-label"
-                              htmlFor="flexCheckCheckedDisabled"
-                            >
-                              Lecture 1
-                            </label>
-                            <div className="clock">
-                              <img
-                                src="/images/icons/copywriting.svg"
-                                alt="copywriting"
-                              />
-                              <p>1min</p>
-                            </div>
-                          </div>
-                        </form>
-                      </li>
-                      <li>
-                        <form className="infoChapter">
-                          <div className="form-check">
-                            <input
-                              className="form-check-input"
-                              type="checkbox"
-                              value=""
-                              id="flexCheckCheckedDisabled"
-                              disabled
-                            />
-                            <label
-                              className="form-check-label"
-                              htmlFor="flexCheckCheckedDisabled"
-                            >
-                              Lecture Paper
-                            </label>
-                            <div className="clock">
-                              <img
-                                src="/images/icons/copywriting.svg"
-                                alt="copywriting"
-                              />
-                              <p>1min</p>
-                            </div>
-                          </div>
-                        </form>
-                        <button
-                          className="btn_page2"
-                          style={{ width: "116px", height: "30px" }}
-                        >
-                          Download
-                        </button>
-                      </li>
-                      <li>
-                        <form className="infoChapter">
-                          <div className="form-check">
-                            <input
-                              className="form-check-input"
-                              type="checkbox"
-                              value=""
-                              id="flexCheckCheckedDisabled"
-                              disabled
-                            />
-                            <label
-                              className="form-check-label"
-                              htmlFor="flexCheckCheckedDisabled"
-                            >
-                              Difference between a Product and a Service
-                            </label>
-                            <div className="clock">
-                              <img src="/images/icons/video.svg" alt="video" />
-                              <p>15min</p>
-                            </div>
-                          </div>
-                        </form>
-                      </li>
-                      <li>
-                        <form className="infoChapter">
-                          <div className="form-check">
-                            <input
-                              className="form-check-input"
-                              type="checkbox"
-                              value=""
-                              id="flexCheckCheckedDisabled"
-                              disabled
-                            />
-                            <label
-                              className="form-check-label"
-                              htmlFor="flexCheckCheckedDisabled"
-                            >
-                              Difference between a Product and a Service
-                            </label>
-                            <div className="clock">
-                              <img src="/images/icons/video.svg" alt="video" />
-                              <p>1min</p>
-                            </div>
-                          </div>
-                        </form>
-                      </li>
-                      <li>
-                        <form className="infoChapter">
-                          <div className="form-check">
-                            <input
-                              className="form-check-input"
-                              type="checkbox"
-                              value=""
-                              id="flexCheckCheckedDisabled"
-                              disabled
-                            />
-                            <label
-                              className="form-check-label"
-                              htmlFor="flexCheckCheckedDisabled"
-                            >
-                              Difference between a Product and a Service
-                            </label>
-                            <div className="clock">
-                              <img src="/images/icons/video.svg" alt="video" />
-                              <p>1min</p>
-                            </div>
-                          </div>
-                        </form>
-                      </li>
-                      <li>
-                        <form className="infoChapter">
-                          <div className="form-check">
-                            <input
-                              className="form-check-input"
-                              type="checkbox"
-                              value=""
-                              id="flexCheckCheckedDisabled"
-                              disabled
-                            />
-                            <label
-                              className="form-check-label"
-                              htmlFor="flexCheckCheckedDisabled"
-                            >
-                              Test Of Chapter 1
-                            </label>
-                            <div className="clock">
-                              <img src="/images/icons/test.svg" alt="video" />
-                              <p>30min</p>
-                            </div>
-                          </div>
-                        </form>
-                      </li>
+                      {LessonsChapters?.length > 0 &&
+                        LessonsChapters.map((item) => {
+                          return (
+                            <li key={item.id}>
+                              <form className="infoChapter">
+                                <div className="form-check">
+                                  <input
+                                    className="form-check-input"
+                                    type="checkbox"
+                                    value=""
+                                    id="flexCheckCheckedDisabled"
+                                    disabled
+                                  />
+                                  <label
+                                    className="form-check-label"
+                                    htmlFor="flexCheckCheckedDisabled"
+                                  >
+                                    {getLocal(locale,item.name) }
+                                  </label>
+                                  <div className="clock">
+                                    <img
+                                      src="/images/icons/copywriting.svg"
+                                      alt="copywriting"
+                                    />
+                                    <p>{item.duration}min</p>
+                                  </div>
+                                </div>
+                              </form>
+                            </li>
+                          );
+                        })}
                     </ul>
                   </div>
-                </div>
+                )}
+              </div>
               </div>
               <div className="endVideo">
-                <a className="btn_page2" href="">
-                  <img src="/images/icons/Arrow1.svg" alt="Arrow" />
-                  <p>Previous</p>
-                </a>
-                <a className="btn_page" href="lectureText.html">
-                  <p>Next</p>
-                  <img src="/images/icons/Arrow2.svg" alt="Arrow" />
-                </a>
-              </div>
+              <a className="btn_page2" href={`/courseContent/44}`}>
+                <img src="/images/icons/Arrow1.svg" alt="Arrow" />
+                <p>{t("previous")}</p>
+              </a>
+              <a className="btn_page" href={`/courseContent/43}`}>
+                <p>{t("next")}</p>
+                <img src="/images/icons/Arrow2.svg" alt="Arrow" />
+              </a>
+            </div>
             </section>
-          )}
+       
 
           <div
             className="modal fade"

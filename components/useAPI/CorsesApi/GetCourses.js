@@ -120,7 +120,7 @@ export const getExams = async (id) => {
       },
     })
     .then((res) => {
-      return res.data.lesson.exams[0];
+      return res.data.lesson;
     })
     .catch((error) => {
       return { error:  error.response.data.message };

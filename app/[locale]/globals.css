@@ -4010,6 +4010,7 @@ nav .dropdown-menu a {
     position: relative;
     transition: 0.4s;
     margin-bottom: 40px;
+    min-height: 400px;
 }
 
 .videoCourse .headVideo.open {
@@ -4704,10 +4705,14 @@ img {
 .questions .mantine-CheckboxGroup-root .mantine-Group-root{
     padding: 0;
     gap: 0;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: flex-start;
 }
+
 .questions .mantine-CheckboxGroup-root .mantine-Checkbox-label{}
 
-.questions .mantine-RadioGroup-root .mantine-Checkbox-root{
+.questions .mantine-RadioGroup-root .mantine-Checkbox-root ,.questions .mantine-CheckboxGroup-root .mantine-Checkbox-root{
     width: 100%;
     padding: 16px 18px;
     border-top: 1px solid #d1d1d1;
@@ -5763,9 +5768,65 @@ a.ytp-youtube-button.ytp-button.yt-uix-sessionlink {
     display: none;
    
 }
-.mantine-yxmaw9 {
-    width: 100%;
-    /* padding: 14px; */
-    padding: 16px 18px;
-    border-top: 1px solid #d1d1d1;
+
+.btnExam {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 40px;
+    margin: 20px auto;
 }
+.btnExam a {
+    background-color: #212367;
+    color: white;
+    padding: 10px 16px;
+    border-radius: 8px;
+}
+.load {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: rgba(0, 0, 0, 0.4);
+    z-index: 9999;
+  }
+  .loadItems {
+    display: flex;
+    gap: 68px;
+    justify-content: center;
+    align-items: center;
+    max-width: 1300px;
+    margin:20px  auto;
+   
+  }
+  .loadItems .item {
+    width: 27%;
+    display: flex;
+    flex-direction: column;
+   
+  }
+  @media (max-width: 992px) {
+    .loadItems {
+      gap: 26px;
+    
+    }
+  }
+  @media (max-width: 768px) {
+   
+  }
+  @media (max-width: 490px) {
+    .loadItems {
+  
+      flex-direction: column;
+    }
+    .loadItems .item {
+      width: 92%;
+    }
+   
+  }
+  

@@ -5,6 +5,7 @@ import {useLocale, useTranslations} from "next-intl";
 import React, {useEffect, useState} from "react";
 import { getLocal } from "../useAPI/GetUser";
 import Thanks from "../Thanks";
+import { Skeleton } from "@mantine/core";
 
 
 function CMyCourses() {
@@ -15,18 +16,24 @@ function CMyCourses() {
     const ActiveBtn = (e) => [setActive(e)];
     const t = useTranslations("MyCourses");
     const t2 = useTranslations("Teach");
+  const [Load, setLoad] = useState(true);
+
     const locale = useLocale();
     useEffect(() => {
         FetchDataOFMyCourses()
     }, [])
 
     const FetchDataOFMyCourses = async () => {
-
+        setLoad(true)
         const MyCourses = await getMyCourses();
         if (MyCourses.error) {
+        setLoad(false)
+
             setErrorBloked(MyCourses.error);
             setBloked(true);
           }
+        setLoad(false)
+
         setMyCourses(MyCourses)
     }
     console.log(myCourses);
@@ -65,6 +72,32 @@ function CMyCourses() {
               </div>
           </div>
       </div>
+      {Load && (
+            <>
+              <div className="container">
+                <div className="loadItems" >
+                  <div className="item" >
+                    <Skeleton height={110} mb="xl" />
+                    <Skeleton height={20} radius="xl" />
+                    <Skeleton height={20} mt={6} radius="xl" />
+                    <Skeleton height={30} width={100} mt={6} radius="xl" />
+                  </div>
+                  <div className="item" >
+                    <Skeleton height={110} mb="xl" />
+                    <Skeleton height={20} radius="xl" />
+                    <Skeleton height={20} mt={6} radius="xl" />
+                    <Skeleton height={30} width={100} mt={6} radius="xl" />
+                  </div>
+                  <div className="item" >
+                    <Skeleton height={110} mb="xl" />
+                    <Skeleton height={20} radius="xl" />
+                    <Skeleton height={20} mt={6} radius="xl" />
+                    <Skeleton height={30} width={100} mt={6} radius="xl" />
+                  </div>
+                </div>
+              </div>
+            </>
+          )}
       <div className="services container m60">
 
       {active!=="completed"? <><div className="allServices">

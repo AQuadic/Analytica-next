@@ -15,6 +15,7 @@ import Thanks from "../Thanks";
 import { useSession, signIn, signOut, getSession } from "next-auth/react";
 import { getToken } from "next-auth/jwt";
 import { FacebookProvider, LoginButton } from "react-facebook";
+import { ColorRing} from "react-loader-spinner";
 function CSignIn() {
   const [show, setShow] = useState(false);
   const router = useRouter();
@@ -29,9 +30,11 @@ function CSignIn() {
   const [ErrorBloked, setErrorBloked] = useState("");
   const t = useTranslations("Sign");
   const t2 = useTranslations("Teach");
+  const [Loading, setLoading] = useState(false);
   var uuid = new DeviceUUID().get();
 
   const handellogin = () => {
+    setLoading(true)
     setErroremail("");
     setErrorpassword("");
     setErrorMessage("");
@@ -50,6 +53,8 @@ function CSignIn() {
         }
       )
       .then((res) => {
+    setLoading(false)
+
         setIsUser(true);
         Cookies.set("AnalyticaToken", res.data.token);
         handelAddDevices();
@@ -57,6 +62,8 @@ function CSignIn() {
         router.push("/");
       })
       .catch((res) => {
+    setLoading(false)
+
         if (res.response.status === 500) {
           setErrorBloked(res.message);
           setBloked(true);
@@ -142,6 +149,23 @@ function CSignIn() {
           />
         </>
       ) : (
+        <>
+        <div className="load" style={{ display: Loading ? "flex" : "none" }}>
+        <ColorRing
+      height={120}
+      width={120}
+      colors={['#3682b6', '#1f2265', '#8a20a7', '#1f2265', '#8a20a7']}
+      wrapperStyle={{}}
+      wrapperClass=""
+      visible={true}
+      ariaLabel="oval-loading"
+      secondaryColor="#fff"
+      strokeWidth={1}
+      strokeWidthSecondary={1}
+    />
+        </div>
+      
+        
         <section className="sign container">
           <div className="box_sign">
             <h2 className="title_sign">{t("in")}</h2>
@@ -154,7 +178,7 @@ function CSignIn() {
                   </button>
                 </li>
                 <li>
-                  <FacebookProvider appId="193434177039802">
+                  <FacebookProvider appId="308067988536375">
                     <LoginButton
                       scope="email"
                       onError={handleError}
@@ -225,6 +249,7 @@ function CSignIn() {
             </div>
           </div>
         </section>
+        </>
       )}
     </>
   );

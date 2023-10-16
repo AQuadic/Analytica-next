@@ -54,7 +54,14 @@ export const getHomePage = async () => {
 export const getHomeSections = async (IsUser) => {
   const result = api
     .get(`/api/v1/meta/home_sections`, {
-      headers: IsUser ? headersToken : header,
+      headers: IsUser ? {
+        Authorization: `Bearer ${Cookies.get("AnalyticaToken")} `,
+        "Content-Type": "application/json",
+        Accept: "application/json",
+      } :  {
+        "Content-Type": "application/json",
+        Accept: "application/json",
+      },
     })
     .then((res) => {
       return res.data;
@@ -68,7 +75,14 @@ export const getHomeSections = async (IsUser) => {
 export const getInstractor = async (e, IsUser) => {
   const result = api
     .get(`/api/v1/users/instructors/${e}`, {
-      headers: IsUser ? headersToken : header,
+      headers: IsUser ? {
+        Authorization: `Bearer ${Cookies.get("AnalyticaToken")} `,
+        "Content-Type": "application/json",
+        Accept: "application/json",
+      } :  {
+        "Content-Type": "application/json",
+        Accept: "application/json",
+      },
     })
     .then((res) => {
       return res.data;

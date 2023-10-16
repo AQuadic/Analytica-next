@@ -2,7 +2,7 @@
 import { StateSearch, navState } from "@/atoms";
 import ItemCourse2 from "@/components/ItemCourse2";
 import { getHomePage, getLocal } from "@/components/useAPI/GetUser";
-import { Checkbox, Group, Radio, RangeSlider, Slider } from "@mantine/core";
+import { Checkbox, Group, Radio, RangeSlider, Skeleton, Slider } from "@mantine/core";
 import Cookies from "js-cookie";
 import { useLocale, useTranslations } from "next-intl";
 import Link from "next/link";
@@ -56,6 +56,7 @@ function Courses() {
     return match ? match[1] : null;
   };
  
+  const [Load, setLoad] = useState(true);
   
   const t = useTranslations("CompCourse");
   const t2 = useTranslations("Teach");
@@ -124,7 +125,7 @@ function Courses() {
   }, [Search]);
   
   const handelFilter = (id) => {
-    
+    setLoad(true)
    if(id===1||Page===0){
     setAllCourses([])
    }
@@ -177,6 +178,8 @@ console.log('====================================');
         headers: IsUser ? headersToken : header,
       })
       .then((res) => {
+    setLoad(false)
+
         if (res.data.data.length === 0) {
           setHasMore(false);
         } else {
@@ -188,6 +191,8 @@ console.log('====================================');
         return res.data.data;
       })
       .catch((res) => {
+    setLoad(false)
+
         if (res.response.status === 500) {
           setErrorBloked(res.message);
           setBloked(true);
@@ -510,11 +515,36 @@ console.log('====================================');
               className="fillter_Courses"
               style={{
                 minHeight: "700px",
-
                 overflow: "auto",
                 display: "flex",
               }}
             >
+              {Load && (
+            <>
+              <div className="container">
+                <div className="loadItems" style={{flexDirection:"column",gap:"20px"}}>
+                  <div className="item" style={{width:"100%"}}>
+                    <Skeleton height={110} mb="xl" />
+                    <Skeleton height={20} radius="xl" />
+                    <Skeleton height={20} mt={6} radius="xl" />
+                    <Skeleton height={30} width={100} mt={6} radius="xl" />
+                  </div>
+                  <div className="item" style={{width:"100%"}}>
+                    <Skeleton height={110} mb="xl" />
+                    <Skeleton height={20} radius="xl" />
+                    <Skeleton height={20} mt={6} radius="xl" />
+                    <Skeleton height={30} width={100} mt={6} radius="xl" />
+                  </div>
+                  <div className="item" style={{width:"100%"}}>
+                    <Skeleton height={110} mb="xl" />
+                    <Skeleton height={20} radius="xl" />
+                    <Skeleton height={20} mt={6} radius="xl" />
+                    <Skeleton height={30} width={100} mt={6} radius="xl" />
+                  </div>
+                </div>
+              </div>
+            </>
+          )}
               <InfiniteScroll
                 dataLength={allCourses.length}
                 next={handelFilter}

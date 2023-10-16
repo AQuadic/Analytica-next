@@ -14,6 +14,7 @@ import { useRecoilState } from "recoil";
 import { navState, tokenNotifiable } from "@/atoms";
 import { Alert } from "react-bootstrap";
 import Thanks from "../Thanks";
+import { ColorRing } from "react-loader-spinner";
 
 function CSignup() {
   const router = useRouter();
@@ -22,6 +23,7 @@ function CSignup() {
   const [tokenNOTF, setTokenNOTF] = useRecoilState(tokenNotifiable);
   const [IsUser, setIsUser] = useRecoilState(navState);
   const [show, setShow] = useState(false);
+  const [Loading, setLoading] = useState(false);
 
   const [allCountries, setallCountries] = useState([]);
   const [data, setData] = useState([]);
@@ -67,6 +69,7 @@ function CSignup() {
   console.log(uuid);
 
   const handelSignUP = () => {
+    setLoading(true)
     setErrorName("");
     setErroremail("");
     setErrorpassword("");
@@ -102,12 +105,14 @@ function CSignup() {
         }
       )
       .then((res) => {
+         setLoading(false)
         setIsUser(true);
         console.log(res);
         Cookies.set("AnalyticaToken", res.data.token);
         router.push("/");
       })
       .catch((res) => {
+         setLoading(false)
         if (res.response.status === 500) {
           setErrorBloked(res.message);
           setBloked(true);
@@ -204,6 +209,22 @@ function CSignup() {
           />
         </>
       ) : (
+        <>
+         <div className="load" style={{ display: Loading ? "flex" : "none" }}>
+        <ColorRing
+      height={120}
+      width={120}
+      colors={['#3682b6', '#1f2265', '#8a20a7', '#1f2265', '#8a20a7']}
+      wrapperStyle={{}}
+      wrapperClass=""
+      visible={true}
+      ariaLabel="oval-loading"
+      secondaryColor="#fff"
+      strokeWidth={1}
+      strokeWidthSecondary={1}
+    />
+        </div>
+       
         <section className="sign container">
           <div className="box_sign">
             <h2 className="title_sign">{t("up")}</h2>
@@ -400,6 +421,7 @@ function CSignup() {
             </div>
           </div>
         </section>
+        </>
       )}
     </>
   );

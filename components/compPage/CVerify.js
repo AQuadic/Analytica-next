@@ -7,6 +7,7 @@ import OTPInput from "react-otp-input";
 import api from "../../app/[locale]/api";
 import { Alert } from "react-bootstrap";
 import Thanks from "../Thanks";
+import { ColorRing } from "react-loader-spinner";
 
 function CVerify() {
   const router = useRouter();
@@ -17,6 +18,8 @@ function CVerify() {
   const [otp, setOtp] = useState("");
   const [ErrorMessage, setErrorMessage] = useState("");
   const t2 = useTranslations("Teach");
+  const [Loading, setLoading] = useState(false);
+
   const clearOtp = () => {
     setOtp("");
   };
@@ -54,6 +57,8 @@ function CVerify() {
   }, []);
 
   const handelVerify = () => {
+    setLoading(true)
+
     const po = api
       .post(
         "/api/v1/users/auth/verify",
@@ -70,11 +75,15 @@ function CVerify() {
         }
       )
       .then((res) => {
+    setLoading(false)
+
         console.log(res);
         Cookies.set("reset_token", res.data.reset_token);
         router.push("/setPassword");
       })
       .catch((res) => {
+    setLoading(false)
+
         console.log(res);
         if (res.response.status === 500) {
           setErrorBloked(res.message);
@@ -100,6 +109,23 @@ function CVerify() {
           />
         </>
       ) : (
+        <>
+        <div className="load" style={{ display: Loading ? "flex" : "none" }}>
+        <ColorRing
+      height={120}
+      width={120}
+      colors={['#3682b6', '#1f2265', '#8a20a7', '#1f2265', '#8a20a7']}
+      wrapperStyle={{}}
+      wrapperClass=""
+      visible={true}
+      ariaLabel="oval-loading"
+      secondaryColor="#fff"
+      strokeWidth={1}
+      strokeWidthSecondary={1}
+    />
+        </div>
+        
+      
         <section className="sign container">
           <div className="box_sign">
             <h2 className="title_sign">{t("verifyEmail")}</h2>
@@ -149,6 +175,7 @@ function CVerify() {
             </form>
           </div>
         </section>
+        </>
       )}
     </>
   );

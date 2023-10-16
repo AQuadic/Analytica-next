@@ -14,6 +14,7 @@ import { useRecoilState } from "recoil";
 import api from "../api";
 import { Alert } from "react-bootstrap";
 import Thanks from "@/components/Thanks";
+import { ColorRing } from "react-loader-spinner";
 
 // export const metadata = {
 //   title: 'analytica | Account',
@@ -45,17 +46,24 @@ function page() {
   const [ErrorBloked, setErrorBloked] = useState("");
   const [IsImage, setIsImage] = useState("");
   const [changeImage, setChangeImage] = useState(false);
+  const [Loading, setLoading] = useState(false);
+
   const handleHeaderInputChange = (e) => {
     setSelectedFile(e.target.files[0]);
     setChangeImage(true);
   };
 
   const HandelLogOut = async () => {
+    setLoading(true)
+
     const UserLogOut = await LogOut(Cookies.get("AnalyticaToken"));
-    console.log('====================================');
-    console.log(UserLogOut);
-    console.log('====================================');
+    if (UserLogOut.error) {
+      setLoading(false);
+      setErrorBloked(UserLogOut.error);
+      setBloked(true);
+    }
     if (UserLogOut === 200) {
+      setLoading(false);
       console.log("done");
       setIsUser(false);
       Cookies.remove("AnalyticaToken");
@@ -81,6 +89,8 @@ function page() {
   console.log(userData);
 
   const handelProfile = () => {
+    setLoading(true)
+
     setErrorName("");
     setErroremail("");
     setErrorPhone("");
@@ -101,9 +111,13 @@ function page() {
         },
       })
       .then((res) => {
+    setLoading(false)
+
         console.log(res);
       })
       .catch((res) => {
+    setLoading(false)
+
         if (res.response.status === 500) {
           setErrorBloked(res.message);
           setBloked(true);
@@ -141,6 +155,22 @@ function page() {
           />
         </>
       ) : (
+        <>
+        <div className="load" style={{ display: Loading ? "flex" : "none" }}>
+        <ColorRing
+      height={120}
+      width={120}
+      colors={['#3682b6', '#1f2265', '#8a20a7', '#1f2265', '#8a20a7']}
+      wrapperStyle={{}}
+      wrapperClass=""
+      visible={true}
+      ariaLabel="oval-loading"
+      secondaryColor="#fff"
+      strokeWidth={1}
+      strokeWidthSecondary={1}
+    />
+        </div>
+        
         <section className="account container">
           <div className="account_info personal_info">
             <div className="part1">
@@ -262,6 +292,7 @@ function page() {
             </div>
           </div>
         </section>
+        </>
       )}
     </>
   );

@@ -8,7 +8,9 @@
     "start": "Start Now",
     "trusted": "Trusted By",
     "become": "Become an instructor",
-    "becomeDec": " Instructors from around the world teach millions of students on Udemy. We provide the tools and skills to teach what you love."
+    "becomeDec": " Instructors from around the world teach millions of students on Udemy. We provide the tools and skills to teach what you love.",
+    "recommended":"Recommended for you",
+    "top":"Top Categories"
   },
   "Sign": {
     "in": "Log in and start learning",
@@ -158,7 +160,14 @@
     "next":"Next",
     "previous":"Previous",
     "content":"Course Content",
-    "back":"Back"
+    "back":"Back",
+    "quiz":"Quiz",
+    "score":"Your Score",
+    "great":"Great job",
+    "carefully":"Next time try to focus more and read the question carefully twice",
+    "question":"Question",
+    "EnterAnswer":"Enter Your Answer",
+    "Submit":"Submit"
   },
   "course":{
     "instructor":"Instructor",

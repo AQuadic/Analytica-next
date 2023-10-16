@@ -12,6 +12,7 @@ import api from "../../api";
 import Cookies from "js-cookie";
 import Thanks from "@/components/Thanks";
 import { getLocal } from "@/components/useAPI/GetUser";
+import Link from "next/link";
 // export const metadata = {
 //   title: 'analytica | courseContent',
 // }
@@ -216,8 +217,24 @@ function page({ params }) {
                       <div className="assignments">
                         <h3>{t("assignments")}</h3>
                         <div className="file-container">
-                          <div className="file-title">Attach a File</div>
-                          <input type="file" id="file-input" />
+                          <div className="file-title">
+                          <a
+              href='https://admin.marina.com.eg/public/uploads/327059916_1653478762.pdf'
+              className=" "
+              download
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              Download PDF
+            </a>
+                          </div>
+                         
+                        </div>
+                        <div className="btnExam">
+                          <Link href={`/quiz/${params.id}`}>
+                          Go To Exam
+                          </Link>
+
                         </div>
                       </div>
                     </div>

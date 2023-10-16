@@ -8,12 +8,14 @@ import { useRouter } from "next/navigation";
 import api from "../../app/[locale]/api";
 import { Alert } from "react-bootstrap";
 import Thanks from "../Thanks";
+import { ColorRing } from "react-loader-spinner";
 
 function CContactForm() {
   const locale = useLocale();
   const t = useTranslations("Teach");
   const t2 = useTranslations("Sign");
   const [show, setShow] = useState(false);
+  const [Loading, setLoading] = useState(false);
 
   const router = useRouter();
   const [name, setName] = useState("");
@@ -62,13 +64,15 @@ function CContactForm() {
     AllData.categories.map((itemCategories) => {
       const item = {
         value: itemCategories.id,
-        label: getLocal(locale,itemCategories.name),
+        label: getLocal(locale, itemCategories.name),
       };
       setCategories((current) => [...current, item]);
     });
   };
 
   const handelInstructor = () => {
+    setLoading(true);
+
     setErrorName("");
     setErroremail("");
     setErrorPhone("");
@@ -102,10 +106,12 @@ function CContactForm() {
         }
       )
       .then((res) => {
+        setLoading(false);
         console.log(res);
         router.push("/successfull");
       })
       .catch((res) => {
+        setLoading(false);
         /*  setLoading(false);*/
         if (res.response.status === 500) {
           setErrorBloked(res.message);
@@ -147,83 +153,308 @@ function CContactForm() {
           />
         </>
       ) : (
-        <section className="bookingForm">
-          <div className="container">
-            <div className="content">
-              <h3 className="f-s">{t("hurry")}</h3>
-              <form className="row g-4 form_page">
-                <div className="col-md-12">
-                  <TextInput
-                    placeholder={t2("enterLast")}
-                    label={t2("full")}
-                    type="text"
-                    onChange={(e) => setName(e.target.value)}
-                    error={ErrorName}
-                  />
-                </div>
-                <div className="col-md-12">
-                  <TextInput
-                    placeholder={t2("enterEmail")}
-                    label={t2("email")}
-                    type="email"
-                    onChange={(e) => setEmail(e.target.value)}
-                    error={Erroremail}
-                  />
-                </div>
+        <>
+          <div className="load" style={{ display: Loading ? "flex" : "none" }}>
+            <ColorRing
+              height={120}
+              width={120}
+              colors={["#3682b6", "#1f2265", "#8a20a7", "#1f2265", "#8a20a7"]}
+              wrapperStyle={{}}
+              wrapperClass=""
+              visible={true}
+              ariaLabel="oval-loading"
+              secondaryColor="#fff"
+              strokeWidth={1}
+              strokeWidthSecondary={1}
+            />
+          </div>
 
-                <div className="col-md-12">
-                  <PasswordInput
-                    variant="unstyled"
-                    placeholder={t2("enterPassword")}
-                    label={t2("password")}
-                    onChange={(e) => setpassword(e.target.value)}
-                    error={Errorpassword}
-                  />
-                </div>
-                <div className="col-md-12">
-                  <PasswordInput
-                    variant="unstyled"
-                    placeholder={t2("enterAgain")}
-                    label={t2("confirmNew")}
-                    onChange={(e) => setPasswordConfirmation(e.target.value)}
-                  />
-                </div>
+          <section className="bookingForm">
+            <div className="container">
+              <div className="content">
+                <h3 className="f-s">{t("hurry")}</h3>
+                <form className="row g-4 form_page">
+                  <div className="col-md-12">
+                    <TextInput
+                      placeholder={t2("enterLast")}
+                      label={t2("full")}
+                      type="text"
+                      onChange={(e) => setName(e.target.value)}
+                      error={ErrorName}
+                    />
+                  </div>
+                  <div className="col-md-12">
+                    <TextInput
+                      placeholder={t2("enterEmail")}
+                      label={t2("email")}
+                      type="email"
+                      onChange={(e) => setEmail(e.target.value)}
+                      error={Erroremail}
+                    />
+                  </div>
 
-                <div className="col-md-12">
-                  <label htmlFor="inputPhone " className="form-label">
-                    {t2("mobile")}
-                  </label>
-                  <PhoneInput
-                    defaultCountry="EG"
-                    placeholder={t2("enterNumber")}
-                    className="form-control"
-                    value={phone}
-                    onChange={setPhone}
-                  />
-                  {ErrorPhone && (
-                    <p
-                      style={{
-                        color: "red",
-                        fontSize: "12px",
-                        marginTop: "4px",
-                      }}
+                  <div className="col-md-12">
+                    <PasswordInput
+                      variant="unstyled"
+                      placeholder={t2("enterPassword")}
+                      label={t2("password")}
+                      onChange={(e) => setpassword(e.target.value)}
+                      error={Errorpassword}
+                    />
+                  </div>
+                  <div className="col-md-12">
+                    <PasswordInput
+                      variant="unstyled"
+                      placeholder={t2("enterAgain")}
+                      label={t2("confirmNew")}
+                      onChange={(e) => setPasswordConfirmation(e.target.value)}
+                    />
+                  </div>
+
+                  <div className="col-md-12">
+                    <label htmlFor="inputPhone " className="form-label">
+                      {t2("mobile")}
+                    </label>
+                    <PhoneInput
+                      defaultCountry="EG"
+                      placeholder={t2("enterNumber")}
+                      className="form-control"
+                      value={phone}
+                      onChange={setPhone}
+                    />
+                    {ErrorPhone && (
+                      <p
+                        style={{
+                          color: "red",
+                          fontSize: "12px",
+                          marginTop: "4px",
+                        }}
+                      >
+                        {ErrorPhone}
+                      </p>
+                    )}
+                  </div>
+                  <div className="col-md-12">
+                    <label htmlFor="inputPhone " className="form-label">
+                      {t2("whatsApp")}
+                    </label>
+                    <PhoneInput
+                      defaultCountry="EG"
+                      placeholder={t2("enterNumber")}
+                      className="form-control"
+                      value={whatsapp}
+                      onChange={setWhatsapp}
+                    />
+                    {ErrorWhatsapp && (
+                      <p
+                        style={{
+                          color: "red",
+                          textAlign: "center",
+                          fontSize: "12px",
+                          marginTop: "4px",
+                        }}
+                      >
+                        {ErrorWhatsapp}
+                      </p>
+                    )}
+                  </div>
+                  <div className="col-md-12">
+                    <Select
+                      label={t("language")}
+                      placeholder={t2("selectLanguage")}
+                      onChange={setLanguage}
+                      error={ErrorLanguage}
+                      value={language}
+                      data={[
+                        { value: "en", label: "EN" },
+                        { value: "ar", label: "AR" },
+                      ]}
+                    />
+                  </div>
+                  <div className="col-md-12">
+                    <Select
+                      label={t("category")}
+                      placeholder={t2("selectCategory")}
+                      onChange={setCategory}
+                      value={category}
+                      error={ErrorCategory}
+                      data={categories}
+                    />
+                  </div>
+
+                  <div className="col-md-12">
+                    <label
+                      htmlFor="inputLocation"
+                      className="form-label"
+                      style={{ margin: "0" }}
                     >
-                      {ErrorPhone}
-                    </p>
-                  )}
-                </div>
-                <div className="col-md-12">
-                  <label htmlFor="inputPhone " className="form-label">
-                    {t2("whatsApp")}
-                  </label>
-                  <PhoneInput
-                    defaultCountry="EG"
-                    placeholder={t2("enterNumber")}
-                    className="form-control"
-                    value={whatsapp}
-                    onChange={setWhatsapp}
+                      {t("subscription")}
+                    </label>
+                    <div className="checkgroub">
+                      <div className="form-check">
+                        <input
+                          className="form-check-input dates2"
+                          type="checkbox"
+                          id="gridCheck1"
+                          value="checkbox1"
+                          checked={selectedCheckbox === "checkbox1"}
+                          onChange={() => handleCheckboxChange("checkbox1")}
+                        />
+                        <label
+                          className="form-check-label"
+                          htmlFor="gridCheck1"
+                        >
+                          <div className="method active">
+                            <h4> {t("basic")}</h4>
+                            <h5>
+                              25 <span>EGP</span>
+                            </h5>
+                            <ul className="active">
+                              <li>
+                                <img
+                                  src="/images/details/true.svg"
+                                  alt="true"
+                                />
+                                <h6>12 {t("sessions")}</h6>
+                              </li>
+                              <li>
+                                <img
+                                  src="/images/details/true.svg"
+                                  alt="true"
+                                />
+                                <h6>12 {t("sessions")}</h6>
+                              </li>
+                              <li>
+                                <img
+                                  src="/images/details/true.svg"
+                                  alt="true"
+                                />
+                                <h6>3 {t("ads")}</h6>
+                              </li>
+                            </ul>
+                          </div>
+                        </label>
+                      </div>
+                      <div className="form-check">
+                        <input
+                          className="form-check-input dates2"
+                          type="checkbox"
+                          id="gridCheck2"
+                          value="checkbox2"
+                          checked={selectedCheckbox === "checkbox2"}
+                          onChange={() => handleCheckboxChange("checkbox2")}
+                        />
+                        <label
+                          className="form-check-label"
+                          htmlFor="gridCheck2"
+                        >
+                          <div className="method">
+                            <h4>{t("professional")}</h4>
+                            <h5>
+                              250 <span>EGP</span>
+                            </h5>
+                            <p className="sall">
+                              instead of
+                              <span>350 EGP </span>
+                            </p>
+                            <ul className="active">
+                              <li>
+                                <img
+                                  src="/images/details/true.svg"
+                                  alt="true"
+                                />
+                                <h6>12 {t("sessions")}</h6>
+                              </li>
+                              <li>
+                                <img
+                                  src="/images/details/true.svg"
+                                  alt="true"
+                                />
+                                <h6>12 {t("sessions")}</h6>
+                              </li>
+                              <li>
+                                <img
+                                  src="/images/details/true.svg"
+                                  alt="true"
+                                />
+                                <h6>5 {t("ads")}</h6>
+                              </li>
+                            </ul>
+                          </div>
+                        </label>
+                      </div>
+                      <div className="form-check">
+                        <input
+                          className="form-check-input dates2"
+                          type="checkbox"
+                          id="gridCheck3"
+                          value="checkbox3"
+                          checked={selectedCheckbox === "checkbox3"}
+                          onChange={() => handleCheckboxChange("checkbox3")}
+                        />
+                        <label
+                          className="form-check-label"
+                          htmlFor="gridCheck3"
+                        >
+                          <div className="method active">
+                            <h4> {t("basic")}</h4>
+                            <h5>
+                              25 <span>EGP</span>
+                            </h5>
+                            <ul className="active">
+                              <li>
+                                <img
+                                  src="/images/details/true.svg"
+                                  alt="true"
+                                />
+                                <h6>12 {t("sessions")}</h6>
+                              </li>
+                              <li>
+                                <img
+                                  src="/images/details/true.svg"
+                                  alt="true"
+                                />
+                                <h6>12 {t("sessions")}</h6>
+                              </li>
+                              <li>
+                                <img
+                                  src="/images/details/true.svg"
+                                  alt="true"
+                                />
+                                <h6>15 {t("ads")}</h6>
+                              </li>
+                            </ul>
+                          </div>
+                        </label>
+                      </div>
+                    </div>
+                  </div>
+                  <div className="col-12">
+                    <div className="form-check">
+                      <input
+                        className="form-check-input"
+                        type="checkbox"
+                        id="gridCheck"
+                      />
+                      <label
+                        className="form-check-label"
+                        htmlFor="gridCheck"
+                        style={{ color: "#313131", fontFamily: "DM Sans3" }}
+                      >
+                        {t("agreement")}
+                      </label>
+                    </div>
+                  </div>
+                  <input
+                    type="submit"
+                    value="Apply"
+                    className="btn_page"
+                    onClick={(e) => {
+                      e.preventDefault();
+                      handelInstructor();
+                    }}
                   />
-                  {ErrorWhatsapp && (
+                  {ErrorMessage && (
                     <p
                       style={{
                         color: "red",
@@ -232,186 +463,14 @@ function CContactForm() {
                         marginTop: "4px",
                       }}
                     >
-                      {ErrorWhatsapp}
+                      {ErrorMessage}
                     </p>
                   )}
-                </div>
-                <div className="col-md-12">
-                  <Select
-                    label={t("language")}
-                    placeholder={t2("selectLanguage")}
-                    onChange={setLanguage}
-                    error={ErrorLanguage}
-                    value={language}
-                    data={[
-                      { value: "en", label: "EN" },
-                      { value: "ar", label: "AR" },
-                    ]}
-                  />
-                </div>
-                <div className="col-md-12">
-                  <Select
-                    label={t("category")}
-                    placeholder={t2("selectCategory")}
-                    onChange={setCategory}
-                    value={category}
-                    error={ErrorCategory}
-                    data={categories}
-                  />
-                </div>
-
-                <div className="col-md-12">
-                  <label
-                    htmlFor="inputLocation"
-                    className="form-label"
-                    style={{ margin: "0" }}
-                  >
-                    {t("subscription")}
-                  </label>
-                  <div className="checkgroub">
-                    <div className="form-check">
-                      <input
-                        className="form-check-input dates2"
-                        type="checkbox"
-                        id="gridCheck1"
-                        value="checkbox1"
-                        checked={selectedCheckbox === "checkbox1"}
-                        onChange={() => handleCheckboxChange("checkbox1")}
-                      />
-                      <label className="form-check-label" htmlFor="gridCheck1">
-                        <div className="method active">
-                          <h4> {t("basic")}</h4>
-                          <h5>
-                            25 <span>EGP</span>
-                          </h5>
-                          <ul className="active">
-                            <li>
-                              <img src="/images/details/true.svg" alt="true" />
-                              <h6>12 {t("sessions")}</h6>
-                            </li>
-                            <li>
-                              <img src="/images/details/true.svg" alt="true" />
-                              <h6>12 {t("sessions")}</h6>
-                            </li>
-                            <li>
-                              <img src="/images/details/true.svg" alt="true" />
-                              <h6>3 {t("ads")}</h6>
-                            </li>
-                          </ul>
-                        </div>
-                      </label>
-                    </div>
-                    <div className="form-check">
-                      <input
-                        className="form-check-input dates2"
-                        type="checkbox"
-                        id="gridCheck2"
-                        value="checkbox2"
-                        checked={selectedCheckbox === "checkbox2"}
-                        onChange={() => handleCheckboxChange("checkbox2")}
-                      />
-                      <label className="form-check-label" htmlFor="gridCheck2">
-                        <div className="method">
-                          <h4>{t("professional")}</h4>
-                          <h5>
-                            250 <span>EGP</span>
-                          </h5>
-                          <p className="sall">
-                            instead of
-                            <span>350 EGP </span>
-                          </p>
-                          <ul className="active">
-                            <li>
-                              <img src="/images/details/true.svg" alt="true" />
-                              <h6>12 {t("sessions")}</h6>
-                            </li>
-                            <li>
-                              <img src="/images/details/true.svg" alt="true" />
-                              <h6>12 {t("sessions")}</h6>
-                            </li>
-                            <li>
-                              <img src="/images/details/true.svg" alt="true" />
-                              <h6>5 {t("ads")}</h6>
-                            </li>
-                          </ul>
-                        </div>
-                      </label>
-                    </div>
-                    <div className="form-check">
-                      <input
-                        className="form-check-input dates2"
-                        type="checkbox"
-                        id="gridCheck3"
-                        value="checkbox3"
-                        checked={selectedCheckbox === "checkbox3"}
-                        onChange={() => handleCheckboxChange("checkbox3")}
-                      />
-                      <label className="form-check-label" htmlFor="gridCheck3">
-                        <div className="method active">
-                          <h4> {t("basic")}</h4>
-                          <h5>
-                            25 <span>EGP</span>
-                          </h5>
-                          <ul className="active">
-                            <li>
-                              <img src="/images/details/true.svg" alt="true" />
-                              <h6>12 {t("sessions")}</h6>
-                            </li>
-                            <li>
-                              <img src="/images/details/true.svg" alt="true" />
-                              <h6>12 {t("sessions")}</h6>
-                            </li>
-                            <li>
-                              <img src="/images/details/true.svg" alt="true" />
-                              <h6>15 {t("ads")}</h6>
-                            </li>
-                          </ul>
-                        </div>
-                      </label>
-                    </div>
-                  </div>
-                </div>
-                <div className="col-12">
-                  <div className="form-check">
-                    <input
-                      className="form-check-input"
-                      type="checkbox"
-                      id="gridCheck"
-                    />
-                    <label
-                      className="form-check-label"
-                      htmlFor="gridCheck"
-                      style={{ color: "#313131", fontFamily: "DM Sans3" }}
-                    >
-                      {t("agreement")}
-                    </label>
-                  </div>
-                </div>
-                <input
-                  type="submit"
-                  value="Apply"
-                  className="btn_page"
-                  onClick={(e) => {
-                    e.preventDefault();
-                    handelInstructor();
-                  }}
-                />
-                {ErrorMessage && (
-                  <p
-                    style={{
-                      color: "red",
-                      textAlign: "center",
-                      fontSize: "12px",
-                      marginTop: "4px",
-                    }}
-                  >
-                    {ErrorMessage}
-                  </p>
-                )}
-              </form>
+                </form>
+              </div>
             </div>
-          </div>
-        </section>
+          </section>
+        </>
       )}
     </>
   );
