@@ -15,6 +15,7 @@ import { navState, tokenNotifiable } from "@/atoms";
 import { Alert } from "react-bootstrap";
 import Thanks from "../Thanks";
 import { ColorRing } from "react-loader-spinner";
+import { useSession } from "next-auth/react";
 
 function CSignup() {
   const router = useRouter();
@@ -50,6 +51,8 @@ function CSignup() {
   const [ErrorMessage, setErrorMessage] = useState("");
   const [Bloked, setBloked] = useState(false);
   const [ErrorBloked, setErrorBloked] = useState("");
+  const { dataGoogle } = useSession()
+  console.log(dataGoogle);
   useEffect(() => {
     FetchDataOFHomePage();
   }, []);

@@ -24,9 +24,11 @@ maxAge:10,
   callbacks: {
     async signIn({ user, account, profile, email, credentials }) {
       console.log('====================================');
+      console.log('ddddddddddddata',{ user, account, profile, email, credentials });
       return true
     },
     async jwt({ token, account }) {
+      console.log('jwt',{ token, account });
       // Persist the OAuth access_token to the token right after signin
       if (account) {
         token.accessToken = account.access_token
@@ -34,6 +36,7 @@ maxAge:10,
       return token
     },
     async session({ session, token, user }) {
+      console.log('session',{ session, token, user });
       // Send properties to the client, like an access_token from a provider.
       session.accessToken = token.accessToken
       return session

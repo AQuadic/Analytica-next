@@ -27,10 +27,8 @@ export const LogOut = async (e) => {
       },
     })
     .then((res) => {
-      signOut({redirect:false,callbackUrl:'/signIn'})  
-      console.log("====================================");
-      console.log(res);
-      console.log("====================================");
+  
+      signOut({redirect:false})
       return res.status;
     })
     .catch((error) => {
