@@ -102,11 +102,11 @@ export default function Home({ params: { locale } }) {
                   {t("title3")} <span className="mainColor">{t("title4")}</span>
                 </h1>
                 <p>{t("dec")}</p>
-                <Link href="courses" className="btn_page wow fadeInDown">
+                <Link href="courses" className="btn_page ">
                   {t("start")}
                 </Link>
                 <div className="trusted">
-                  <h2 className="headtitle head3 wow fadeInDown">
+                  <h2 className="headtitle head3 ">
                     {" "}
                     {t("trusted")}
                   </h2>

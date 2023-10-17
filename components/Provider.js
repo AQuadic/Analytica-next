@@ -1,6 +1,8 @@
 'use client'
 
-const { SessionProvider } = require("next-auth/react")
+import { SessionProvider } from "next-auth/react"
+
+
 
 
 const Provider = ({children})=>{

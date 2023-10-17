@@ -2,7 +2,7 @@ import { withAuth } from "next-auth/middleware"
 import createIntlMiddleware from "next-intl/middleware"
 
 const locales = ["en", "ar"]
-const publicPages = ["/", "/signIn"]
+const publicPages = ["/signIn"]
 
 const intlMiddleware = createIntlMiddleware({
   locales,
@@ -37,7 +37,7 @@ export default function middleware(req) {
   if (isPublicPage) {
     return intlMiddleware(req)
   } else {
-    return authMiddleware(req)
+    return intlMiddleware(req)
   }
 }
 

@@ -1,6 +1,7 @@
 
 import Cookies from "js-cookie";
 import api, { BASE_URL } from "../../app/[locale]/api";
+import { signOut } from "next-auth/react";
 
 let headersToken = {
   Authorization: `Bearer ${Cookies.get("AnalyticaToken")} `,
@@ -26,6 +27,7 @@ export const LogOut = async (e) => {
       },
     })
     .then((res) => {
+      signOut({redirect:false,callbackUrl:'/signIn'})  
       console.log("====================================");
       console.log(res);
       console.log("====================================");
@@ -74,32 +76,3 @@ export const gethh = async () => {
   return result;
 };
 
-export const SignInGoogle = async (token) => {
-  const result = api
-    .post(
-      "/api/v1/users/auth/social",
-      {
-        provider: "google",
-        access_token: token,
-      },
-      {
-        headers: {
-          "Content-Type": "application/json",
-          Accept: "application/json",
-        },
-      }
-    )
-    .then((res) => {
-      setIsUser(true);
-      Cookies.set("AnalyticaToken", res.data.token);
-      router.push("/");
-      console.log("===========done=========================");
-      console.log(res);
-    })
-    .catch((error) => {
-      console.log("===========no=========================");
-      console.log(error);
-    });
-  console.log(result);
-  return result;
-};

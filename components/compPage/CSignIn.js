@@ -10,13 +10,12 @@ import { useTranslations } from "next-intl";
 import api from "../../app/[locale]/api";
 import { DeviceUUID } from "device-uuid";
 import platform from "platform";
-import { Alert } from "react-bootstrap";
 import Thanks from "../Thanks";
-import { useSession, signIn, signOut, getSession } from "next-auth/react";
-import { getToken } from "next-auth/jwt";
+import { useSession, signIn} from "next-auth/react";
 import { FacebookProvider, LoginButton } from "react-facebook";
 import { ColorRing} from "react-loader-spinner";
-function CSignIn() {
+
+ function CSignIn() {
   const [show, setShow] = useState(false);
   const router = useRouter();
   const [email, setemail] = useState("");
@@ -33,7 +32,7 @@ function CSignIn() {
   const [Loading, setLoading] = useState(false);
   var uuid = new DeviceUUID().get();
 
-  const handellogin = () => {
+  const handellogin =  () => {
     setLoading(true)
     setErroremail("");
     setErrorpassword("");
@@ -82,8 +81,47 @@ function CSignIn() {
       });
   };
 
-  const { data: session } = useSession();
-  console.log(session);
+  const { data } = useSession()
+  const handelloginGoogle =  (token) => {
+    const po = api
+    .post(
+      "/api/v1/users/auth/social",
+      {
+        provider: "google",
+        access_token: token,
+      },
+      {
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json",
+        },
+      }
+    )
+      .then((res) => {
+    setLoading(false)
+
+        setIsUser(true);
+        Cookies.set("AnalyticaToken", res.data.token);
+        handelAddDevices();
+        console.log(res);
+        router.push("/");
+      })
+      .catch((res) => {
+    setLoading(false)
+
+       
+       
+        console.log(res);
+      });
+  };
+  console.log('====================================');
+  console.log(data);
+  console.log('====================================');
+if(data?.accessToken){
+  
+  console.log('hhhhhhhhhhhhhhh');
+  handelloginGoogle(data.accessToken)
+}
 
   const handelAddDevices = () => {
     setErroremail("");
@@ -128,12 +166,10 @@ function CSignIn() {
         console.log(res);
       });
   };
-  function handleSuccess(response) {
-    console.log(response.status);
-  }
-
-  function handleError(error) {
-    console.log(error);
+  const handleLogin = async () => {
+    const response = await signIn('google', {redirect: false})
+    if (response.ok) router.push('/')
+    else console.log("ssssssssssssssssssssssssss");
   }
 
   return (
@@ -172,24 +208,14 @@ function CSignIn() {
             <div className="signWith">
               <ul>
                 <li>
-                  <button className="google" onClick={() => signIn("google")}>
+                  <button className="google" onClick={() => handleLogin()}>
                     <img src="/images/media/google2.svg" alt="google" />
                     <p>{t("gmail")}</p>
                   </button>
                 </li>
+                
                 <li>
-                  <FacebookProvider appId="308067988536375">
-                    <LoginButton
-                      scope="email"
-                      onError={handleError}
-                      onSuccess={handleSuccess}
-                    >
-                      {t("facebook")}
-                    </LoginButton>
-                  </FacebookProvider>
-                </li>
-                <li>
-                  <button className="facebook">
+                  <button className="facebook"  onClick={() => signIn('facebook')}>
                     <img src="/images/media/face2.svg" alt="facebook" />
                     <p>{t("facebook")}</p>
                   </button>

@@ -12,6 +12,7 @@ import { useLocale, useTranslations } from "next-intl";
 import { deleteToken } from "firebase/messaging";
 import { useSearchParams } from "next/navigation";
 
+
 function NavBar({ lang }) {
   const [userData, setUserData] = useState();
   const [TextSearch, setTextSearch] = useState("");

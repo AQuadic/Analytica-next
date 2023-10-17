@@ -12,7 +12,7 @@ function page() {
 
     return (
         <>
-            <CSignIn hema={"ali"}/>
+            <CSignIn />
         </>
     )
 }

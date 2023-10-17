@@ -15,6 +15,7 @@ import api from "../api";
 import { Alert } from "react-bootstrap";
 import Thanks from "@/components/Thanks";
 import { ColorRing } from "react-loader-spinner";
+import { signOut } from "next-auth/react";
 
 // export const metadata = {
 //   title: 'analytica | Account',
@@ -66,6 +67,7 @@ function page() {
       setLoading(false);
       console.log("done");
       setIsUser(false);
+     
       Cookies.remove("AnalyticaToken");
       router.push("/signIn");
     }
