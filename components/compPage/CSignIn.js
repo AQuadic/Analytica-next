@@ -30,6 +30,7 @@ import { ColorRing} from "react-loader-spinner";
   const t = useTranslations("Sign");
   const t2 = useTranslations("Teach");
   const [Loading, setLoading] = useState(false);
+  const [TypeLogin, setTypeLogin] = useState("");
   var uuid = new DeviceUUID().get();
 
   const handellogin =  () => {
@@ -82,12 +83,12 @@ import { ColorRing} from "react-loader-spinner";
   };
 
   const { data } = useSession()
-  const handelloginGoogle =  (token) => {
+  const handelloginGoogleFacebook =  (token) => {
     const po = api
     .post(
       "/api/v1/users/auth/social",
       {
-        provider: "google",
+        provider: Cookies.get('typeLogin'),
         access_token: token,
       },
       {
@@ -120,7 +121,7 @@ import { ColorRing} from "react-loader-spinner";
 if(data?.accessToken){
   
   console.log('hhhhhhhhhhhhhhh');
-  handelloginGoogle(data.accessToken)
+  handelloginGoogleFacebook(data.accessToken)
 }
 
   const handelAddDevices = () => {
@@ -167,11 +168,18 @@ if(data?.accessToken){
       });
   };
   const handleLogin = async () => {
+    Cookies.set('typeLogin','google')
     const response = await signIn('google', {redirect: false})
     if (response.ok) router.push('/')
     else console.log("ssssssssssssssssssssssssss");
   }
+  const handleLoginFacebook = async () => {
+    Cookies.set('typeLogin','facebook')
 
+    const response = await signIn('facebook', {redirect: false})
+    if (response.ok) router.push('/')
+    else console.log("ssssssssssssssssssssssssss");
+  }
   return (
     <>
       {Bloked ? (
@@ -215,7 +223,7 @@ if(data?.accessToken){
                 </li>
                 
                 <li>
-                  <button className="facebook"  onClick={() => signIn('facebook')}>
+                  <button className="facebook"  onClick={() => handleLoginFacebook()}>
                     <img src="/images/media/face2.svg" alt="facebook" />
                     <p>{t("facebook")}</p>
                   </button>

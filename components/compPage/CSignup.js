@@ -231,22 +231,7 @@ function CSignup() {
         <section className="sign container">
           <div className="box_sign">
             <h2 className="title_sign">{t("up")}</h2>
-            <div className="signWith">
-              <ul>
-                <li>
-                  <a href="" className="google">
-                    <img src="/images/media/google2.svg" alt="google" />
-                    <p>{t("gmail")}</p>
-                  </a>
-                </li>
-                <li>
-                  <a href="" className="facebook">
-                    <img src="/images/media/face2.svg" alt="facebook" />
-                    <p>{t("facebook")}</p>
-                  </a>
-                </li>
-              </ul>
-            </div>
+           
             <form className="row g-4 form_page">
               <div className="col-md-12">
                 <TextInput
