@@ -5829,4 +5829,53 @@ a.ytp-youtube-button.ytp-button.yt-uix-sessionlink {
     }
    
   }
-  
+  .mantine-Group-root {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: flex-start;
+    gap: 0;
+}
+.mantine-Chip-root{
+    width: 100%;
+    padding-bottom: 4px;
+    border-top: 1px solid #d1d1d1;
+    padding: 10px 12px ;
+}
+  .mantine-Chip-label{
+    border: none;
+    padding: 8px 20px;
+    white-space: normal !important;
+    height: auto;
+    background-color: transparent;
+  }
+  .mantine-Chip-label[data-checked]:not([data-disabled]) {
+    border: 0.0625rem solid #228be6;
+    background-color: #3c8ce9 !important;
+    color: white;
+}
+.mantine-Chip-iconWrapper{
+    color: white !important;
+    width: 30px;
+}
+.mantine-Chip-label p{
+   color: black;
+   padding: 0px 8px;
+   font-size: 16px !important;
+    font-family: "DM Sans3";
+    line-height: 21px;
+  }
+  .mantine-Chip-label[data-checked]:not([data-disabled]) p{
+    color: white !important;
+    font-size: 16px !important;
+  } 
+  .mantine-Chip-label.mantine-gwo3e1[data-checked]:not([data-disabled]) {
+    color: #fff !important;
+    background-color: #fa5252 !important;
+    border: none;
+}
+.mantine-Chip-root.false .mantine-Chip-label[data-checked]:not([data-disabled]){
+    color: #fff !important;
+    background-color: #fa5252 !important;
+    border: none;
+}

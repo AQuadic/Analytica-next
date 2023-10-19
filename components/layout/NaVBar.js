@@ -6,7 +6,7 @@ import { usePathname, useRouter } from "next-intl/client";
 import { LogOut } from "../useAPI/Auth";
 import Cookies from "js-cookie";
 import { useRecoilState } from "recoil";
-import { MessagingFir, StateSearch, navState } from "@/atoms";
+import { CategoriesIDState, MessagingFir, StateSearch, navState } from "@/atoms";
 import Link from "next-intl/link";
 import { useLocale, useTranslations } from "next-intl";
 import { deleteToken } from "firebase/messaging";
@@ -19,6 +19,7 @@ function NavBar({ lang }) {
   const [Search, setSearch] = useRecoilState(StateSearch);
   const [IsUser, setIsUser] = useRecoilState(navState);
   const [messagingFire, setMessagingFire] = useRecoilState(MessagingFir);
+  const [CategoriesID, setCategoriesID] = useRecoilState(CategoriesIDState);
   const [Categories, setCategories] = useState([]);
   const t = useTranslations("Nav");
   const t2 = useTranslations("Account");
@@ -176,7 +177,8 @@ if (UserLogOut === 200) {
                             <li key={item.id}>
                               <Link
                                 className="dropdown-item"
-                                href={`/courses?id=${item.id}`}
+                                onClick={()=>{setCategoriesID(item.id)}}
+                                href={`/courses?category_ids=${item.id}`}
                               >
                                 {getLocal(locale,item.name)}
                               </Link>
@@ -295,7 +297,8 @@ if (UserLogOut === 200) {
                           <li key={item.id}>
                             <Link
                               className="dropdown-item"
-                              href={`/courses?id=${item.id}`}
+                              onClick={()=>{setCategoriesID(item.id)}}
+                              href={`/courses?category_ids=${item.id}`}
                             >
                               {getLocal(locale,item.name) }
                             </Link>

@@ -25,3 +25,7 @@ export const StateSearch = atom({
     key: "StateSearch",
     default: search,
 });
+export const CategoriesIDState = atom({
+    key: "CategoriesIDState",
+    default: [""],
+});

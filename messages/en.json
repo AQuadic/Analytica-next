@@ -167,7 +167,12 @@
     "carefully":"Next time try to focus more and read the question carefully twice",
     "question":"Question",
     "EnterAnswer":"Enter Your Answer",
-    "Submit":"Submit"
+    "Submit":"Submit",
+    "complete":"please complete your Answers",
+    "thanks":"Thanks For Completing That",
+    "nextLesson":"Next lesson",
+    "true":"True",
+    "false":"False"
   },
   "course":{
     "instructor":"Instructor",

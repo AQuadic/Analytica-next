@@ -1,5 +1,5 @@
 "use client";
-import { StateSearch, navState } from "@/atoms";
+import { CategoriesIDState, StateSearch, navState } from "@/atoms";
 import ItemCourse2 from "@/components/ItemCourse2";
 import { getHomePage, getLocal } from "@/components/useAPI/GetUser";
 import { Checkbox, Group, Radio, RangeSlider, Skeleton, Slider } from "@mantine/core";
@@ -20,25 +20,14 @@ import { fetchServerResponse } from "next/dist/client/components/router-reducer/
 //   title: 'analytica | Courses',
 // }
 
-/*const searchParams = {
-  id,
-  age,
-  all your params
-  };
-  const queryParams = new URLSearchParams(searchParams).toString();
-    router.push(`/signI?${queryParams}`);
-  */
+
 
 function Courses() {
   useEffect(() => {
-    // Function to extract query string parameters
-    
     // Extract the values
     setPage(getQueryParam(UrlNew, "page"));
   
- 
 
-  
     // Extract category_ids values
     const categoryIds = [];
     const categoryIdsRegex = /category_ids%5B(\d+)%5D=([^&]+)/g;
@@ -66,8 +55,9 @@ function Courses() {
   const [Level_id, setLevel_id] = useState(searchParams.getAll('level_ids')?searchParams.getAll('level_ids'):[]);
   const [Topic, setTopic] = useState();
   const [Page, setPage] = useState(0);
+  const [CategoriesIDNav, setCategoriesIDNav] = useRecoilState(CategoriesIDState);
   const [Categories, setCategories] = useState([]);
-  const [CategoriesID, setCategoriesID] = useState(searchParams.getAll('category_ids')?searchParams.getAll('category_ids'):[]);
+  const [CategoriesID, setCategoriesID] = useState(searchParams.getAll('category_ids')?searchParams.getAll('category_ids'):CategoriesIDNav?[CategoriesIDNav]:[]);
   const [Language, setLanguage] = useState(searchParams.get('language'));
   const [PriceType, setPriceType] = useState(searchParams.get('price_type')?searchParams.get('price_type'):"");
   const [PriceFrom, setPriceFrom] = useState(searchParams.get('price_from')?+searchParams.get('price_from'):0);
@@ -78,6 +68,7 @@ function Courses() {
   const [UrlNew, setUerNew] = useState("");
   const [IsUser, setIsUser] = useRecoilState(navState);
   const [Search, setSearch] = useRecoilState(StateSearch);
+
   const locale = useLocale();
   const router = useRouter();
   const [hasMore, setHasMore] = useState(true);

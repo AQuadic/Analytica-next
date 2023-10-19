@@ -87,7 +87,7 @@ function ItemCourse({
         )}
         {!Myprogress ? (
           is_purchased ? (
-            <Link href={`/courseContent/${last_watched}`} className="btn_page">
+            <Link href={last_watched?`/courseContent/${last_watched}`:`/courses/${id}`} className="btn_page">
               {t("continue")}
             </Link>
           ) : (

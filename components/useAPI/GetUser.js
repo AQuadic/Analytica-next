@@ -14,23 +14,23 @@ let header = {
 
 export const getUser = async (e) => {
   const result = api
-    .post(`/api/v1/users/auth/user`, {}, {
-      headers: {
-        Authorization: `Bearer ${e} `,
-        "Content-Type": "application/json",
-        Accept: "application/json",
-      },
-    })
+    .post(
+      `/api/v1/users/auth/user`,
+      {},
+      {
+        headers: {
+          Authorization: `Bearer ${e} `,
+          "Content-Type": "application/json",
+          Accept: "application/json",
+        },
+      }
+    )
     .then((res) => {
-      console.log('====================================');
-      console.log(res);
-      console.log('====================================');
       return res.data;
     })
     .catch((error) => {
       return { error: error.message };
     });
-  console.log(result);
   return result;
 };
 
@@ -40,28 +40,26 @@ export const getHomePage = async () => {
       headers: headersToken,
     })
     .then((res) => {
-      console.log('====================================');
-      console.log(res);
-      console.log('====================================');
       return res.data;
     })
     .catch((error) => {
       return { error: error.message };
     });
-  console.log(result);
   return result;
 };
 export const getHomeSections = async (IsUser) => {
   const result = api
     .get(`/api/v1/meta/home_sections`, {
-      headers: IsUser ? {
-        Authorization: `Bearer ${Cookies.get("AnalyticaToken")} `,
-        "Content-Type": "application/json",
-        Accept: "application/json",
-      } :  {
-        "Content-Type": "application/json",
-        Accept: "application/json",
-      },
+      headers: IsUser
+        ? {
+            Authorization: `Bearer ${Cookies.get("AnalyticaToken")} `,
+            "Content-Type": "application/json",
+            Accept: "application/json",
+          }
+        : {
+            "Content-Type": "application/json",
+            Accept: "application/json",
+          },
     })
     .then((res) => {
       return res.data;
@@ -69,20 +67,21 @@ export const getHomeSections = async (IsUser) => {
     .catch((error) => {
       return { error: error.message };
     });
-  console.log(result);
   return result;
 };
 export const getInstractor = async (e, IsUser) => {
   const result = api
     .get(`/api/v1/users/instructors/${e}`, {
-      headers: IsUser ? {
-        Authorization: `Bearer ${Cookies.get("AnalyticaToken")} `,
-        "Content-Type": "application/json",
-        Accept: "application/json",
-      } :  {
-        "Content-Type": "application/json",
-        Accept: "application/json",
-      },
+      headers: IsUser
+        ? {
+            Authorization: `Bearer ${Cookies.get("AnalyticaToken")} `,
+            "Content-Type": "application/json",
+            Accept: "application/json",
+          }
+        : {
+            "Content-Type": "application/json",
+            Accept: "application/json",
+          },
     })
     .then((res) => {
       return res.data;
@@ -90,7 +89,6 @@ export const getInstractor = async (e, IsUser) => {
     .catch((error) => {
       return { error: error.message };
     });
-  console.log(result);
   return result;
 };
 
@@ -109,7 +107,6 @@ export const getDevices = async () => {
     .catch((error) => {
       return { error: error.message };
     });
-  console.log(result);
   return result;
 };
 
@@ -128,7 +125,6 @@ export const getRevokeDevices = async (id) => {
     .catch((error) => {
       return { error: error.message };
     });
-  console.log(result);
   return result;
 };
 
@@ -146,13 +142,12 @@ export const getOneInstractor = async (e) => {
     .catch((error) => {
       return { error: error.message };
     });
-  console.log(result);
   return result;
 };
-export function getLocal (locale,path) {
+export function getLocal(locale, path) {
   if (path == null || path == undefined) return "";
 
   if (path.hasOwnProperty(locale) && path[locale]) return path[locale];
 
   return path[Object.keys(path)[0]];
-};
+}
