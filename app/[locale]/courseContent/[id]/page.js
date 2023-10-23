@@ -22,20 +22,24 @@ function page({ params }) {
   const [contentID, setContentID] = useState(1);
   const [ChaptersID, setChaptersID] = useState();
   const [Video, setVideo] = useState();
-  
+
   const [ContentChapter, setContentChapter] = useState([]);
   const [Youtube, setYoutube] = useState(false);
   const [IDYoutube, setIDYoutube] = useState("");
+  const [IndexNext, setIndexNext] = useState();
+  const [IndexPrev, setIndexPrev] = useState();
   const [Lessons, setLessons] = useState([]);
   const [LessonsChapters, setLessonsChapters] = useState([]);
   const [CurrentChapters, setCurrentChapters] = useState([]);
   const [allChapters, setAllChapters] = useState([]);
   const [IsUser, setIsUser] = useRecoilState(navState);
   const locale = useLocale();
-  const t2 = useTranslations('Teach');
+  const t2 = useTranslations("Teach");
   const t = useTranslations("Video");
+  console.log(LessonsChapters);
 
-
+  console.log(IndexNext);
+  console.log(IndexPrev);
   const [Bloked, setBloked] = useState(false);
   const [ErrorBloked, setErrorBloked] = useState("");
 
@@ -52,16 +56,24 @@ function page({ params }) {
 
   const FetchDataOFOneCourse = async (e) => {
     const AllCourses = await getOneCourse(e, IsUser);
-    if (AllCourses.error){
-     console.log('====================================');
-     console.log(AllCourses.error);
-     console.log('====================================');
-    } 
+    if (AllCourses.error) {
+      console.log("====================================");
+      console.log(AllCourses.error);
+      console.log("====================================");
+    }
     console.log(AllCourses);
     setAllChapters(AllCourses.chapters);
     setLessonsChapters(
       AllCourses.chapters?.filter((item) => item.id === +contentID)[0].lessons
     );
+ AllCourses.chapters?.filter((item) => item.id === +contentID)[0].lessons.map((lesson, i) => {
+        console.log(i);
+        if (+lesson.id === +params.id) {
+          
+          setIndexNext(i + 1);
+          setIndexPrev(i - 1);
+        } else return;
+      });
     setCurrentChapters(
       AllCourses.chapters?.filter((item) => item.id === +contentID)[0]
     );
@@ -73,10 +85,10 @@ function page({ params }) {
 
   const FetchDataOFOneLessons = async () => {
     const AllCourses = await getOneLessons(params.id, IsUser);
-    if (AllCourses.error){
-      setErrorBloked(AllCourses.error)
+    if (AllCourses.error) {
+      setErrorBloked(AllCourses.error);
       setBloked(true);
-    } 
+    }
     console.log(AllCourses);
     setLessons(AllCourses.lesson);
     setContentChapter(AllCourses.lesson.content);
@@ -190,10 +202,8 @@ function page({ params }) {
                   {" "}
                   {Lessons?.id && (
                     <div className="part2">
-                      <h1>
-                        { getLocal(locale,Lessons?.chapter?.name) }
-                      </h1>
-                      <h2>{ getLocal(locale,Lessons?.name) }</h2>
+                      <h1>{getLocal(locale, Lessons?.chapter?.name)}</h1>
+                      <h2>{getLocal(locale, Lessons?.name)}</h2>
                       <div className="boxVideo">
                         {Youtube ? (
                           <iframe
@@ -218,23 +228,19 @@ function page({ params }) {
                         <h3>{t("assignments")}</h3>
                         <div className="file-container">
                           <div className="file-title">
-                          <a
-              href='https://admin.marina.com.eg/public/uploads/327059916_1653478762.pdf'
-              className=" "
-              download
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              Download PDF
-            </a>
+                            <a
+                              href="https://admin.marina.com.eg/public/uploads/327059916_1653478762.pdf"
+                              className=" "
+                              download
+                              target="_blank"
+                              rel="noopener noreferrer"
+                            >
+                              Download PDF
+                            </a>
                           </div>
-                         
                         </div>
                         <div className="btnExam">
-                          <Link href={`/quiz/${params.id}`}>
-                          Go To Exam
-                          </Link>
-
+                          <Link href={`/quiz/${params.id}`}>Go To Exam</Link>
                         </div>
                       </div>
                     </div>
@@ -246,7 +252,7 @@ function page({ params }) {
                     <div
                       className="part2"
                       dangerouslySetInnerHTML={{
-                        __html: getLocal(locale,ContentChapter) ,
+                        __html: getLocal(locale, ContentChapter),
                       }}
                     ></div>
                   )}
@@ -296,7 +302,7 @@ function page({ params }) {
                     id="contantTwo"
                     style={{ display: content === "two" ? "block" : "none" }}
                   >
-                    <h3>{getLocal(locale,CurrentChapters?.name) }</h3>
+                    <h3>{getLocal(locale, CurrentChapters?.name)}</h3>
                     <button
                       className="back"
                       id="back"
@@ -323,7 +329,7 @@ function page({ params }) {
                                     className="form-check-label"
                                     htmlFor="flexCheckCheckedDisabled"
                                   >
-                                    {getLocal(locale,item.name) }
+                                    {getLocal(locale, item.name)}
                                   </label>
                                   <div className="clock">
                                     <img
@@ -342,19 +348,41 @@ function page({ params }) {
                 )}
               </div>
             </div>
-            <div className="endVideo">
-              {/* JUST A WORK AROUND THIS NEEDS TO BE IMPLEMENTED !!!*/}
-              <a className="btn_page2" href={`/courseContent/${(Lessons?.id ?? 0) - 1}`}>
-                {/*${LessonsChapters[LessonsChapters?.map(e => e.id).indexOf(Lessons?.id) - 1]?.id ?? null}*/}
-                <img src="/images/icons/Arrow1.svg" alt="Arrow" />
-                <p>{t("previous")}</p>
-              </a>
-              <a className="btn_page" href={`/courseContent/${(Lessons?.id ?? 0) + 1}`}>
-                {/*${LessonsChapters[LessonsChapters?.map(e => e.id).indexOf(Lessons?.id) + 1]?.id ?? null}*/}
-                <p>{t("next")}</p>
-                <img src="/images/icons/Arrow2.svg" alt="Arrow" />
-              </a>
-            </div>
+            {LessonsChapters?.length > 0 ? (
+              <div className="endVideo">
+                {/* JUST A WORK AROUND THIS NEEDS TO BE IMPLEMENTED !!!*/}
+              
+                { IndexPrev>=0? LessonsChapters[IndexPrev] ?  <a
+                  className="btn_page2"
+                  href={`/courseContent/${
+                    LessonsChapters?.length > 0
+                      ? LessonsChapters[IndexPrev]?.id
+                      : null
+                  }`}
+                >
+                  {/*${LessonsChapters[LessonsChapters?.map(e => e.id).indexOf(Lessons?.id) - 1]?.id ?? null}*/}
+                  <img src="/images/icons/Arrow1.svg" alt="Arrow" />
+                  <p>{t("previous")}</p>
+                </a> :null :null }
+               
+                {LessonsChapters[IndexNext] ? (
+                  <>
+                    <a
+                      className="btn_page"
+                      href={`/courseContent/${
+                        LessonsChapters?.length > 0
+                          ? LessonsChapters[IndexNext]?.id
+                          : null
+                      }`}
+                    >
+                      {/*${LessonsChapters[LessonsChapters?.map(e => e.id).indexOf(Lessons?.id) + 1]?.id ?? null}*/}
+                      <p>{t("next")}</p>
+                      <img src="/images/icons/Arrow2.svg" alt="Arrow" />
+                    </a>
+                  </>
+                ) : null}
+              </div>
+            ) : null}
           </section>
         </>
       )}

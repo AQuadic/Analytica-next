@@ -27,5 +27,5 @@ export const StateSearch = atom({
 });
 export const CategoriesIDState = atom({
     key: "CategoriesIDState",
-    default: [""],
+    default: "",
 });

@@ -141,26 +141,6 @@ function page() {
                       </li>
                     );
                   })}
-                  <li>
-                    <img
-                      src="/images/icons/labtop.svg"
-                      className="imgSession"
-                      alt="labtop"
-                    />
-                    <div className="infoSession">
-                      <div className="dec">
-                        <h3>50.25.256.125</h3>
-                        <h4>Last accessed on 30 Arp 07:15 pm</h4>
-                        <p>
-                          Chrome <span>on Laptop</span>
-                        </p>
-                        <p>
-                          Signed in <span>on 28 Arp 05:45 pm</span>
-                        </p>
-                      </div>
-                      <button className="btn_page2">{t("revoke")}</button>
-                    </div>
-                  </li>
                 </ul>
               </div>
             </div>
