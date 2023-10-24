@@ -13,6 +13,7 @@ import Cookies from "js-cookie";
 import Thanks from "@/components/Thanks";
 import { getLocal } from "@/components/useAPI/GetUser";
 import Link from "next/link";
+import { iterate } from "localforage";
 // export const metadata = {
 //   title: 'analytica | courseContent',
 // }
@@ -30,6 +31,7 @@ function page({ params }) {
   const [IndexPrev, setIndexPrev] = useState();
   const [Lessons, setLessons] = useState([]);
   const [LessonsChapters, setLessonsChapters] = useState([]);
+  const [AllLessonsInAllChapters, setAllLessonsInAllChapters] = useState([]);
   const [CurrentChapters, setCurrentChapters] = useState([]);
   const [allChapters, setAllChapters] = useState([]);
   const [IsUser, setIsUser] = useRecoilState(navState);
@@ -66,10 +68,24 @@ function page({ params }) {
     setLessonsChapters(
       AllCourses.chapters?.filter((item) => item.id === +contentID)[0].lessons
     );
+    const AllLes =[]
+  AllCourses.chapters?.map((chapter)=>chapter.lessons).map((lesson) => {
+    lesson.map((lesson,i)=>{
+      console.log(i);
+       AllLes.push(lesson)
+      console.log(lesson);
+      if (+lesson.id === +params.id) {
+        setIndexNext(i + 1);
+        setIndexPrev(i - 1);
+      } else return;
+    })
+   
+  });
+  
+  setAllLessonsInAllChapters(AllLes)
  AllCourses.chapters?.filter((item) => item.id === +contentID)[0].lessons.map((lesson, i) => {
         console.log(i);
         if (+lesson.id === +params.id) {
-          
           setIndexNext(i + 1);
           setIndexPrev(i - 1);
         } else return;
@@ -81,7 +97,7 @@ function page({ params }) {
       AllCourses.chapters?.filter((item) => item.id === +contentID)[0]
     );
   };
-  console.log(allChapters);
+  console.log(AllLessonsInAllChapters);
 
   const FetchDataOFOneLessons = async () => {
     const AllCourses = await getOneLessons(params.id, IsUser);
@@ -348,15 +364,15 @@ function page({ params }) {
                 )}
               </div>
             </div>
-            {LessonsChapters?.length > 0 ? (
+            {AllLessonsInAllChapters?.length > 0 ? (
               <div className="endVideo">
                 {/* JUST A WORK AROUND THIS NEEDS TO BE IMPLEMENTED !!!*/}
               
-                { IndexPrev>=0? LessonsChapters[IndexPrev] ?  <a
+                { IndexPrev>=0? AllLessonsInAllChapters[IndexPrev] ?  <a
                   className="btn_page2"
                   href={`/courseContent/${
-                    LessonsChapters?.length > 0
-                      ? LessonsChapters[IndexPrev]?.id
+                    AllLessonsInAllChapters?.length > 0
+                      ? AllLessonsInAllChapters[IndexPrev]?.id
                       : null
                   }`}
                 >
@@ -365,13 +381,13 @@ function page({ params }) {
                   <p>{t("previous")}</p>
                 </a> :null :null }
                
-                {LessonsChapters[IndexNext] ? (
+                {AllLessonsInAllChapters[IndexNext] ? (
                   <>
                     <a
                       className="btn_page"
                       href={`/courseContent/${
-                        LessonsChapters?.length > 0
-                          ? LessonsChapters[IndexNext]?.id
+                        AllLessonsInAllChapters?.length > 0
+                          ? AllLessonsInAllChapters[IndexNext]?.id
                           : null
                       }`}
                     >
