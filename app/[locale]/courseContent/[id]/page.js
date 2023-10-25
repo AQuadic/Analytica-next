@@ -38,17 +38,13 @@ function page({ params }) {
   const locale = useLocale();
   const t2 = useTranslations("Teach");
   const t = useTranslations("Video");
-  console.log(LessonsChapters);
 
-  console.log(IndexNext);
-  console.log(IndexPrev);
   const [Bloked, setBloked] = useState(false);
   const [ErrorBloked, setErrorBloked] = useState("");
 
   const HandelContent = (e) => {
     setContent(e);
   };
-  console.log(Video);
   useEffect(() => {
     FetchDataOFOneLessons();
   }, []);
@@ -56,63 +52,48 @@ function page({ params }) {
     FetchDataOFOneCourse(ChaptersID);
   }, [contentID, ChaptersID]);
 
+  // Function to store all the lessons in state
+  const storeLessonsInState = (data) => {
+    const allLessons = data.flatMap((item) => item.lessons);
+
+    setAllLessonsInAllChapters(allLessons);
+    allLessons.map((lesson, i) => {
+      if (+lesson.id === +params.id) {
+        setIndexNext(i + 1);
+        setIndexPrev(i - 1);
+      } else return;
+    });
+  };
+
   const FetchDataOFOneCourse = async (e) => {
     const AllCourses = await getOneCourse(e, IsUser);
     if (AllCourses.error) {
-      console.log("====================================");
       console.log(AllCourses.error);
-      console.log("====================================");
     }
     console.log(AllCourses);
     setAllChapters(AllCourses.chapters);
     setLessonsChapters(
       AllCourses.chapters?.filter((item) => item.id === +contentID)[0].lessons
     );
-    const AllLes =[]
-  AllCourses.chapters?.map((chapter)=>chapter.lessons).map((lesson) => {
-    lesson.map((lesson,i)=>{
-      console.log(i);
-       AllLes.push(lesson)
-      console.log(lesson);
-      if (+lesson.id === +params.id) {
-        setIndexNext(i + 1);
-        setIndexPrev(i - 1);
-      } else return;
-    })
-   
-  });
-  
-  setAllLessonsInAllChapters(AllLes)
- AllCourses.chapters?.filter((item) => item.id === +contentID)[0].lessons.map((lesson, i) => {
-        console.log(i);
-        if (+lesson.id === +params.id) {
-          setIndexNext(i + 1);
-          setIndexPrev(i - 1);
-        } else return;
-      });
+    storeLessonsInState(AllCourses.chapters);
+
     setCurrentChapters(
       AllCourses.chapters?.filter((item) => item.id === +contentID)[0]
     );
-    console.log(
-      AllCourses.chapters?.filter((item) => item.id === +contentID)[0]
-    );
   };
-  console.log(AllLessonsInAllChapters);
-
   const FetchDataOFOneLessons = async () => {
     const AllCourses = await getOneLessons(params.id, IsUser);
     if (AllCourses.error) {
       setErrorBloked(AllCourses.error);
       setBloked(true);
     }
-    console.log(AllCourses);
     setLessons(AllCourses.lesson);
     setContentChapter(AllCourses.lesson.content);
     setChaptersID(AllCourses.lesson.course_id);
     setContentID(AllCourses.lesson.chapter_id);
     setVideo(AllCourses.lesson.video_links[0]);
   };
-  console.log(ContentChapter);
+
   useEffect(() => {
     getVideo();
   }, [Video]);
@@ -134,7 +115,6 @@ function page({ params }) {
       }
     }
   };
-  console.log(LessonsChapters);
   const getCount = (num) => {
     const allcount = num.reduce(
       (accumulator, currentValue) => accumulator + currentValue.duration,
@@ -367,20 +347,24 @@ function page({ params }) {
             {AllLessonsInAllChapters?.length > 0 ? (
               <div className="endVideo">
                 {/* JUST A WORK AROUND THIS NEEDS TO BE IMPLEMENTED !!!*/}
-              
-                { IndexPrev>=0? AllLessonsInAllChapters[IndexPrev] ?  <a
-                  className="btn_page2"
-                  href={`/courseContent/${
-                    AllLessonsInAllChapters?.length > 0
-                      ? AllLessonsInAllChapters[IndexPrev]?.id
-                      : null
-                  }`}
-                >
-                  {/*${LessonsChapters[LessonsChapters?.map(e => e.id).indexOf(Lessons?.id) - 1]?.id ?? null}*/}
-                  <img src="/images/icons/Arrow1.svg" alt="Arrow" />
-                  <p>{t("previous")}</p>
-                </a> :null :null }
-               
+
+                {IndexPrev >= 0 ? (
+                  AllLessonsInAllChapters[IndexPrev] ? (
+                    <a
+                      className="btn_page2"
+                      href={`/courseContent/${
+                        AllLessonsInAllChapters?.length > 0
+                          ? AllLessonsInAllChapters[IndexPrev]?.id
+                          : null
+                      }`}
+                    >
+                      {/*${LessonsChapters[LessonsChapters?.map(e => e.id).indexOf(Lessons?.id) - 1]?.id ?? null}*/}
+                      <img src="/images/icons/Arrow1.svg" alt="Arrow" />
+                      <p>{t("previous")}</p>
+                    </a>
+                  ) : null
+                ) : null}
+
                 {AllLessonsInAllChapters[IndexNext] ? (
                   <>
                     <a
