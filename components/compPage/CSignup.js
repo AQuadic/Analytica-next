@@ -163,7 +163,7 @@ function CSignup() {
           device_token: uuid,
           device_name: platform.name,
           notifiable_method: "firebase",
-          notifiable_token: tokenNOTF,
+          notifiable_token: Cookies.get("AnalyticaTokenNotfication"),
           enabled: true,
         },
         {

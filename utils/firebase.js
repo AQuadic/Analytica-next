@@ -1,6 +1,7 @@
 import { initializeApp } from "firebase/app";
 
 import { getMessaging, getToken, onMessage } from "firebase/messaging";
+import Cookies from "js-cookie";
 
 const firebaseConfig = {
   apiKey: "AIzaSyBwFec3Xhm0iqfi_sbfznE2FRsGmzzyQRM",
@@ -25,6 +26,7 @@ export const requestPermission = () => {
                 vapidKey: "BG9RcVBXVT3VYA4_9978qLsG9_9AzUcUhO8napT3QtXPVbq7FguLQnIRDhPNkVtl0Kes_Wj_wkl8LHTJugs19nM",
             });
             if (currentToken) {
+              Cookies.set("AnalyticaTokenNotfication",currentToken)
                 console.log("client Token ", currentToken);
             } else {
                 console.log("Faild to Generate the app req token.");
