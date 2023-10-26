@@ -137,7 +137,7 @@ if(data?.accessToken){
           device_name: platform.name,
           notifiable_method: "firebase",
           notifiable_token: tokenNOTF,
-          enabled: false,
+          enabled: true,
         },
         {
           headers: {
