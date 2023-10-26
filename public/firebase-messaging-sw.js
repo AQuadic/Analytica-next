@@ -2,13 +2,12 @@ importScripts("https://www.gstatic.com/firebasejs/7.9.1/firebase-app.js");
 importScripts("https://www.gstatic.com/firebasejs/7.9.1/firebase-messaging.js");
 
 firebase?.initializeApp({
-    apiKey: "AIzaSyCF155mNBMIZOhyAerxcg4aouXHupmqTpU",
-  authDomain: "findhelp-9f012.firebaseapp.com",
-  databaseURL: "https://findhelp-9f012.firebaseio.com",
-  projectId: "findhelp-9f012",
-  storageBucket: "findhelp-9f012.appspot.com",
-  messagingSenderId: "1019650754389",
-  appId: "1:1019650754389:web:c1526ded82d274d395d1dc",
-  measurementId: "G-QK2Q19BWZN"
+  apiKey: "AIzaSyBwFec3Xhm0iqfi_sbfznE2FRsGmzzyQRM",
+  authDomain: "analytica-edu.firebaseapp.com",
+  projectId: "analytica-edu",
+  storageBucket: "analytica-edu.appspot.com",
+  messagingSenderId: "408685117985",
+  appId: "1:408685117985:web:dd3f2aba29a45bf1bb1960",
+  measurementId: "G-H1EGZDEL7Q"
   });
 const messaging = firebase.messaging();

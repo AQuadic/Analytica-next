@@ -1,66 +1,21 @@
-"use client"
-import React, {useEffect} from "react";
-import "firebase/messaging";
-import {firebaseCloudMessaging} from "/utils/firebase";
-import {ToastContainer} from "react-toastify";
-import {useRouter} from "next/navigation";
-import {getMessaging, onMessage} from "firebase/messaging";
-import {useRecoilState} from "recoil";
-import {MessagingFir, tokenNotifiable} from "@/atoms";
+"use client";
+
+import { onMessageListener, requestPermission } from "@/utils/firebase";
+import React, { useEffect } from "react";
 
 
-function PushNotificationLayout({children}) {
-    const [tokenNOTF, setTokenNOTF] = useRecoilState(tokenNotifiable);
-    const [messagingFire, setMessagingFire] = useRecoilState(MessagingFir);
-
-    const router = useRouter();
-    useEffect(() => {
-        setToken();
-
-        // Event listener that listens for the push notification event in the background
-        if ("serviceWorker" in navigator) {
-            navigator.serviceWorker.addEventListener("message", (event) => {
-                // console.log("event for the service worker", event);
-            });
-        }
-
-        // Calls the getMessage() function if the token is there
-        async function setToken() {
-
-            try {
-                const token = await firebaseCloudMessaging.init();
-                if (token) {
-                    setTokenNOTF(token)
-
-                    getMessage();
-                }
-            } catch (error) {
-                console.log(error);
-            }
-        }
+function PushNotificationLayout({ children }) {
+  useEffect(() => {
+    requestPermission();
+    const unsubscribe = onMessageListener().then((payload) => {
+      console.log(payload);
     });
-
-    // Handles the click function on the toast showing push notification
-    const handleClickPushNotification = (url) => {
-        router.push(url);
+    return () => {
+      unsubscribe.catch((err) => console.log("faild", err));
     };
+  }, []);
 
-    // Get the push notification message and triggers a toast to display it
-    function getMessage() {
-        const messaging = getMessaging();
-        setMessagingFire(messaging)
-        onMessage(messaging, (payload) => {
-            console.log('Message received. ', payload);
-            // ...
-        });
-    }
-
-    return (
-        <>
-            <ToastContainer/>
-            {children}
-        </>
-    );
+  return <>{children}</>;
 }
 
 export default PushNotificationLayout;
