@@ -15,7 +15,6 @@ import { useRecoilState } from "recoil";
 import { navState } from "@/atoms";
 import { useTranslations } from "next-intl";
 import Thanks from "@/components/Thanks";
-import Cookies from "js-cookie";
 import { Skeleton } from "@mantine/core";
 
 export default function Home({ params: { locale } }) {

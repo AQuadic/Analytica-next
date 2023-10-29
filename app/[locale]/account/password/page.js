@@ -9,7 +9,6 @@ import { useRouter } from "next/navigation";
 import React, { useState } from "react";
 import { useRecoilState } from "recoil";
 import api from "../../api";
-import { Alert } from "react-bootstrap";
 import Thanks from "@/components/Thanks";
 import { ColorRing } from "react-loader-spinner";
 

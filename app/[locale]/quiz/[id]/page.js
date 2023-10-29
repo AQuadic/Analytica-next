@@ -6,7 +6,7 @@ import {
   getOneCourse,
 } from "@/components/useAPI/CorsesApi/GetCourses";
 import { getLocal } from "@/components/useAPI/GetUser";
-import { Checkbox, Chip, Group, Radio, Textarea } from "@mantine/core";
+import {  Chip, Group,  Textarea } from "@mantine/core";
 import { useLocale, useTranslations } from "next-intl";
 import React, { useEffect, useState } from "react";
 import { ColorRing } from "react-loader-spinner";

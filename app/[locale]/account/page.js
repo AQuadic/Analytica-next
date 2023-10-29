@@ -7,15 +7,12 @@ import Cookies from "js-cookie";
 import { useTranslations } from "next-intl";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-
 import React, { useEffect, useState } from "react";
 import PhoneInput from "react-phone-number-input";
 import { useRecoilState } from "recoil";
 import api from "../api";
-import { Alert } from "react-bootstrap";
 import Thanks from "@/components/Thanks";
 import { ColorRing } from "react-loader-spinner";
-import { signOut } from "next-auth/react";
 
 // export const metadata = {
 //   title: 'analytica | Account',

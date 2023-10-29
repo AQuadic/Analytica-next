@@ -5,7 +5,6 @@ import {
   getOneLessons,
 } from "@/components/useAPI/CorsesApi/GetCourses";
 import { useLocale, useTranslations } from "next-intl";
-
 import React, { useEffect, useState } from "react";
 import { useRecoilState } from "recoil";
 import api from "../../api";
@@ -13,7 +12,7 @@ import Cookies from "js-cookie";
 import Thanks from "@/components/Thanks";
 import { getLocal } from "@/components/useAPI/GetUser";
 import Link from "next/link";
-import { iterate } from "localforage";
+
 // export const metadata = {
 //   title: 'analytica | courseContent',
 // }

@@ -2,31 +2,24 @@
 import { CategoriesIDState, StateSearch, navState } from "@/atoms";
 import ItemCourse2 from "@/components/ItemCourse2";
 import { getHomePage, getLocal } from "@/components/useAPI/GetUser";
-import { Checkbox, Group, Radio, RangeSlider, Skeleton, Slider } from "@mantine/core";
+import { Checkbox, Group, Radio, RangeSlider, Skeleton } from "@mantine/core";
 import Cookies from "js-cookie";
 import { useLocale, useTranslations } from "next-intl";
-import Link from "next/link";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
-
-import React, { useCallback, useEffect, useState } from "react";
-import { Alert } from "react-bootstrap";
+import React, { useEffect, useState } from "react";
 import InfiniteScroll from "react-infinite-scroll-component";
 import { useRecoilState } from "recoil";
 import api from "../api";
 import Thanks from "@/components/Thanks";
-import { fetchServerResponse } from "next/dist/client/components/router-reducer/fetch-server-response";
 
 // export const metadata = {
 //   title: 'analytica | Courses',
 // }
 
-
-
 function Courses() {
   useEffect(() => {
     // Extract the values
     setPage(getQueryParam(UrlNew, "page"));
-  
 
     // Extract category_ids values
     const categoryIds = [];
@@ -36,7 +29,7 @@ function Courses() {
       categoryIds.push(categoryIdsMatch[2]);
       setCategoriesID(categoryIds);
     }
-  }, []); 
+  }, []);
   const pathname = usePathname();
   const searchParams = useSearchParams();
   const getQueryParam = (url, param) => {
@@ -44,24 +37,39 @@ function Courses() {
     const match = url.match(regex);
     return match ? match[1] : null;
   };
- 
+
   const [Load, setLoad] = useState(true);
-  
+
   const t = useTranslations("CompCourse");
   const t2 = useTranslations("Teach");
   const [allCourses, setAllCourses] = useState([]);
   const [Rating, setRating] = useState(5);
   const [Duration, setDuration] = useState();
-  const [Level_id, setLevel_id] = useState(searchParams.getAll('level_ids')?searchParams.getAll('level_ids'):[]);
+  const [Level_id, setLevel_id] = useState(
+    searchParams.getAll("level_ids") ? searchParams.getAll("level_ids") : []
+  );
   const [Topic, setTopic] = useState();
   const [Page, setPage] = useState(0);
-  const [CategoriesIDNav, setCategoriesIDNav] = useRecoilState(CategoriesIDState);
+  const [CategoriesIDNav, setCategoriesIDNav] =
+    useRecoilState(CategoriesIDState);
   const [Categories, setCategories] = useState([]);
-  const [CategoriesID, setCategoriesID] = useState(searchParams.getAll('category_ids')?searchParams.getAll('category_ids'):CategoriesIDNav?[CategoriesIDNav]:[]);
-  const [Language, setLanguage] = useState(searchParams.get('language'));
-  const [PriceType, setPriceType] = useState(searchParams.get('price_type')?searchParams.get('price_type'):"");
-  const [PriceFrom, setPriceFrom] = useState(searchParams.get('price_from')?+searchParams.get('price_from'):0);
-  const [PriceTo, setPriceTo] = useState(+searchParams.get('price_to')?+searchParams.get('price_to'):1000);
+  const [CategoriesID, setCategoriesID] = useState(
+    searchParams.getAll("category_ids")
+      ? searchParams.getAll("category_ids")
+      : CategoriesIDNav
+      ? [CategoriesIDNav]
+      : []
+  );
+  const [Language, setLanguage] = useState(searchParams.get("language"));
+  const [PriceType, setPriceType] = useState(
+    searchParams.get("price_type") ? searchParams.get("price_type") : ""
+  );
+  const [PriceFrom, setPriceFrom] = useState(
+    searchParams.get("price_from") ? +searchParams.get("price_from") : 0
+  );
+  const [PriceTo, setPriceTo] = useState(
+    +searchParams.get("price_to") ? +searchParams.get("price_to") : 1000
+  );
   const [Price, setPrice] = useState();
   const [AllTopic, setAllTopic] = useState([]);
   const [show, setShow] = useState(false);
@@ -97,55 +105,51 @@ function Courses() {
     setCategories(AllData.categories);
     console.log(AllData);
   };
- 
 
- 
   useEffect(() => {
     FetchDataOFHomePage();
   }, []);
 
-
   useEffect(() => {
-    
     if (Search) {
       handelFilter(1);
       setPage(1);
     } else {
-    handelFilter();
+      handelFilter();
     }
   }, [Search]);
-  
-  const handelFilter = (id) => {
-    setLoad(true)
-   if(id===1||Page===0){
-    setAllCourses([])
-   }
 
-    const url =  new URL(
+  const handelFilter = (id) => {
+    setLoad(true);
+    if (id === 1 || Page === 0) {
+      setAllCourses([]);
+    }
+
+    const url = new URL(
       `https://education.aquadic.com/api/v1/users/courses?page=${
-        id ? id : Page+1
+        id ? id : Page + 1
       }&price_type=${PriceType}&price_from=${PriceFrom}&price_to=${PriceTo}&search=${
         Search === null ? "" : Search
       }&language=${Language}`
     );
-    const url2 =  new URL(
+    const url2 = new URL(
       `https://education.aquadic.com/api/v1/users/courses?page=${
-        id ? id : Page+1
+        id ? id : Page + 1
       }&price_type=${PriceType}&price_from=${PriceFrom}&price_to=${PriceTo}&search=${
         Search === null ? "" : Search
       }&language=${Language}`
     );
-    if ([searchParams.getAll('level_ids')[0]].length > 0) {
+    if ([searchParams.getAll("level_ids")[0]].length > 0) {
       Level_id.map((item) => {
         url2.searchParams.append(`level_ids`, item);
       });
     }
-    if ([searchParams.getAll('category_ids')[0]].length > 0) {
+    if ([searchParams.getAll("category_ids")[0]].length > 0) {
       CategoriesID.map((item) => {
         url2.searchParams.append(`category_ids`, item);
       });
     }
-    if ([searchParams.getAll('level_ids')[0]].length > 0) {
+    if ([searchParams.getAll("level_ids")[0]].length > 0) {
       Level_id.map((item, i) => {
         url.searchParams.append(`level_ids[${i}]`, item);
       });
@@ -156,20 +160,20 @@ function Courses() {
       });
     }
     console.log(url.search);
-    setUerNew(url2.search)
-   
-console.log('====================================');
-console.log(url2.search);
-console.log('====================================');
- 
-    router.replace(pathname+url2.search);
+    setUerNew(url2.search);
+
+    console.log("====================================");
+    console.log(url2.search);
+    console.log("====================================");
+
+    router.replace(pathname + url2.search);
 
     const po = api
       .get(url, {
         headers: IsUser ? headersToken : header,
       })
       .then((res) => {
-    setLoad(false)
+        setLoad(false);
 
         if (res.data.data.length === 0) {
           setHasMore(false);
@@ -182,7 +186,7 @@ console.log('====================================');
         return res.data.data;
       })
       .catch((res) => {
-    setLoad(false)
+        setLoad(false);
 
         if (res.response.status === 500) {
           setErrorBloked(res.message);
@@ -191,7 +195,6 @@ console.log('====================================');
         console.log(res);
       });
   };
-
 
   return (
     <>
@@ -474,7 +477,7 @@ console.log('====================================');
                     <RangeSlider
                       min={0}
                       color="indigo"
-                      value={[PriceFrom,PriceTo]}
+                      value={[PriceFrom, PriceTo]}
                       onChange={(e) => {
                         setPriceFrom(e[0]);
                         setPriceTo(e[1]);
@@ -489,12 +492,10 @@ console.log('====================================');
             </div>
             <button
               className="btn_page"
-              onClick={(e) =>  {
+              onClick={(e) => {
                 e.preventDefault();
                 setAllCourses([]);
-                 handelFilter(1);
-                  
-             
+                handelFilter(1);
               }}
             >
               Apply
@@ -511,31 +512,34 @@ console.log('====================================');
               }}
             >
               {Load && (
-            <>
-              <div className="container">
-                <div className="loadItems" style={{flexDirection:"column",gap:"20px"}}>
-                  <div className="item" style={{width:"100%"}}>
-                    <Skeleton height={110} mb="xl" />
-                    <Skeleton height={20} radius="xl" />
-                    <Skeleton height={20} mt={6} radius="xl" />
-                    <Skeleton height={30} width={100} mt={6} radius="xl" />
+                <>
+                  <div className="container">
+                    <div
+                      className="loadItems"
+                      style={{ flexDirection: "column", gap: "20px" }}
+                    >
+                      <div className="item" style={{ width: "100%" }}>
+                        <Skeleton height={110} mb="xl" />
+                        <Skeleton height={20} radius="xl" />
+                        <Skeleton height={20} mt={6} radius="xl" />
+                        <Skeleton height={30} width={100} mt={6} radius="xl" />
+                      </div>
+                      <div className="item" style={{ width: "100%" }}>
+                        <Skeleton height={110} mb="xl" />
+                        <Skeleton height={20} radius="xl" />
+                        <Skeleton height={20} mt={6} radius="xl" />
+                        <Skeleton height={30} width={100} mt={6} radius="xl" />
+                      </div>
+                      <div className="item" style={{ width: "100%" }}>
+                        <Skeleton height={110} mb="xl" />
+                        <Skeleton height={20} radius="xl" />
+                        <Skeleton height={20} mt={6} radius="xl" />
+                        <Skeleton height={30} width={100} mt={6} radius="xl" />
+                      </div>
+                    </div>
                   </div>
-                  <div className="item" style={{width:"100%"}}>
-                    <Skeleton height={110} mb="xl" />
-                    <Skeleton height={20} radius="xl" />
-                    <Skeleton height={20} mt={6} radius="xl" />
-                    <Skeleton height={30} width={100} mt={6} radius="xl" />
-                  </div>
-                  <div className="item" style={{width:"100%"}}>
-                    <Skeleton height={110} mb="xl" />
-                    <Skeleton height={20} radius="xl" />
-                    <Skeleton height={20} mt={6} radius="xl" />
-                    <Skeleton height={30} width={100} mt={6} radius="xl" />
-                  </div>
-                </div>
-              </div>
-            </>
-          )}
+                </>
+              )}
               <InfiniteScroll
                 dataLength={allCourses.length}
                 next={handelFilter}
