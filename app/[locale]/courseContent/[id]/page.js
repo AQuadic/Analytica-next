@@ -219,26 +219,33 @@ function page({ params }) {
                           ></iframe>
                         )}
                       </div>
+                      {Lessons.files.length > 0 ? (
+                        <div className="assignments">
+                          <h3>{t("assignments")}</h3>
 
-                      <div className="assignments">
-                        <h3>{t("assignments")}</h3>
-                        <div className="file-container">
-                          <div className="file-title">
-                            <a
-                              href="https://admin.marina.com.eg/public/uploads/327059916_1653478762.pdf"
-                              className=" "
-                              download
-                              target="_blank"
-                              rel="noopener noreferrer"
-                            >
-                              Download PDF
-                            </a>
+                          {Lessons.files.map((file, i) => {
+                            return (
+                              <div className="file-container">
+                                <div className="file-title" key={i}>
+                                  <a
+                                    href={file.url}
+                                    className=" "
+                                    download
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                  >
+                                    Download PDF
+                                  </a>
+                                </div>
+                              </div>
+                            );
+                          })}
+
+                          <div className="btnExam">
+                            <Link href={`/quiz/${params.id}`}>Go To Exam</Link>
                           </div>
                         </div>
-                        <div className="btnExam">
-                          <Link href={`/quiz/${params.id}`}>Go To Exam</Link>
-                        </div>
-                      </div>
+                      ) : null}
                     </div>
                   )}
                 </>

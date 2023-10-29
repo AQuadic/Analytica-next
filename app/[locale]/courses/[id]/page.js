@@ -297,9 +297,9 @@ useEffect(()=>{
                                 >
                                   <div className="accordion-body">
                                     <ul>
-                                      {chapter.lessons.map((lesson) => {
+                                      {chapter.lessons.map((lesson,i) => {
                                         return (
-                                          <li>
+                                          <li key={i}>
                                             <div>
                                               <img
                                                 src={`/images/details/${

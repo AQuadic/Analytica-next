@@ -26,12 +26,14 @@ export default function Home({ params: { locale } }) {
   const t2 = useTranslations("CompCourse");
   const t3 = useTranslations("Teach");
   const [Bloked, setBloked] = useState(false);
+  const [Load, setLoad] = useState(true);
   const [ErrorBloked, setErrorBloked] = useState("");
 
   useEffect(() => {
     FetchDataOFHome();
     FetchDataOFHomePage();
     if (IsUser) {
+      console.log("hi3");
       FetchDataOFAllCoursesWithUser();
       // FetchDataOFDevices()
       console.log("yes user");
@@ -42,21 +44,26 @@ export default function Home({ params: { locale } }) {
   }, []);
 
   const FetchDataOFAllCourses = async () => {
+    setLoad(true);
     const AllCourses = await getAllCourses();
     if (AllCourses.error) {
       setErrorBloked(AllCourses.error);
       setBloked(true);
     }
+    setLoad(false);
     setAllCourses(AllCourses.data);
   };
 
   const FetchDataOFAllCoursesWithUser = async () => {
+    setLoad(true);
     const AllCourses = await getAllCoursesWithUser();
     if (AllCourses.error) {
       setErrorBloked(AllCourses.error);
       setBloked(true);
     }
+    setLoad(false);
     setAllCourses(AllCourses.data);
+    console.log(AllCourses.data);
   };
   console.log(allCourses);
 
@@ -106,10 +113,7 @@ export default function Home({ params: { locale } }) {
                   {t("start")}
                 </Link>
                 <div className="trusted">
-                  <h2 className="headtitle head3 ">
-                    {" "}
-                    {t("trusted")}
-                  </h2>
+                  <h2 className="headtitle head3 "> {t("trusted")}</h2>
                   <div className="images_Trusted">
                     <img src="/images/about/image1.webp" alt="images_Trusted" />
                     <img src="/images/about/image2.webp" alt="images_Trusted" />
@@ -127,7 +131,7 @@ export default function Home({ params: { locale } }) {
               </div>
             </div>
           </section>
-          {!allCourses.length > 0 && (
+          {Load > 0 && (
             <div className="container">
               <div className="loadItems">
                 <div className="item">
