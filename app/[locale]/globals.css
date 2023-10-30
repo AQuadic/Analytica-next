@@ -1650,26 +1650,26 @@ html[dir="rtl"] .coursesDetails .part1 .content .contantCart {
     margin-bottom: 20px;
 }
 
-.course_Content .all_Course_Content ul li {
+.course_Content .all_Course_Content ul li a {
     display: flex;
     justify-content: space-between;
 }
-.course_Content .all_Course_Content ul li div{
+.course_Content .all_Course_Content ul li a div{
     display: flex;
     gap: 8px;
 }
-.course_Content .all_Course_Content ul li  span{
+.course_Content .all_Course_Content ul li a  span{
     font-size: 12px;
     line-height: 18px;
     font-family: "DM Sans3";
     color: #686868;
 }
-.course_Content .all_Course_Content ul li img {
+.course_Content .all_Course_Content ul li a img {
     width: 16px;
     height: 16px;
 }
 
-.course_Content .all_Course_Content ul li p {
+.course_Content .all_Course_Content ul li a p {
     font-size: 14px;
     line-height: 18px;
 

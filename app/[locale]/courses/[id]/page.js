@@ -300,6 +300,7 @@ useEffect(()=>{
                                       {chapter.lessons.map((lesson,i) => {
                                         return (
                                           <li key={i}>
+                                            <Link href={`/courseContent/${lesson.id}`}>
                                             <div>
                                               <img
                                                 src={`/images/details/${
@@ -317,6 +318,8 @@ useEffect(()=>{
                                                 lesson.duration
                                               )}
                                             </span>
+                                            </Link>
+                                           
                                           </li>
                                         );
                                       })}
