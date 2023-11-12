@@ -361,7 +361,7 @@ html[dir="rtl"] .about .allAbout .part1 .trusted .headtitle {
 
 .about .allAbout .part1 .trusted .images_Trusted img {
     height: 44px;
-    max-width: 100%;
+  width: auto;
 }
 
 .about .allAbout .part2 {
@@ -372,6 +372,7 @@ html[dir="rtl"] .about .allAbout .part1 .trusted .headtitle {
 
 .about .allAbout .part2 img {
     width: 100%;
+    height: 100%;
 }
 
 @media (max-width: 992px) {
@@ -526,7 +527,6 @@ html[dir="rtl"] .services .allServices .service h5 {
 .services .allServices .service .imgService {
     width: 100%;
     height: 222px;
-    object-fit: fill;
     border-radius: 10px 10px 0px 0px;
     border: 1px solid #dfdfdf;
     border-bottom: none;
@@ -768,6 +768,7 @@ html[dir="rtl"] .services .allServices .service h5 {
     max-height: 180px;
     max-width: 90%;
     min-width: 100px;
+    height: 100%;
 }
 
 .top .top_Categories .part h3 {
@@ -968,7 +969,10 @@ footer {
     gap: 10px 82px;
     flex-wrap: wrap;
 }
-
+.fotter_content .head h1 img{
+    height: 68px;
+    width: auto;
+}
 footer .part {
     display: flex;
     flex-direction: column;
@@ -1044,7 +1048,10 @@ footer .links_social {
     align-items: center;
     gap: 20px;
 }
-
+footer .links_social img{
+    width: 20px;
+    height: 20px;
+}
 footer .store {
     display: flex;
     align-items: center;
@@ -1059,6 +1066,7 @@ footer .store a {
 
 footer .store img {
     width: 100%;
+    height: 26px;
 }
 
 footer .copy {
@@ -2057,7 +2065,7 @@ html[dir="rtl"] .coursesDetails .part3 .img_box {
 
 .successfull img {
     width: 100%;
-    height: auto;
+    height: 100%;
     max-width: 100%;
     margin-bottom: 14px;
 }
@@ -3462,7 +3470,7 @@ html[dir="rtl"] .Profile .btn_page {
     background: #ffffff;
     position: relative;
     padding: 16px 44px;
-    border: 1px solid #d0d0d0;
+    border: 1px solid #a5a2a2;
     border-radius: 10px;
 }
 
@@ -3533,9 +3541,9 @@ html[dir="rtl"] .Profile .btn_page {
     border: none;
 }
 .ac_nav button.btnSearch {
-    background-color: #5f7f904f;
+    background-color: white;
     border: none;
-    color: #6b6a6a;
+    color: #212367;
     padding: 4px 8px;
     border-radius: 8px;
     position: absolute;
@@ -3543,6 +3551,11 @@ html[dir="rtl"] .Profile .btn_page {
     transform: translateY(-50%);
     right: 10px;
     font-size: 14px;
+    border: 1px solid #212367;
+    transition: 0.3s;
+}
+.ac_nav button.btnSearch:hover{
+    box-shadow: 0px 0px 5px #8d8686;
 }
 .rtl .ac_nav button.btnSearch {
     left: 10px;
@@ -3569,6 +3582,8 @@ html[dir="rtl"] .Profile .btn_page {
 }
 
 .ac_nav .lang img {
+    height: 21px;
+    width: auto;
 }
 
 .ac_nav {
@@ -3738,6 +3753,8 @@ nav .dropdown-menu a {
 }
 .navbar-brand img {
     max-width: 160px;
+    height: 68px;
+    width: auto;
 }
 
 @media (min-width: 992px) {

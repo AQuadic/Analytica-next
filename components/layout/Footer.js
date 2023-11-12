@@ -56,32 +56,32 @@ const locale = useLocale()
                     <div className="part">
                         <h2> {t('categories')}</h2>
                         <div className="links">
-                            <a href=""> {t('design')}</a>
-                            <a href=""> {t('music')}</a>
-                            <a href=""> {t('development')}</a>
-                            <a href=""> {t('marketing')}</a>
+                            <a href="/"> {t('design')}</a>
+                            <a href="/"> {t('music')}</a>
+                            <a href="/"> {t('development')}</a>
+                            <a href="/"> {t('marketing')}</a>
                         </div>
                     </div>
                     <div className="part" style={{alignItems: "center"}}>
                         <h2 style={{padding: "0px 20px"}}>{t('followUs')}</h2>
                         <div className="links_social">
-                            <a href="">
+                            <a href="/">
                                 <img src="/images/media/facebook.webp" alt="facebook"/>
                             </a>
 
-                            <a href="">
+                            <a href="/">
                                 <img src="/images/media/linkedin.webp" alt="instagram"/>
                             </a>
-                            <a href="">
+                            <a href="/">
                                 <img src="/images/media/insta.webp" alt="linkedin"/>
                             </a>
-                            <a href="">
+                            <a href="/">
                                 <img src="/images/media/twiiter.webp" alt="twitter"/>
                             </a>
                         </div>
                         <div className="store">
-                            <a href=""><img src="/images/media/app.webp" alt="app store"/></a>
-                            <a href=""
+                            <a href="/"><img src="/images/media/app.webp" alt="app store"/></a>
+                            <a href="/"
                             ><img src="/images/media/google.webp" alt="google play"
                             /></a>
                         </div>

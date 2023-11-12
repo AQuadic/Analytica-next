@@ -143,7 +143,7 @@ function page() {
                                                     Introduction
                                                 </button>
                                                 <a
-                                                    href=""
+                                                    href="/"
                                                     className="btn_page3"
                                                     style={{
                                                         width: "98px",

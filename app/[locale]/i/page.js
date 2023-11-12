@@ -25,7 +25,7 @@ function page({params}) {
                     Apply the five-step design thinking process to identify and creatively
                     solve problems using a human-centered approach.
                 </p>
-                <a href="" className="btn_page3" style={{display: "none"}}>
+                <a href="/" className="btn_page3" style={{display: "none"}}>
                     Start Now
                 </a>
             </section>

@@ -3,6 +3,7 @@
     src: url("../../app/[locale]/fonts/DMSans-Bold.ttf");
     font-weight: 700;
     font-style: normal;
+    font-display: swap;
 }
 
 @font-face {
@@ -10,6 +11,7 @@
     src: url("../../app/[locale]/fonts/DMSans-Medium.ttf");
     font-weight: 500;
     font-style: normal;
+    font-display: swap;
 }
 
 @font-face {
@@ -17,4 +19,5 @@
     src: url("../../app/[locale]/fonts/DMSans-Regular.ttf");
     font-weight: 200;
     font-style: normal;
+    font-display: swap;
 }

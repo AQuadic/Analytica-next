@@ -188,7 +188,7 @@ function page() {
 
                   <button
                     type="submit"
-                    href=""
+                    href="/"
                     className=" btn_page"
                     onClick={(e) => {
                       e.preventDefault();

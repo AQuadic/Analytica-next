@@ -57,25 +57,25 @@ function InstractorInfo() {
                     <h3>Follow Me</h3>
                     <ul>
                         <li>
-                            <a href="">
+                            <a href="/">
                                 <img src="/images/media/face.webp" alt="facebook"/>
                                 <p>MuhammedAhmed</p>
                             </a>
                         </li>
                         <li>
-                            <a href="">
+                            <a href="/">
                                 <img src="/images/media/linkedin2.webp" alt="linkedin"/>
                                 <p>@MuhammedAhmed</p>
                             </a>
                         </li>
                         <li>
-                            <a href="">
+                            <a href="/">
                                 <img src="/images/media/insta2.webp" alt="instagram"/>
                                 <p>@MuhammedAhmed</p>
                             </a>
                         </li>
                         <li>
-                            <a href="">
+                            <a href="/">
                                 <img src="/images/media/twiiter2.webp" alt="twiiter"/>
                                 <p>@MuhammedAhmed</p>
                             </a>

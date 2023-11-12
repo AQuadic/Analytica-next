@@ -13,11 +13,11 @@ function page() {
                     solve problems using a human-centered approach.
                 </p>
                 <div className="btn4">
-                    <a href="" className="btn_page4">
+                    <a href="/" className="btn_page4">
                         <img src="/images/instructorScreen/play-arrow.svg" alt="play"/>
                         <p>Watch Intro Video</p>
                     </a>
-                    <a href="" className="btn_page3">
+                    <a href="/" className="btn_page3">
                         Enroll In Course For $25
                     </a>
                 </div>

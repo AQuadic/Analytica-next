@@ -26,23 +26,23 @@ function Footer2() {
 
 
                             <div className="store" style={{marginBottom: "8px", marginTop: "0px"}}>
-                                <a href=""><img src="/images/media/app.webp" alt="app store"/></a>
-                                <a href=""
+                                <a href="/"><img src="/images/media/app.webp" alt="app store"/></a>
+                                <a href="/"
                                 ><img src="/images/media/google.webp" alt="google play"
                                 /></a>
                             </div>
                             <div className="links_social">
-                                <a href="">
+                                <a href="/">
                                     <img src="/images/media/facebook2.webp" alt="facebook"/>
                                 </a>
 
-                                <a href="">
+                                <a href="/">
                                     <img src="/images/media/linkedin3.webp" alt="instagram"/>
                                 </a>
-                                <a href="">
+                                <a href="/">
                                     <img src="/images/media/instagram2.webp" alt="linkedin"/>
                                 </a>
-                                <a href="">
+                                <a href="/">
                                     <img src="/images/media/twitter2.webp" alt="twitter"/>
                                 </a>
                             </div>

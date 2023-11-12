@@ -147,6 +147,7 @@ if (UserLogOut === 200) {
             }}
           >
             <input
+            aria-label="search"
               type="text"
               onChange={(e) => {
                 e.preventDefault();
@@ -161,7 +162,6 @@ if (UserLogOut === 200) {
               <div className="nav-item dropdown">
                 <h3
                   className="nav-link dropdown-toggle"
-                  role="button"
                   data-bs-toggle="dropdown"
                   aria-expanded="false"
                   style={{ marginBottom: "0px" }}
@@ -282,7 +282,6 @@ if (UserLogOut === 200) {
               <a
                 className="nav-link dropdown-toggle"
                 href="#"
-                role="button"
                 data-bs-toggle="dropdown"
                 aria-expanded="false"
               >
@@ -314,7 +313,7 @@ if (UserLogOut === 200) {
         </div>
       </div>
       <form action="" id="form_nav" className="input_srearch">
-        <input type="search" placeholder="Search For ......." />
+        <input type="search" aria-label="Search" placeholder="Search For ......." />
       </form>
     </nav>
   );
