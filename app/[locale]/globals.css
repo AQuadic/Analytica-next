@@ -455,6 +455,7 @@ html[dir="rtl"] .about .allAbout .part1 .trusted .headtitle {
   background-size: 272px;
   top: -120px;
   left: -130px;
+  z-index: -1;
 }
 
 .services_content::before {
@@ -467,6 +468,7 @@ html[dir="rtl"] .about .allAbout .part1 .trusted .headtitle {
   background-size: 230px;
   top: -115px;
   right: -80px;
+  z-index: -1;
 }
 
 .services .allServices {
@@ -1550,6 +1552,7 @@ html[dir="rtl"] .coursesDetails .part1 .content .contantCart {
   height: 190px;
   top: -67px;
   left: -100px;
+  z-index: -1;
 }
 
 .coursesDetails .part2 .part {
@@ -1850,6 +1853,7 @@ html[dir="rtl"] .coursesDetails .part3 .img_box {
   height: 190px;
   top: -67px;
   left: -100px;
+  z-index: -1;
 }
 
 .checkOut .part1 {
@@ -2179,7 +2183,7 @@ html[dir="rtl"] .coursesDetails .part3 .img_box {
   background-repeat: no-repeat;
   background-size: 222px;
   top: -114px;
-
+z-index: -1;
   left: -72px;
 }
 
@@ -2536,6 +2540,7 @@ html[dir="rtl"] .become2 .img_become {
   height: 190px;
   top: -88px;
   left: -103px;
+  z-index: -1;
 }
 
 .bookingForm .content::before {
@@ -2549,6 +2554,7 @@ html[dir="rtl"] .become2 .img_become {
   height: 268px;
   bottom: -120px;
   right: -100px;
+  z-index: -1;
 }
 
 .bookingForm .content .box {
