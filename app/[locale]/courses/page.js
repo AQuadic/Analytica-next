@@ -559,7 +559,7 @@ function Courses() {
                     key={i}
                     id={course.id}
                     title={getLocal(locale, course.name)}
-                    imageCourse={course.image.url}
+                    imageCourse={course.image?.url}
                     is_purchased={course.is_purchased ? true : false}
                     last_watched={course.last_watched_lesson_id}
                     star="4.8"
