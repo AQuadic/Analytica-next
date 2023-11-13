@@ -5954,8 +5954,9 @@ a.ytp-youtube-button.ytp-button.yt-uix-sessionlink {
   gap: 8px;
 }
 .aboutUs .contactUs ul li a img {
-  width: 30px;
-  height: 30px;
+  width: 26px;
+  height: 26px;
+  filter: brightness(0.6);
 }
 .aboutUs .contactUs ul li a p {
   font-size: 16px;
