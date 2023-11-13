@@ -76,7 +76,12 @@
     "development": "Development",
     "marketing": "Marketing",
     "followUs": "Follow Us",
-    "reserved":"All rights reserved"
+    "reserved":"All rights reserved",
+    "aboutUs":"About Us",
+    "board":"Board",
+    "contactUs":"Contact Us",
+    "socialMedia":"Social Media",
+    "aboutText":"Analytica is a platform that offers a diverse range of educational courses across various fields. We are committed to providing high-quality educational content that you can leverage to learn modern skills. Our courses are taught by experienced professionals in their respective domains, enabling you to enhance your skills and expand your knowledge. We employ innovative teaching methods and diverse learning resources to ensure an effective and engaging learning experience. Whether you aim to improve your programming skills, delve into digital marketing, or acquire knowledge in other areas, Analytica is the ideal place to achieve your educational goals. Learn comfortably at your own pace and embark on your journey to acquiring new skills and knowledge today!"
   },
   "Nav": {
     "teach": " Teach On Analytica",

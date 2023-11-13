@@ -39,6 +39,8 @@ const locale = useLocale()
                     <div className="part">
                         <h2> {t('main')}</h2>
                         <div className="links">
+                        <Link href="/aboutUS">  {t('aboutUs')}</Link>
+
                             {
                                 pages?.map((page) => {
                                     return (
