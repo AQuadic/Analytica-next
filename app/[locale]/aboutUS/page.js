@@ -39,13 +39,13 @@ function page() {
           </h2>
             <ul>
                 <li>
-                    <a href="tel:+1234567890" target="_blank">
+                    <a href="tel:01096411222" target="_blank">
                         <img src="/images/media/phone.png" alt="contactus"/>
-                        <p>+1234567890</p>
+                        <p>01096411222</p>
                     </a>
                 </li>
                 <li>
-                    <a href="mailto:info@example.com" target="_blank">
+                    <a href="mailto:Dr.mona.labib@gmail.com" target="_blank">
                         <img src="/images/media/email.png" alt="contactus"/>
                         <p>Send us an email</p>
                     </a>
