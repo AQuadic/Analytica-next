@@ -12,6 +12,7 @@ import Cookies from "js-cookie";
 import Thanks from "@/components/Thanks";
 import { getLocal } from "@/components/useAPI/GetUser";
 import Link from "next/link";
+import ExamPage from "@/components/compPage/ExamPage";
 
 // export const metadata = {
 //   title: 'analytica | courseContent',
@@ -22,6 +23,7 @@ function page({ params }) {
   const [contentID, setContentID] = useState(1);
   const [ChaptersID, setChaptersID] = useState();
   const [Video, setVideo] = useState();
+  const [Exam, setExam] = useState(false);
 
   const [ContentChapter, setContentChapter] = useState([]);
   const [Youtube, setYoutube] = useState(false);
@@ -86,13 +88,16 @@ function page({ params }) {
       setErrorBloked(AllCourses.error);
       setBloked(true);
     }
+    console.log(AllCourses.lesson);
     setLessons(AllCourses.lesson);
+    setExam(AllCourses.lesson.type==='exam')
+  
     setContentChapter(AllCourses.lesson.content);
     setChaptersID(AllCourses.lesson.course_id);
     setContentID(AllCourses.lesson.chapter_id);
     setVideo(AllCourses.lesson.video_links[0]);
   };
-
+console.log(Exam);
   useEffect(() => {
     getVideo();
   }, [Video]);
@@ -192,7 +197,10 @@ function page({ params }) {
               className={`headVideo  ${openClose ? "open" : ""} `}
               id="headVideo"
             >
-              {Video ? (
+            {
+Exam? <> <ExamPage params={params}/>  </> :
+<>
+{Video ? (
                 <>
                   {" "}
                   {Lessons?.id && (
@@ -260,6 +268,9 @@ function page({ params }) {
                   )}
                 </>
               )}
+</>
+            }
+             
 
               <div className="part1 ">
                 <button
