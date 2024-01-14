@@ -14,7 +14,7 @@ function Thanks({title, dec, link, dash,title2,failed,Bloked}) {
                     link && <Link href={link} className="btn_page2">{title2}</Link>
                 }
                 {
-                    dash && <a href="cp.analytica-edu.basseterp.com/instructor/login" target="_blank"
+                    dash && <a href="https://cp.analytica-edu.basseterp.com//instructor/login" target="_blank"
                                className="btn_page2">{dash}</a>
                 }
             </div>

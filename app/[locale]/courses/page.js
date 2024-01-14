@@ -126,14 +126,14 @@ function Courses() {
     }
 
     const url = new URL(
-      `cp.analytica-edu.basseterp.com/api/v1/users/courses?page=${
+      `https://cp.analytica-edu.basseterp.com//api/v1/users/courses?page=${
         id ? id : Page + 1
       }&price_type=${PriceType}&price_from=${PriceFrom}&price_to=${PriceTo}&search=${
         Search === null ? "" : Search
       }&language=${Language}`
     );
     const url2 = new URL(
-      `cp.analytica-edu.basseterp.com/api/v1/users/courses?page=${
+      `https://cp.analytica-edu.basseterp.com//api/v1/users/courses?page=${
         id ? id : Page + 1
       }&price_type=${PriceType}&price_from=${PriceFrom}&price_to=${PriceTo}&search=${
         Search === null ? "" : Search
