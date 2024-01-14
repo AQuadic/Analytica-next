@@ -1,11 +1,11 @@
 import axios from 'axios';
 
 const api = axios.create({
-    baseURL: 'https://education.aquadic.com/',
+    baseURL: 'cp.analytica-edu.basseterp.com/',
     // Additional configurations, headers, etc.
 });
 
 export default api;
 
 
-export const BASE_URL = 'https://education.aquadic.com';
+export const BASE_URL = 'cp.analytica-edu.basseterp.com';

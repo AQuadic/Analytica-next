@@ -10,7 +10,7 @@ import { CategoriesIDState, MessagingFir, StateSearch, navState } from "@/atoms"
 import Link from "next-intl/link";
 import { useLocale, useTranslations } from "next-intl";
 import { deleteToken } from "firebase/messaging";
-import { useSearchParams } from "next/navigation";
+
 
 
 function NavBar({ lang }) {

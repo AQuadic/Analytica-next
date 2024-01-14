@@ -90,14 +90,14 @@ function page({ params }) {
     }
     console.log(AllCourses.lesson);
     setLessons(AllCourses.lesson);
-    setExam(AllCourses.lesson.type==='exam')
-  
+    setExam(AllCourses.lesson.type === "exam");
+
     setContentChapter(AllCourses.lesson.content);
     setChaptersID(AllCourses.lesson.course_id);
     setContentID(AllCourses.lesson.chapter_id);
     setVideo(AllCourses.lesson.video_links[0]);
   };
-console.log(Exam);
+  console.log(Exam);
   useEffect(() => {
     getVideo();
   }, [Video]);
@@ -197,80 +197,85 @@ console.log(Exam);
               className={`headVideo  ${openClose ? "open" : ""} `}
               id="headVideo"
             >
-            {
-Exam? <> <ExamPage params={params}/>  </> :
-<>
-{Video ? (
+              {Exam ? (
                 <>
                   {" "}
-                  {Lessons?.id && (
-                    <div className="part2">
-                      <h1>{getLocal(locale, Lessons?.chapter?.name)}</h1>
-                      <h2>{getLocal(locale, Lessons?.name)}</h2>
-                      <div className="boxVideo">
-                        {Youtube ? (
-                          <iframe
-                            style={{ width: "100%", height: "100%" }}
-                            src={`https://www.youtube-nocookie.com/embed/${IDYoutube}`}
-                            title="YouTube video player"
-                            frameBorder="0"
-                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                            allowFullScreen
-                          ></iframe>
-                        ) : (
-                          <iframe
-                            style={{ width: "100%", height: "100%" }}
-                            src={Video}
-                            frameBorder="0"
-                            allowFullScreen
-                          ></iframe>
-                        )}
-                      </div>
-                      {Lessons.files.length > 0 ? (
-                        <div className="assignments">
-                          <h3>{t("assignments")}</h3>
-
-                          {Lessons.files.map((file, i) => {
-                            return (
-                              <div className="file-container">
-                                <div className="file-title" key={i}>
-                                  <a
-                                    href={file.url}
-                                    className=" "
-                                    download
-                                    target="_blank"
-                                    rel="noopener noreferrer"
-                                  >
-                                    Download PDF
-                                  </a>
-                                </div>
-                              </div>
-                            );
-                          })}
-
-                          <div className="btnExam">
-                            <Link href={`/quiz/${params.id}`}>Go To Exam</Link>
-                          </div>
-                        </div>
-                      ) : null}
-                    </div>
-                  )}
+                  <ExamPage params={params} />{" "}
                 </>
               ) : (
                 <>
-                  {ContentChapter && (
-                    <div
-                      className="part2"
-                      dangerouslySetInnerHTML={{
-                        __html: getLocal(locale, ContentChapter),
-                      }}
-                    ></div>
+                  {Video ? (
+                    <>
+                      {" "}
+                      {Lessons?.id && (
+                        <div className="part2">
+                          <h1>{getLocal(locale, Lessons?.chapter?.name)}</h1>
+                          <h2>{getLocal(locale, Lessons?.name)}</h2>
+                          <div className="boxVideo">
+                            {Youtube ? (
+                              <iframe
+                                style={{ width: "100%", height: "100%" }}
+                                src={`https://www.youtube-nocookie.com/embed/${IDYoutube}`}
+                                title="YouTube video player"
+                                frameBorder="0"
+                                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                                allowFullScreen
+                              ></iframe>
+                            ) : (
+                              <iframe
+                                style={{ width: "100%", height: "100%" }}
+                                src={Video}
+                                frameBorder="0"
+                                allowFullScreen
+                              ></iframe>
+                            )}
+                          </div>
+                          {Lessons.files.length > 0 ? (
+                            <div className="assignments">
+                              <h3>{t("assignments")}</h3>
+
+                              {Lessons.files.map((file, i) => {
+                                return (
+                                  <div className="file-container">
+                                    <div className="file-title" key={i}>
+                                      <a
+                                        href={file.url}
+                                        className=" "
+                                        download
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                      >
+                                        Download PDF
+                                      </a>
+                                    </div>
+                                  </div>
+                                );
+                              })}
+
+                              <div className="btnExam">
+                                <Link href={`/quiz/${params.id}`}>
+                                  Go To Exam
+                                </Link>
+                              </div>
+                            </div>
+                          ) : null}
+                        </div>
+                      )}
+                    </>
+                  ) : (
+                    <>
+                      {ContentChapter && (
+                        <div
+                          className="part2"
+                          dangerouslySetInnerHTML={{
+                            __html: getLocal(locale, ContentChapter),
+                          }}
+                        ></div>
+                      )}
+                    </>
                   )}
                 </>
               )}
-</>
-            }
-             
 
               <div className="part1 ">
                 <button
